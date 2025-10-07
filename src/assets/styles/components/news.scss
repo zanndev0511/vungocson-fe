@@ -1,0 +1,62 @@
+.news-carousel {
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &-item {
+    &-wrap {
+      width: 100%;
+      overflow: hidden;
+    }
+    &-poster {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+      &-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        transition: 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+
+      &:hover .news-carousel-item-overlay {
+        background: rgba(0, 0, 0, 0.25);
+      }
+    }
+    &-title {
+      height: 100px;
+      color: #ffffff;
+      &-wrap {
+        position: absolute;
+        top: 100px;
+        width: 100%;
+        height: 100%;
+        padding: 18px;
+      }
+    }
+    &-button {
+      background-color: #ffffff;
+      color: #000000;
+      border: 2px solid #000000;
+      padding: 4px;
+      height: 50px;
+      width: 150px;
+      cursor: pointer;
+    }
+  }
+}

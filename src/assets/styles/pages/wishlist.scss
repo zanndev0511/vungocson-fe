@@ -1,0 +1,77 @@
+.wishlist {
+  &-container {
+    position: relative;
+  }
+  &-notice {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background-color: #26aa99;
+    color: #ffffff;
+    padding: 10px;
+    animation: slideDownUp 5s forwards;
+  }
+  &-box {
+    padding: 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    &-icons {
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+    }
+    &-button {
+      background-color: #000000;
+      color: #ffffff;
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  }
+  &-items {
+    &-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    &-wrap {
+      position: relative;
+    }
+    &-image {
+      width: 300px;
+      cursor: pointer;
+    }
+    &-heart {
+      position: absolute;
+      top: 15px;
+      right: 40px;
+      height: 25px;
+      width: 25px;
+      cursor: pointer;
+      z-index: 9;
+      filter: invert(1);
+    }
+  }
+}
+@keyframes slideDownUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}

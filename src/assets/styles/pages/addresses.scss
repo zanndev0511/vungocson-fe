@@ -1,0 +1,106 @@
+.addresses {
+  padding: 64px;
+  @media (max-width: 1024px) {
+    padding: 40px;
+  }
+  &-add {
+    padding: 50px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    &-icon {
+      height: 25px;
+      width: 25px;
+    }
+  }
+  &-box {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 25px;
+    &-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 20px;
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    &-icon {
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+    }
+  }
+  &-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.6);
+    &-button {
+      padding: 3px;
+      width: 70px;
+      height: 30px;
+      &.no {
+        border-radius: 3px;
+        border: 1px solid #000000;
+      }
+      &.yes {
+        border-radius: 3px;
+        background-color: #000000;
+        color: #ffffff;
+      }
+    }
+    &-mandatory {
+      color: red;
+    }
+    &-input {
+      width: 100%;
+      height: 50px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+    &-select {
+      width: 20%;
+      height: 50px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      &-phone {
+        width: 35%;
+        padding: 0;
+        margin: 0;
+        @media (max-width: 1024px) {
+          width: 75%;
+        }
+      }
+      &-time {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      &-wrap {
+        display: flex;
+        flex-direction: row;
+        @media (max-width: 1024px) {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  &-notify {
+    color: #ffffff;
+    padding: 5px;
+    &.success {
+      background-color: #7bd85f;
+    }
+    &.fail {
+      background-color: #f34646;
+    }
+  }
+}

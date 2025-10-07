@@ -1,0 +1,11 @@
+.newsDetail {
+  margin-top: 120px;
+  padding: 80px;
+  overflow-x: hidden;
+  @media (max-width: 1024px) {
+    padding: 30px;
+  }
+  &-content {
+    width: 100%;
+  }
+}

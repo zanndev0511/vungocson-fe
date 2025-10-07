@@ -1,0 +1,115 @@
+.account {
+  padding: 64px;
+  @media (max-width: 1024px) {
+    padding: 40px;
+  }
+  &-label {
+    width: 120px;
+    &-value {
+      word-break: break-all;
+      white-space: normal;
+    }
+  }
+  &-box {
+    background-color: #ffffff;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    &-edit {
+      position: absolute;
+      right: 40px;
+      cursor: pointer;
+    }
+  }
+  &-fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15%;
+    z-index: 999;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeSlideIn 0.6s ease-out;
+  }
+  &-modal {
+    &-mandatory {
+      color: red;
+    }
+    &-input {
+      width: 100%;
+      height: 50px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      &-error {
+        border: 1px solid #dc2626;
+        color: #dc2626;
+        &:focus {
+          outline: #dc2626;
+        }
+      }
+      &-warning {
+        color: #dc2626;
+      }
+      &-phone {
+        width: 75%;
+      }
+      &-message {
+        width: 100%;
+        height: 80px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+      }
+      &-block {
+        background-color: #e5e7eb;
+        color: #484848;
+      }
+      &-password {
+        position: relative;
+        width: 100%;
+        &-eye {
+          position: absolute;
+          right: 20px;
+          height: 22px;
+          width: 22px;
+          cursor: pointer;
+        }
+      }
+      &-notify {
+        color: #ffffff;
+        padding: 5px;
+        &.success {
+          background-color: #7bd85f;
+        }
+        &.fail {
+          background-color: #f34646;
+        }
+      }
+    }
+    &-select {
+      width: 15%;
+      height: 50px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      &-phone {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      &-time {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      &-birthday {
+        width: 80%;
+      }
+    }
+    &-line {
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      width: 100%;
+    }
+  }
+}

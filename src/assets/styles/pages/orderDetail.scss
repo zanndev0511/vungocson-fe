@@ -1,0 +1,95 @@
+.orderDetail {
+  &-return {
+    filter: invert(100%);
+    cursor: pointer;
+  }
+  &-status {
+    color: #26aa99;
+    &-container {
+      position: relative;
+      border: 4px solid #26aa99;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      z-index: 99;
+      background-color: #ffffff;
+      &-done {
+        background-color: #26aa99;
+        &-icon {
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+    &-line {
+      position: absolute;
+      height: 4px;
+      width: 20%;
+      background-color: #26aa99;
+    }
+  }
+  &-line {
+    height: 1px;
+    width: 100%;
+    background-color: #484848;
+    opacity: 20%;
+  }
+  &-tracking {
+    &-count {
+      opacity: 100%;
+    }
+    &-node {
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      background-color: #ffffff;
+      padding: 4px;
+      height: 50%;
+      z-index: 99;
+      &-done {
+        border-radius: 50%;
+        background-color: #26aa99;
+        padding: 4px;
+        height: 50%;
+        z-index: 99;
+      }
+      &-noIcon {
+        padding: 11px;
+        border-radius: 50%;
+        background-color: #ccc;
+        z-index: 99;
+      }
+      &-icon {
+        height: 15px;
+        width: 15px;
+        &-normal {
+          filter: brightness(0) saturate(100%) invert(85%) sepia(0%)
+            saturate(0%) hue-rotate(0deg);
+        }
+      }
+      &-status {
+        &-done {
+          color: #26aa99;
+        }
+      }
+      &-line {
+        position: absolute;
+        width: 1px;
+        background-color: #484848;
+        opacity: 50%;
+      }
+    }
+  }
+  &-orders {
+  &-summary {
+    &-bordered {
+      width: 100%;
+      border-collapse: collapse;
+      td,
+      th {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: end;
+      }
+    }
+  }
+}
+}

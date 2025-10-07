@@ -1,0 +1,43 @@
+.sortButton {
+  position: relative;
+  &-hover-underline {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 0;
+      height: 1px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+      transform-origin: left;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  &-modal {
+    min-width: 350px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 30px;
+    z-index: 33;
+    @media (max-width: 1024px) {
+      min-width: 200px;
+    }
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+    }
+  }
+}

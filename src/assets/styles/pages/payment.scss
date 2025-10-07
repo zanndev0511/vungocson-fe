@@ -1,0 +1,284 @@
+.payment {
+  margin-top: 110px;
+  display: flex;
+  flex-direction: row;
+  padding: 32px 64px 0 64px;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    padding: 30px;
+  }
+  &-header {
+    width: 100%;
+    background-color: #000;
+    &-navigation {
+      width: 100%;
+      &-bottom {
+        color: #ffffff;
+      }
+    }
+    &-fixed {
+      position: fixed;
+      z-index: 1000000;
+    }
+  }
+  &-account {
+    border: 1px solid #ccc;
+    padding: 15px;
+  }
+  &-step {
+    border: 2px solid #000000;
+    border-radius: 50%;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    &-label {
+      width: 100%;
+      font-size: 24px;
+      @media (max-width: 1024px) {
+        font-size: 18px;
+      }
+    }
+    &-button {
+      &-edit {
+        width: 100%;
+        @media (max-width: 1024px) {
+          width: 30%;
+        }
+      }
+    }
+    &.done {
+      background-color: #000000;
+      padding: 0;
+    }
+    &-icon {
+      width: 24px;
+      height: 24px;
+    }
+    &-container {
+      padding: 20px;
+      background-color: #dbdbdb;
+      color: #000000;
+      opacity: 0.4;
+    }
+  }
+  &-address {
+    position: relative;
+    border: 1px solid #000000;
+    opacity: 0.4;
+    padding: 15px;
+    max-width: 400px;
+    cursor: pointer;
+    &.choose {
+      opacity: 1;
+    }
+    &-radio {
+      width: 220px;
+    }
+    &-done {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin: 10px 0 0 55px;
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+      }
+    }
+    &-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    &-add {
+      width: 21px;
+      height: 21px;
+    }
+    &-status {
+      background-color: #f3f3f3;
+      color: #000000;
+      padding: 10px;
+      width: 150px;
+    }
+    &-edit {
+      position: absolute;
+      cursor: pointer;
+      right: 5%;
+      width: 20px;
+      height: 20px;
+      &-wrap {
+        display: flex;
+        flex-direction: row;
+        @media (max-width: 1024px) {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  &-button {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 14px;
+    width: 200px;
+    &-paypal {
+      width: 200px;
+    }
+    &-edit {
+      height: 25px;
+    }
+  }
+  &-order {
+    &-container {
+      border: 1px solid #ccc;
+      padding: 25px;
+      width: 50%;
+      @media (max-width: 1024px) {
+        width: 100%;
+      }
+    }
+    &-label {
+      width: 100px;
+    }
+    &-icon {
+      height: 20px;
+      width: 20px;
+    }
+    &-items {
+      &-estimate {
+        width: 50%;
+      }
+      &-image {
+        width: 100px;
+        height: 150px;
+      }
+    }
+    &-divider {
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+  &-divider {
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  &-question {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+  }
+  &-input {
+    padding: 10px;
+    border: 1px solid #000000;
+    &-card {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #000000;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      &-name {
+        width: 50%;
+        @media (max-width: 1024px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+  &-select {
+    padding: 10px;
+    border: 1px solid #000000;
+    width: 100%;
+    appearance: none;
+    &-container {
+      position: relative;
+    }
+    &-down {
+      position: absolute;
+      right: 8%;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  &-credit {
+    &-icon {
+      width: 25px;
+      height: 22px;
+    }
+  }
+  &-tab {
+    &.none {
+      display: none;
+    }
+    &.block {
+      display: flex;
+    }
+  }
+  &-infor {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 10px 0 0 55px;
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px
+      }
+    &-card {
+      width: 30px;
+      height: 25px;
+    }
+    &-paypal {
+      width: 60px;
+      height: 60px;
+      &-wrap {
+        margin-left: 55px;
+      }
+    }
+  }
+  &-order {
+    &-button {
+      width: 100%;
+      height: 50px;
+      background-color: #000000;
+      color: #ffffff;
+      border-radius: 3px;
+      &-paypal {
+        width: 100%;
+        height: 50px;
+        border-radius: 3px;
+      }
+    }
+  }
+  &-credit {
+    &-wrap {
+      display: flex;
+      flex-direction: row;
+      @media (max-width: 1024px) {
+        flex-direction: column;
+      }
+    }
+    &-card {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    &-checkbox {
+      margin: 0;
+      align-items: center;
+      @media (max-width: 1024px) {
+        align-items: start;
+      }
+    }
+    &-billing {
+      display: flex;
+      flex-direction: row;
+      @media (max-width: 1024px) {
+        flex-direction: column;
+      }
+      &-phonecode {
+        width: 200px;
+      }
+    }
+  }
+}

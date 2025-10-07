@@ -1,0 +1,50 @@
+.linebtn {
+  &-hover-underline {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 0;
+      height: 1px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+      transform-origin: left;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  &-static-underline {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 100%;
+      height: 1px;
+      background-color: currentColor;
+      transition: transform 0.3s ease;
+      transform-origin: center ;
+      transform: scaleX(1);
+    }
+
+    &:hover {
+      font-weight: 600;
+
+      &::after {
+        transform: scaleX(0);
+      }
+    }
+  }
+}

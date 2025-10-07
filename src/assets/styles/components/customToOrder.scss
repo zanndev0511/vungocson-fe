@@ -1,0 +1,132 @@
+.customToOrder {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.4);
+  &-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    &-cancel {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      filter: invert(1) brightness(2);
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+  }
+  &-content {
+    display: flex;
+    flex-direction: row;
+    padding: 0 64px;
+    justify-content: center;
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      padding: 0;
+    }
+  }
+  &-container {
+    position: relative;
+    height: 100%;
+    width: 60%;
+    background-color: #ffffff;
+    padding: 20px;
+    overflow-y: auto;
+    @media (max-width: 1024px) {
+      width: 100%;
+    }
+    &-button {
+      &-cancel {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        filter: invert(1) brightness(2);
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+    }
+  }
+  &-order {
+    &-step {
+      &-container {
+        width: 30px;
+        height: 30px;
+        background-color: #ffffff;
+        color: #000000;
+        border-radius: 3px;
+        border: 1px solid #000000;
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &.active {
+          background-color: #000000;
+          color: #ffffff;
+        }
+        &.done {
+          background-color: #0bcc55;
+          border: none;
+          color: #ffffff;
+        }
+      }
+      &-title {
+        position: absolute;
+        top: 30px;
+        &.done {
+          color: #0bcc55;
+        }
+      }
+    }
+    &-divider {
+      width: 50px;
+      height: 1px;
+      background-color: #000000;
+      margin: 0 25px;
+    }
+    &-button {
+      &-next {
+        background-color: #000000;
+        color: #ffffff;
+        width: 80px;
+        padding: 10px;
+        border-radius: 3px;
+      }
+      &-add {
+        background-color: #000000;
+        color: #ffffff;
+        width: 150px;
+        padding: 10px;
+        border-radius: 3px;
+      }
+      &-back {
+        background-color: #ffffff;
+        color: #000000;
+        width: 80px;
+        padding: 10px;
+        border: 1px solid #000000;
+        border-radius: 3px;
+      }
+    }
+    &-form {
+      margin-top: 100px;
+    }
+  }
+  &-notify {
+    color: #ffffff;
+    padding: 5px;
+    &.success {
+      background-color: #7bd85f;
+    }
+    &.fail {
+      background-color: #f34646;
+    }
+  }
+}

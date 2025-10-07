@@ -1,0 +1,114 @@
+.news {
+  margin-top: 160px;
+  &-button {
+    &-container {
+      background-color: #000000;
+      padding: 12px;
+      border-radius: 3px;
+      color: #ffffff;
+      width: 170px;
+      cursor: pointer;
+      &.cancel {
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #000000;
+      }
+    }
+  }
+  &-icon {
+    filter: invert(1) brightness(2);
+    width: 20px;
+    height: 20px;
+    &-back {
+      filter: invert(100%);
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+    }
+  }
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 50px;
+    }
+  }
+  &-poster {
+    object-fit: contain;
+    height: 100%;
+    &-wrap {
+      width: 290px;
+      height: 400px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+  &-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  &-item {
+    &-container {
+      width: 290px;
+    }
+    &-button {
+      &-edit {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 7px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      &-delete {
+        background-color: #e22020;
+        color: #ffffff;
+        padding: 7px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+    &-content {
+      height: 160px;
+      @media (max-width: 1024px) {
+        height: auto;
+      }
+    }
+  }
+  &-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    &-button {
+      &-cancel {
+        width: 80px;
+        height: 40px;
+        padding: 5px 10px;
+        background-color: #000000;
+        color: #ffffff;
+        border-radius: 5px;
+      }
+      &-delete {
+        width: 80px;
+        height: 40px;
+        padding: 5px 10px;
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #000000;
+        border-radius: 5px;
+      }
+    }
+  }
+}

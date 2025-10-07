@@ -1,0 +1,40 @@
+.celeb {
+  &-moments-container {
+    text-align: center;
+    position: relative;
+  }
+  &-slider {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    transition: all 0.8s ease;
+  }
+  &-slide {
+    flex: none;   
+    width: 24%;  
+    margin: 0;       
+    padding: 0;
+
+    &.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  &-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 1;
+    pointer-events: auto;
+  }
+   &-image {
+    width: 100%;
+    height: auto;
+    display: block; 
+    object-fit: cover;
+  }
+  &-btn {
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 5px;
+  }
+}

@@ -1,0 +1,32 @@
+.icon-white {
+  filter: invert(1) brightness(2);
+}
+.navigation {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  &-icon {
+    filter: invert(1) brightness(2);
+  }
+  &-label {
+    color: #ffffff;
+    @media (max-width: 1024px) {
+      font-size: 12px;
+    }
+  }
+  &-control {
+    @media (max-width: 1024px) {
+      margin-right: 5px;
+    }
+    &-menu {
+      filter: invert(1) brightness(2);
+      &-wrap {
+        width: 30px;
+        margin-left: 15px;
+        @media (max-width: 1024px) {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

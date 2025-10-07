@@ -1,0 +1,27 @@
+.notify {
+  margin: 200px 200px;
+  &-icon {
+    &-container {
+      border-radius: 100%;
+      padding: 3px;
+      width: 30px;
+      height: 30px;
+      &.success {
+        background-color: #33dd41;
+      }
+      &.fail {
+        background-color: #dd3333;
+      }
+    }
+  }
+  &-content {
+    width: 100vw;
+    padding: 5px;
+    &-title {
+      font-size: 21px;
+      @media (max-width: 1024px) {
+        width: 100vw;
+      }
+    }
+  }
+}

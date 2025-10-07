@@ -1,0 +1,11 @@
+.about {
+    &-container{
+        flex-wrap: wrap;
+    }
+    &-content{
+        flex: 2;
+    }
+    &-image {
+        flex: 1;
+    }
+}
