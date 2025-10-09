@@ -42,6 +42,7 @@ import arrowUp from '@images/icons/arrowUp.svg';
 import pencil from '@images/icons/pencil.svg';
 import phone from '@images/icons/phone.svg';
 import mail from '@images/icons/mail.svg';
+import whatsapp from '@images/icons/whatsapp.svg';
 
 export const ICONS = {
   search,
@@ -87,7 +88,8 @@ export const ICONS = {
   arrowUp,
   pencil,
   phone,
-  mail
+  mail,
+  whatsapp
 };
 
 export type IconName = keyof typeof ICONS;

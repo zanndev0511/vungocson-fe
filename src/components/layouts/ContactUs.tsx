@@ -1,7 +1,7 @@
 import { Button } from "@components/common/Button";
 import { ICONS } from "@constants/icons";
 import type { ContactUsProps } from "@interfaces/pages/contactUs";
-import "@styles/pages/contactUs.scss";
+import "@styles/components/contactSidebar.scss";
 import { useEffect } from "react";
 export const ContactUs: React.FC<ContactUsProps> = (props) => {
   const { isOpen, onClose } = props;
@@ -18,15 +18,15 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
   }, [isOpen]);
   return (
     <div
-      className={`contactUs-layout-container ${
+      className={`contactSidebar-layout-container ${
         isOpen
-          ? "contactUs-layout-container-open"
-          : "contactUs-layout-container-closed"
+          ? "contactSidebar-layout-container-open"
+          : "contactSidebar-layout-container-closed"
       }`}
     >
-      <div className="contactUs-layout-header">
+      <div className="contactSidebar-layout-header">
         <div
-          className="contactUs-layout-close-wrapper d-flex justify-end mt-4 mr-4"
+          className="contactSidebar-layout-close-wrapper d-flex justify-end mt-4 mr-4"
           onClick={onClose}
         >
           <img
@@ -34,20 +34,20 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
             alt="close"
             height={20}
             width={20}
-            className="contactUs-layout-close-btn text-color"
+            className="contactSidebar-layout-close-btn text-color"
           />
         </div>
         <div className="d-flex flex-col items-start pl-4 pr-4">
           <p className="text-font-semibold font-size-xl text-uppercase">
             Contact us
           </p>
-          <div className="d-flex flex-col gap-10 mt-2 p-4">
+          <div className="d-flex flex-col gap-2 mt-2 p-4">
             <div className="d-flex flex-col gap-3">
               <div className="d-flex flex-row items-center gap-2">
                 <img
                   src={ICONS.phone}
                   alt=""
-                  className="contactUs-layout-icon"
+                  className="contactSidebar-layout-icon"
                 />
                 <Button
                   label="Call Us +84906 505 070"
@@ -66,7 +66,7 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
                 <img
                   src={ICONS.mail}
                   alt=""
-                  className="contactUs-layout-icon"
+                  className="contactSidebar-layout-icon"
                 />
                 <Button
                   label="Mail Us"
@@ -86,7 +86,7 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
                 <img
                   src={ICONS.facebook}
                   alt=""
-                  className="contactUs-layout-icon social"
+                  className="contactSidebar-layout-icon social"
                 />
                 <Button
                   label="Facebook"
@@ -109,7 +109,7 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
                 <img
                   src={ICONS.instagram}
                   alt=""
-                  className="contactUs-layout-icon social"
+                  className="contactSidebar-layout-icon social"
                 />
                 <Button
                   label="Instagram"
@@ -130,9 +130,32 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
             <div className="d-flex flex-col gap-3">
               <div className="d-flex flex-row items-center gap-2">
                 <img
+                  src={ICONS.whatsapp}
+                  alt=""
+                  className="contactSidebar-layout-icon"
+                />
+                <Button
+                  label="WhatsApp"
+                  variant="static-underline"
+                  className="font-size-sm"
+                  onClick={() =>
+                    window.open(
+                      "https://wa.me/84906505070",
+                      "_blank"
+                    )
+                  }
+                />
+              </div>
+              <p className="text-font-regular font-size-xs text-start">
+                Connect with us on Instagram — available 24/7.
+              </p>
+            </div>
+            <div className="d-flex flex-col gap-3">
+              <div className="d-flex flex-row items-center gap-2">
+                <img
                   src={ICONS.wechat}
                   alt=""
-                  className="contactUs-layout-icon social"
+                  className="contactSidebar-layout-icon social"
                 />
                 <Button
                   label="Wechat"
