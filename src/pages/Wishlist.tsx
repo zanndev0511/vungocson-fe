@@ -1,7 +1,7 @@
 import "@styles/pages/wishlist.scss";
 import React, { useEffect, useState } from "react";
 import { Overview } from "./Overview";
-import { type WishlistItem } from "@interfaces/pages/wishlist";
+import type { WishlistItem } from "@interfaces/pages/wishlist";
 import wishlistApi from "@api/services/wishlistApi";
 import { useNavigate } from "react-router-dom";
 import { ICONS } from "@constants/icons";
