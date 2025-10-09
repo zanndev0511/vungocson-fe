@@ -24,11 +24,11 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
           className="collection-video"
         />
         <div className="collection-content">
-          <p className="text-uppercase text-font-bold text-color font-size-lg">
+          <p className="collection-fontSize-lg text-uppercase text-font-bold text-color">
             {runwayFeature?.name}
           </p>
           <p
-            className="collection-intro-description font-size-base text-font-light text-color"
+            className="collection-intro-description collection-fontSize-base text-font-light text-color"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(runwayFeature?.description ?? "", {
                 FORBID_ATTR: ["style"],

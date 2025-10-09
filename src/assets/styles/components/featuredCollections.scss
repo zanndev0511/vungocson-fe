@@ -32,10 +32,18 @@
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 24px;
+        @media (max-width: 1024px) {
+             -webkit-line-clamp: 5;
+        line-clamp: 5;
+          }
         &-wrap {
           height: 165px;
           overflow: hidden;
           margin-top: 10px;
+          @media (max-width: 1024px) {
+            padding: 0 20px;
+            height: 120px;
+          }
         }
       }
     }
@@ -52,9 +60,29 @@
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
     justify-content: center;
-     @media (max-width: 1024px) {
+    @media (max-width: 1024px) {
       grid-template-columns: repeat(1, 1fr);
       gap: 25px;
+    }
+  }
+  &-fontSize {
+    &-base {
+      font-size: 16px;
+      @media (max-width: 1024px) {
+        font-size: 13px;
+      }
+    }
+    &-lg {
+      font-size: 20px;
+      @media (max-width: 1024px) {
+        font-size: 16px;
+      }
+    }
+    &-md {
+      font-size: 18px;
+      @media (max-width: 1024px) {
+        font-size: 16px;
+      }
     }
   }
 }
