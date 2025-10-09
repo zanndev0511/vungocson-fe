@@ -90,14 +90,16 @@ const Header: React.FC<HeaderProps> = (props) => {
             : "header-container-background-white"
         } ${className}`}
       >
-        <img
-          className="header-logo mb-2"
-          src={
-            backgroundColor === "black" ? IMAGES.whiteLogo : IMAGES.blackLogo
-          }
-          alt="logo"
-          onClick={() => navigate("/")}
-        />
+        <div className="header-logo">
+          <img
+            src={
+              backgroundColor === "black" ? IMAGES.whiteLogo : IMAGES.blackLogo
+            }
+            alt="logo"
+            onClick={() => navigate("/")}
+          />
+        </div>
+
         <div
           className={`header-burger-menu d-flex gap-3 ${
             backgroundColor === "black" &&

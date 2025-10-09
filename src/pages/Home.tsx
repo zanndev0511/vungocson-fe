@@ -160,15 +160,13 @@ export const Home: React.FC = () => {
               />
             </div>
           </div>
-          <img
+          <div
             className={`transition-logo banner-zoom ${
               showHeader ? "logo-scrolled" : ""
             }`}
-            src={IMAGES.whiteLogo}
-            alt="logo"
-            height={150}
-            width={500}
-          />
+          >
+            <img src={IMAGES.whiteLogo} alt="logo" height={150} width={500} />
+          </div>
         </div>
       </div>
       <div className="home-content">

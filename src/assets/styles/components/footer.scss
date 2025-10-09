@@ -15,7 +15,7 @@
     padding-bottom: 1px;
   }
   &-logo {
-    height: 100px;
+    width: 300px;
     cursor: pointer;
   }
   &-content {
@@ -31,9 +31,9 @@
       flex-direction: row;
       @media (max-width: 1024px) {
         display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
     }
   }
 }

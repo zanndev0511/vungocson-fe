@@ -35,13 +35,15 @@ const Footer: React.FC = () => {
   return (
     <div className="footer d-flex flex-col justify-center items-center">
       <div className="mb-5 mt-5 fullsize d-flex flex-col justify-center items-center width-fullsize">
-        <img
-          className="footer-logo mb-5"
-          src={IMAGES.whiteLogo}
-          alt="logo"
-          onClick={() => navigate("/")}
-        />
-        <div className="footer-content justify-center">
+        <div className="footer-logo">
+          <img
+            src={IMAGES.whiteLogo}
+            alt="logo"
+            onClick={() => navigate("/")}
+          />
+        </div>
+
+        <div className="footer-content justify-center mt-5">
           <div className="d-flex flex-col">
             <p className="footer-text text-font-semibold text-uppercase font-size-md text-start">
               Explore Vungoc&son
@@ -53,7 +55,10 @@ const Footer: React.FC = () => {
               >
                 New Arrivals
               </p>
-              <p className="footer-text text-font-light text-capitalize font-size-base" onClick={()=> navigate('/made-to-order')}>
+              <p
+                className="footer-text text-font-light text-capitalize font-size-base"
+                onClick={() => navigate("/made-to-order")}
+              >
                 Made To Order
               </p>
               {fetchMenu.map((item) => (
@@ -71,10 +76,16 @@ const Footer: React.FC = () => {
               Online Services
             </p>
             <div className="d-flex flex-col items-start mt-2">
-              <p className="footer-text text-font-light text-capitalize font-size-base" onClick={() => navigate("/support/contact")}>
+              <p
+                className="footer-text text-font-light text-capitalize font-size-base"
+                onClick={() => navigate("/support/contact")}
+              >
                 Contact
               </p>
-              <p className="footer-text text-font-light text-capitalize font-size-base" onClick={() => navigate("/support/contact")}>
+              <p
+                className="footer-text text-font-light text-capitalize font-size-base"
+                onClick={() => navigate("/support/contact")}
+              >
                 FAQ
               </p>
             </div>
