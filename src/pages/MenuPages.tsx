@@ -10,11 +10,12 @@ import type { Category } from "@interfaces/pages/category";
 import type { Product } from "@interfaces/pages/product";
 import "@styles/pages/shop.scss";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export const NewArrivals: React.FC = () => {
+export const MenuPages: React.FC = () => {
   const navigate = useNavigate();
+  const { menu } = useParams<{ menu: string }>();
 
   const [likedItems, setLikedItems] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -41,7 +42,17 @@ export const NewArrivals: React.FC = () => {
         (p) =>
           p.status === "active" &&
           Array.isArray(p.categories) &&
-          p.categories.some((c) => c.toLowerCase() === "new")
+          p.categories.some((c) => {
+            if (menu === "new-arrivals") {
+              return c.toLowerCase() === "new";
+            } else if (menu === "men") {
+              return c.toLowerCase() === "men" || c.toLowerCase() === "man";
+            } else if (menu === "women") {
+              return c.toLowerCase() === "women" || c.toLowerCase() === "woman";
+            } else if (menu) {
+              return menu;
+            }
+          })
       );
 
       setProducts(activeNewItems);

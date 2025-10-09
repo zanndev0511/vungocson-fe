@@ -11,9 +11,13 @@
     flex: 0 0 calc(100% / 5);
     transition: transform 0.3s ease, opacity 0.3s ease;
     &-name {
+      font-size: 16px;
       &-wrap {
         height: 100%;
         width: 100%;
+      }
+      @media (max-width: 1024px) {
+        font-size: 14px;
       }
     }
   }
@@ -47,10 +51,18 @@
 
     &.prev {
       left: 20px;
+      margin-bottom: 30px;
+      @media (max-width: 1024px) {
+        margin-bottom: 80px;
+      }
     }
 
     &.next {
       right: 20px;
+      margin-bottom: 30px;
+      @media (max-width: 1024px) {
+        margin-bottom: 80px;
+      }
     }
 
     &:hover {

@@ -140,7 +140,7 @@ export const Home: React.FC = () => {
       <div className="banner-container">
         <Banner images={banners} />
         <div className="banner-overlay" />
-        <div className="d-flex flex-col banner-content p-4 width-fullsize justify-between items-center">
+        <div className="d-flex flex-col banner-content width-fullsize justify-between items-center">
           <div className="banner-navigation d-flex flex-row justify-between items-center">
             <div
               className="d-flex flex-row items-center gap-2"

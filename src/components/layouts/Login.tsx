@@ -153,7 +153,7 @@ export const Login: React.FC<LoginProps> = (props) => {
               )}
             </div>
 
-            <div className="d-flex flex-row justify-between width-fullsize mt-3">
+            <div className="d-flex flex-row justify-between items-center width-fullsize mt-3">
               <CheckBox
                 titleBtn="Remember me"
                 isCheck={login.isRememberMe}
@@ -162,7 +162,7 @@ export const Login: React.FC<LoginProps> = (props) => {
                 classNameContainer="items-center width-fullsize"
               />
               <p
-                className="login-password-forget text-font-regular font-size-sm text-end"
+                className="login-password-forget text-font-regular text-end"
                 onClick={() => navigate("/forget-password")}
               >
                 Forget your password?

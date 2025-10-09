@@ -1,18 +1,30 @@
-export interface OrderForm {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phoneCode: string;
-  phone: string;
-  preferDate: string;
-  measurementUnit: string;
-  height: number;
-  weight: number;
-  bust: number;
-  waist: number;
-  hips: number;
-  shoulderWidth: number;
-  armLength: number;
-  neckCircumference: number;
-  orderNote: string;
+export interface Order {
+  id: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  shippingfee: number;
+  subtotal: number;
+  items: ItemsOrder[];  
+}
+
+export interface ItemsOrder {
+  id?: string
+  size: string;
+  quantity: number;
+  color: string;
+  price: number;
+  product: ProductItems;
+}
+
+export interface ProductItems {
+  id?: string
+  sku: string;
+  name: string;
+  size: string;
+  quantity: number;
+  slug: string;
+  color: string;
+  price: number;
+  productGallery: string[];
 }

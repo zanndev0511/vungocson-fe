@@ -2,6 +2,7 @@
   &-header {
     &-menu {
       display: none;
+      z-index: 9999;
       @media (max-width: 1024px) {
         display: flex;
         position: fixed;
@@ -16,17 +17,24 @@
     }
   }
   &-sidebar {
-    @media (max-width: 1024px) {
-      &-open {
+    &.open {
+      @media (max-width: 1024px) {
         display: flex;
+        transition: all 0.3s ease-in-out;
       }
-      &-close {
+    }
+    &.close {
+      @media (max-width: 1024px) {
         display: none;
+        transition: all 0.3s ease-in-out;
       }
     }
   }
   &-content {
-    margin-top: 120px;
-    background-color: #f6f7f8;
+    border-left: 1px solid #ccc;
+    &-wrap {
+      margin-top: 120px;
+      background-color: #ffffff;
+    }
   }
 }

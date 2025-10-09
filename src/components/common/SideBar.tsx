@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MenuSideBar, SidebarProps } from "@interfaces/components/sideBar";
+import type { MenuSideBar, SidebarProps } from "@interfaces/components/sideBar";
 import "@styles/components/sidebar.scss";
 import { ICONS } from "@constants/icons";
 import { Button } from "./Button";
@@ -21,14 +21,15 @@ export const SideBar: React.FC<SidebarProps> = (props) => {
   ];
   const productNavigation = [
     { name: "New Arrivals", src: "/shop/new-arrivals" },
+    { name: "Women", src: "/shop/women" },
+    { name: "Men", src: "/shop/men" },
     { name: "Made To Order", src: "/made-to-order" },
   ];
 
   const specNavigation = [
-    { name: "My Orders", src: "/account" },
-    { name: "Contact", src: "/account" },
+    { name: "My Orders", src: "/me/orders" },
+    { name: "Contact", src: "/support/contact" },
     { name: "FAQ", src: "/account" },
-    { name: "Support", src: "/account" },
   ];
 
   const fetchMenus = async () => {
@@ -94,7 +95,11 @@ export const SideBar: React.FC<SidebarProps> = (props) => {
                   label={item.name}
                   key={index}
                   variant="hover-underline"
-                  onClick={() => navigate(item.src)}
+                  onClick={() => {
+                    navigate(item.src);
+                    if (onClose) onClose();
+                    window.location.reload();
+                  }}
                 />
               </li>
             ))}
@@ -127,7 +132,11 @@ export const SideBar: React.FC<SidebarProps> = (props) => {
                   label={item.name}
                   key={index}
                   variant="hover-underline"
-                  onClick={() => navigate(item.src)}
+                  onClick={() => {
+                    navigate(item.src);
+                    if (onClose) onClose();
+                    window.location.reload();
+                  }}
                 />
               </li>
             ))}

@@ -4,6 +4,9 @@
     &-container {
       max-height: 450px;
       overflow-y: auto;
+      @media (max-width: 1024px) {
+        max-height: 100vh;
+      }
     }
     &-cost {
       position: absolute;
@@ -106,7 +109,7 @@
     }
   }
   &-label {
-    width: 50px;
+    width: 80px;
   }
   &-remove {
     cursor: pointer;
@@ -124,9 +127,15 @@
     width: 90%;
     padding: 10px;
     border-radius: 3px;
+    cursor: pointer;
   }
   &-imageProduct {
-    transition: transform 0.3s ease;
-    transform: scale(1.2);
+    width: 100%;
+    &-wrap {
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }

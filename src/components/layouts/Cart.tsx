@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "@styles/pages/cart.scss";
-import { CartItem, CartProps } from "@interfaces/pages/cart";
+import type { CartItem, CartProps } from "@interfaces/pages/cart";
 import { ICONS } from "@constants/icons";
 import { Quantity } from "@components/common/Quantity";
 import { useNavigate } from "react-router-dom";
@@ -103,17 +103,29 @@ export const Cart: React.FC<CartProps> = (props) => {
                 key={item.id}
               >
                 <div className="cart-item d-flex flex-row justify-start items-start width-fullsize">
-                  <img
-                    src={item.product?.productGallery?.[0]}
-                    alt=""
-                    height={30}
-                    width={90}
-                    className="cart-imageProduct"
-                  />
+                  <div className="cart-imageProduct-wrap">
+                    <img
+                      src={item.product?.productGallery?.[0]}
+                      alt=""
+                      height={30}
+                      width={90}
+                      className="cart-imageProduct"
+                    />
+                  </div>
+
                   <div className="d-flex flex-col items-start width-fullsize ml-3">
-                    <p className="text-font-semibold font-size-base text-uppercase width-fullsize text-start pr-5">
+                    <p className="text-font-semibold font-size-base text-uppercase width-fullsize text-start">
                       {item.product.name}
                     </p>
+                    {item.category && <div className="d-flex flex-row items-center font-size-sm width-fullsize mt-2">
+                      <p className="cart-label text-font-regular text-start">
+                        Category:
+                      </p>
+                      <p className="cart-label-value text-font-semibold text-start text-capitalize">
+                        {item.category}
+                      </p>
+                    </div>}
+                    
                     <div className="d-flex flex-row items-center font-size-sm width-fullsize mt-2">
                       <p className="cart-label text-font-regular text-start">
                         Color:
@@ -151,7 +163,7 @@ export const Cart: React.FC<CartProps> = (props) => {
                       {new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",
-                      }).format(item.product.price * item.quantity)}
+                      }).format(item.price * item.quantity)}
                     </p>
                   </div>
                 </div>

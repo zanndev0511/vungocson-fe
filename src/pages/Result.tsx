@@ -4,7 +4,7 @@ import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 import productApi from "@api/services/productApi";
 import wishlistApi from "@api/services/wishlistApi";
-import { Product } from "@interfaces/pages/product";
+import type { Product } from "@interfaces/pages/product";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ICONS } from "@constants/icons";
 import { toast } from "react-toastify";
@@ -93,7 +93,7 @@ export const Result: React.FC = () => {
                 <img
                   src={item.productGallery[0]}
                   alt=""
-                  className="img-default"
+                  className={item.productGallery[1] && "img-default"}
                 />
                 {item.productGallery[1] && (
                   <img

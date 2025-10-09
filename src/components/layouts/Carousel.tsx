@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "@styles/components/carousel.scss";
-import { CarouselProps } from "@interfaces/components/carousel";
+import type { CarouselProps } from "@interfaces/components/carousel";
 import { ICONS } from "@constants/icons";
 import { useNavigate } from "react-router-dom";
 
 const Carousel: React.FC<CarouselProps> = (props) => {
-  const { itemProducts } = props;
+  const { itemProducts, imageClassName } = props;
   const navigate = useNavigate();
 
   const visibleCount = 5;
@@ -47,15 +47,20 @@ const Carousel: React.FC<CarouselProps> = (props) => {
             key={index}
             className="carousel-item d-flex flex-col items-start gap-3 relative"
           >
-            <div className="carousel-image-wrap" onClick={() => navigate(`/shop/product/${itemProduct.id}/${itemProduct.slug}`)}>
+            <div
+              className="carousel-image-wrap"
+              onClick={() =>
+                navigate(`/shop/product/${itemProduct.id}/${itemProduct.slug}`)
+              }
+            >
               <img
                 src={itemProduct.productGallery[0]}
                 alt={itemProduct.name}
-                className="carousel-image"
+                className={`carousel-image ${imageClassName}`}
               />
             </div>
 
-            <div className="carousel-item-name-wrap d-flex flex-col items-center">
+            <div className="carousel-item-name-wrap d-flex flex-col items-start">
               <p className="carousel-item-name text-font-semibold text-color text-start">
                 {itemProduct.name}
               </p>

@@ -19,7 +19,7 @@ export { Addresses } from "@pages/Addresses";
 export { Notify } from "@pages/Notify";
 export { Wishlist } from "@pages/Wishlist";
 export { Result } from "@pages/Result";
-export { NewArrivals } from "@pages/NewArrivals";
+export { MenuPages } from "@pages/MenuPages";
 export { MadeToOrder } from "@pages/MadeToOrder";
 export {Collections} from "@pages/Collections";
 export {News} from "@pages/News";

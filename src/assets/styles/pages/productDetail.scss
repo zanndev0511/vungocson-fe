@@ -31,6 +31,9 @@
           margin-top: 20px;
         }
       }
+      &-item {
+        width: 100px;
+      }
     }
     &-image {
       @media (max-width: 1024px) {
@@ -321,5 +324,11 @@
   }
   &-toast {
     margin-top: 110px;
+  }
+  &-carousel {
+    overflow: hidden;
+    @media (max-width: 1024px) {
+      height: 230px !important;
+    }
   }
 }

@@ -13,7 +13,6 @@ import {
   Notify,
   Wishlist,
   Result,
-  NewArrivals,
   MadeToOrder,
   Collections,
   RunWay,
@@ -21,6 +20,10 @@ import {
   About,
   News,
   NewsDetails,
+  MenuPages,
+  ContactUs,
+  PrivacyPolicy,
+  TermAndCondition,
 } from "@constants/index";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Routes, Route } from "react-router-dom";
@@ -36,7 +39,7 @@ const AppRoutes = () => (
     <Route path="/news/:id/:slug" element={<NewsDetails />} />
     <Route path="/runway" element={<RunWay />} />
     <Route path="/runway/:id/:slug" element={<RunWayDetail />} />
-    <Route path="/shop/new-arrivals" element={<NewArrivals />} />
+    <Route path="/shop/:menu" element={<MenuPages />} />
     <Route path="/shop/product/:id/:slug" element={<ProductDetail />} />
     <Route path="/sign-up" element={<SignUp />} />
     <Route path="/forget-password" element={<ForgetPassword />} />
@@ -97,6 +100,9 @@ const AppRoutes = () => (
         </ProtectedRoute>
       }
     />
+    <Route path="/support/contact" element={<ContactUs />} />
+    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+    <Route path="/terms-and-conditions" element={<TermAndCondition />} />
   </Routes>
 );
 

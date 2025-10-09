@@ -2,7 +2,7 @@ import "@styles/pages/productDetail.scss";
 import React, { useCallback, useEffect, useState } from "react";
 import { Quantity } from "@components/common/Quantity";
 import { ICONS } from "@constants/icons";
-// import Carousel from "@components/layouts/Carousel";
+import Carousel from "@components/layouts/Carousel";
 import Footer from "@components/common/Footer";
 import Modal from "@components/common/Modal";
 import Header from "@components/common/Header";
@@ -17,6 +17,8 @@ import cartApi from "@api/services/cartApi";
 import type { NotifyItem } from "@interfaces/pages/account";
 import { toast } from "react-toastify";
 import wishlistApi from "@api/services/wishlistApi";
+import type { Collection } from "@interfaces/pages/collections";
+import collectionApi from "@api/services/collectionApi";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -66,10 +68,14 @@ export const ProductDetail: React.FC = () => {
     items: [],
   });
 
+  const [collection, setCollection] = useState<Collection>();
+
   const [itemCart, setItemCart] = useState<CartForm>({
     color: "",
     size: "",
+    category: "",
     quantity: 1,
+    price: 0,
   });
 
   const goToNext = useCallback(() => {
@@ -148,10 +154,29 @@ export const ProductDetail: React.FC = () => {
     field: K,
     value: CartForm[K]
   ) => {
-    setItemCart((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setItemCart((prev) => {
+      const updated = { ...prev, [field]: value };
+
+      if (field === "category") {
+        if (product.items && product.items.length > 0) {
+          const found = product.items.find(
+            (i) => i.name.toLowerCase() === String(value).toLowerCase()
+          );
+
+          if (found?.price) {
+            updated.price = found.price;
+          }
+        } else {
+          updated.price = product.price;
+        }
+      }
+
+      if (itemCart.category?.toLowerCase() === "set") {
+        updated.price = product.price;
+      }
+
+      return updated;
+    });
   };
 
   const validate = (): boolean => {
@@ -161,6 +186,24 @@ export const ProductDetail: React.FC = () => {
     }
     setErrorsInput(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const fetchCollectionById = async (): Promise<Collection | undefined> => {
+    try {
+      if (!product.collection) return;
+      const fetchedCollection = await collectionApi.getById(product.collection);
+      const activeProducts =
+        fetchedCollection.products?.filter((p) => p.status === "active") || [];
+
+      const filteredCollection = {
+        ...fetchedCollection,
+        products: activeProducts,
+      };
+      setCollection(filteredCollection);
+    } catch (err) {
+      console.error("Error fetching collection by id:", err);
+      setCollection({} as Collection);
+    }
   };
 
   const fetchProductById = async (): Promise<Product | undefined> => {
@@ -176,7 +219,7 @@ export const ProductDetail: React.FC = () => {
   };
 
   const handleAddToCart = async () => {
-    const { size, color, quantity } = itemCart;
+    const { size, color, quantity, category, price } = itemCart;
     if (!validate()) return;
     try {
       await cartApi.add({
@@ -184,6 +227,8 @@ export const ProductDetail: React.FC = () => {
         size,
         color,
         quantity,
+        category,
+        price: product.items?.length === 0 ? product.price : price,
       });
       setNotify({
         status: "success",
@@ -251,6 +296,10 @@ export const ProductDetail: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
+    fetchCollectionById();
+  }, [product.collection]);
+
+  useEffect(() => {
     if (!notify) return;
 
     const timer = setTimeout(() => {
@@ -288,7 +337,6 @@ export const ProductDetail: React.FC = () => {
         </div>
       )}
       <Header backgroundColor="black" />
-
       <div className="productDetail d-flex flex-col">
         <div className="productDetail-infor-image-wrap">
           <div className="productDetail-infor-image-container d-flex flex-col width-fullsize">
@@ -351,6 +399,45 @@ export const ProductDetail: React.FC = () => {
               </p>
             </div>
             <div className="productDetail-divider mt-3" />
+            <div className="d-flex flex-col mt-3 gap-1">
+              {product.items?.map((item) => (
+                <div className="d-flex flex-row gap-3">
+                  <p className="productDetail-infor-product-item text-font-semibold font-size-base text-start">
+                    {item.name}:
+                  </p>
+                  <p className="text-font-semibold font-size-base text-start">
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(item.price)}
+                  </p>
+                </div>
+              ))}
+            </div>
+            {product.items?.length! > 0 && (
+              <div className="d-flex flex-col items-start gap-2 mt-3">
+                <p className="text-font-regular font-size-sm productDetail-infor-label text-start">
+                  CATEGORY:
+                </p>
+                <Select
+                  options={[
+                    ...product.items!.map(
+                      (item) => [item.name, item.name] as [string, string]
+                    ),
+                    ["set", "Set"] as [string, string],
+                  ]}
+                  value={itemCart.category}
+                  placeholder="Choose an option"
+                  onChange={(e) => handleChange("category", e.target.value)}
+                />
+                {errorsInput.color && (
+                  <p className="text-font-regular font-size-sm text-start text-red-500 mt-1 ml-1">
+                    {errorsInput.color}
+                  </p>
+                )}
+              </div>
+            )}
+
             <div className="d-flex flex-col items-start gap-2 mt-3">
               <p className="text-font-regular font-size-sm productDetail-infor-label text-start">
                 COLOR:
@@ -530,18 +617,19 @@ export const ProductDetail: React.FC = () => {
           <p className="text-font-semibold font-size-xl">
             WE THINK YOU MIGHT LIKE
           </p>
-          <div className="mt-4">
-            {/* <Carousel itemProducts={itemsRecommend} /> */}
+          <div className="width-fullsize mt-4">
+            <Carousel
+              itemProducts={collection?.products || []}
+              imageClassName="productDetail-carousel"
+            />
           </div>
         </div>
       </div>
       <div>
         <CustomToOrder
           isOpen={isOpenCustomToOrder}
-          productId={id ?? ""}
           productName={product.name}
           productPrice={product.price}
-          productColor={itemCart.color}
           productCategories={product.categories}
           onClose={() => setIsOpenCustomToOrder(false)}
         />

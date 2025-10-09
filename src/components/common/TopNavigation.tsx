@@ -61,7 +61,7 @@ const TopNavigation: React.FC<TopNavigationProps> = (props) => {
 
   return (
     <div
-      className={`d-flex flex-row items-center justify-end width-fullsize gap-2 ${className}`}
+      className={`navigation-control-wrap d-flex flex-row items-center justify-end width-fullsize ${className}`}
     >
       <div
         className={`navigation-control text-color d-flex ${fontSize}`}

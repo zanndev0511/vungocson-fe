@@ -128,7 +128,7 @@ export const Payment: React.FC = () => {
     (acc, item) => acc + Number(item.product.price),
     0
   );
-  const tax = subtotal * 0.1;
+  const tax = 0;
   const grandTotal = subtotal + tax;
 
   const validate = (): boolean => {
@@ -213,8 +213,8 @@ export const Payment: React.FC = () => {
         const shipping = selectedAddress || addAddress;
         const amount = Number(grandTotal.toFixed(2));
         const nameOnCard = formPaymentData.nameOnCard;
-        const taxRate = 10;
-        const shippingfee = 30;
+        const taxRate = 0;
+        const shippingfee = amount < 2276.02 ? 56.9 : 0;
         try {
           const res = await paymentApi.createTransaction(
             amount,
@@ -270,6 +270,13 @@ export const Payment: React.FC = () => {
               },
             }
           );
+          if (hostedFieldsInstance.current) {
+            hostedFieldsInstance.current.teardown((err: any) => {
+              if (err) console.error("Error tearing down Hosted Fields:", err);
+            });
+            hostedFieldsInstance.current = null;
+          }
+
           if (res.data.success) {
             navigate("/checkout/notify", {
               state: { status: "success" },
@@ -278,35 +285,49 @@ export const Payment: React.FC = () => {
             navigate("/checkout/notify", {
               state: { status: "fail" },
             });
-            
           }
         } catch (err: any) {
+          if (hostedFieldsInstance.current) {
+            hostedFieldsInstance.current.teardown((err: any) => {
+              if (err) console.error("Error tearing down Hosted Fields:", err);
+            });
+            hostedFieldsInstance.current = null;
+          }
           navigate("/checkout/notify", {
             state: { status: "fail" },
           });
-          alert(err)
+          alert(err);
         } finally {
           setLoading(false);
         }
       });
     } catch (err: any) {
+      if (hostedFieldsInstance.current) {
+        hostedFieldsInstance.current.teardown((err: any) => {
+          if (err) console.error("Error tearing down Hosted Fields:", err);
+        });
+        hostedFieldsInstance.current = null;
+      }
       setLoading(false);
     }
   };
 
   const handleCreatePaypalOrder = async () => {
-    const res = await paymentApi.createPaypalOrder(grandTotal, "USD");
+    const amount = Number(grandTotal.toFixed(2));
+    const shippingfee = amount < 2276.02 ? 56.9 : 0;
+    const res = await paymentApi.createPaypalOrder(amount + shippingfee, "USD");
     return res.data.order.id;
   };
 
   const handleApprovePaypalOrder = async (data: any) => {
     const shipping = selectedAddress || addAddress;
     const shippingData = {
-    ...shipping,
-    zipcode: shipping.zipCode,
-  };
-    const taxRate = 10;
-    const shippingfee = 30;
+      ...shipping,
+      zipcode: shipping.zipCode,
+    };
+    const taxRate = 0;
+    const amount = Number(grandTotal.toFixed(2));
+    const shippingfee = amount < 2276.02 ? 56.9 : 0;
     const res = await paymentApi.capturePaypalOrder(
       data.orderID,
       taxRate,
@@ -375,6 +396,14 @@ export const Payment: React.FC = () => {
 
   const initHostedFields = () => {
     if (!clientToken) return;
+
+    if (hostedFieldsInstance.current) {
+      hostedFieldsInstance.current.teardown((err: any) => {
+        if (err) console.error("Error tearing down Hosted Fields:", err);
+      });
+      hostedFieldsInstance.current = null;
+    }
+
     braintree.client.create(
       { authorization: clientToken },
       (err, clientInstance) => {
@@ -403,15 +432,10 @@ export const Payment: React.FC = () => {
       }
     );
   };
+
   const checkIsEdit = (field: "address" | "payment") => {
     setCheckEdit((prev) => ({ ...prev, [field]: true }));
   };
-
-  useEffect(() => {
-    if (clientToken) {
-      initHostedFields();
-    }
-  }, [clientToken]);
 
   useEffect(() => {
     fetchClientToken();
@@ -438,7 +462,7 @@ export const Payment: React.FC = () => {
                 <div
                   className={`payment-step ${
                     isDoneAddress && "done"
-                  } d-flex justify-center items-center width-fullsize`}
+                  } d-flex justify-center items-center`}
                 >
                   {isDoneAddress ? (
                     <img
@@ -504,7 +528,8 @@ export const Payment: React.FC = () => {
                     Express
                   </p>
                   <p className="text-font-regular font-size-sm text-start">
-                    US$ 0
+                    US${" "}
+                    {Number(grandTotal.toFixed(2)) < 2276.02 ? "56.90" : "0"}
                   </p>
                   <p className="text-font-regular font-size-sm text-start">
                     You will be notified when your item is shipped.
@@ -803,7 +828,14 @@ export const Payment: React.FC = () => {
                   <div className="d-flex flex-row items-center mt-2">
                     <div className="payment-address-radio">
                       <RadioButton
-                        label="Express  -  Free"
+                        label={`Express  -  ${
+                          Number(grandTotal.toFixed(2)) < 2276.02
+                            ? new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                              }).format(56.9)
+                            : "Free"
+                        }`}
                         value="express"
                         name="shipping"
                         checked={shipping === "express"}
@@ -825,6 +857,7 @@ export const Payment: React.FC = () => {
                 <button
                   className="payment-button text-font-semibold font-size-sm text-uppercase mt-3"
                   onClick={async () => {
+                    if (clientToken) initHostedFields();
                     if (Object.keys(addAddress).length !== 0) {
                       if (!validate()) return;
                       setIsDoneAddress(true);
@@ -856,7 +889,7 @@ export const Payment: React.FC = () => {
               <div
                 className={`payment-step ${
                   isDonePayment && "done"
-                } d-flex justify-center items-center width-fullsize`}
+                } d-flex justify-center items-center`}
               >
                 {isDonePayment ? (
                   <img src={ICONS.done} alt="" className="payment-step-icon" />
@@ -1418,6 +1451,14 @@ export const Payment: React.FC = () => {
                     <p className="text-font-semibold font-size-sm text-uppercase text-start">
                       {item.product.name}
                     </p>
+                    {item.category && (
+                      <div className="text-font-regular font-size-sm d-flex flex-row">
+                        <p className="payment-order-label text-start">
+                          Category:
+                        </p>
+                        <p className="text-capitalize">{item.category}</p>
+                      </div>
+                    )}
                     <div className="text-font-regular font-size-sm d-flex flex-row">
                       <p className="payment-order-label text-start">Color:</p>
                       <p>{item.color}</p>
@@ -1432,18 +1473,14 @@ export const Payment: React.FC = () => {
                       </p>
                       <p>1</p>
                     </div>
-                    <div className="d-flex flex-col items-end justify-between text-font-regular-italic font-size-sm d-flex flex-row height-fullsize">
-                      <p className="payment-order-items-estimate text-start">
-                        Estimated Delivery on Aug 19
+
+                    <div className="d-flex flex-row justify-end items-end fullsize">
+                      <p className="text-font-semibold font-size-sm">
+                        {new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(item.price)}
                       </p>
-                      <div className="d-flex flex-row items-center">
-                        <p className="text-font-semibold font-size-sm">
-                          {new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                          }).format(item.product.price)}
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -1461,17 +1498,14 @@ export const Payment: React.FC = () => {
                 </p>
               </div>
               <div className="d-flex flex-row justify-between text-font-regular font-size-sm mt-2">
-                <p>Shipping</p>
-                <p>Free(Express)</p>
-              </div>
-              <div className="d-flex flex-row justify-between text-font-regular font-size-sm mt-2">
-                <p>Tax</p>
+                <p>Shipping(Express)</p>
                 <p>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(tax)}
-                  (10%)
+                  {Number(grandTotal.toFixed(2)) < 2276.02
+                    ? new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(56.9)
+                    : "Free"}
                 </p>
               </div>
               <div className="d-flex flex-row justify-between text-font-semibold font-size-sm text-uppercase mt-2">
@@ -1480,7 +1514,10 @@ export const Payment: React.FC = () => {
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format(grandTotal)}
+                  }).format(
+                    Number(grandTotal.toFixed(2)) +
+                      (grandTotal < 2276.02 ? 56.9 : 0)
+                  )}
                 </p>
               </div>
             </div>

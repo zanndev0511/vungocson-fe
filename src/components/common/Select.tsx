@@ -1,10 +1,10 @@
 import { ICONS } from "@constants/icons";
-import { SelectProps } from "@interfaces/components/select";
+import type { SelectProps } from "@interfaces/components/select";
 import "@styles/components/select.scss";
 import React, { useState } from "react";
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { label, value, onChange, required, options, placeholder } = props;
+  const { label, value, onChange, onClick, required, options, placeholder } = props;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -18,6 +18,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         required={required}
         onFocus={() => setIsOpen(true)}
         onBlur={() => setIsOpen(false)}
+        onClick={onClick}
       >
         <option value="" disabled hidden>
           {!label && placeholder}

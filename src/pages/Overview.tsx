@@ -39,24 +39,24 @@ export const Overview: React.FC<OverviewProps> = (props) => {
   return (
     <>
       <Header backgroundColor="black" />
-      <div className="overview-content d-flex flex-row">
-        <SideBarAccount
-          activeTab={activeTab}
-          setActiveTab={handleTabChange}
-          className={`${
-            isSideBarOpen ? "overview-sidebar-open" : "overview-sidebar-close"
-          }`}
-          onClose={() => setIsSidebarOpen(false)}
-        />
-
-        <div className="overview-header-menu d-flex flex-row justify-center items-center mt-4">
-          <img
-            src={ICONS.right}
-            alt=""
-            onClick={() => setIsSidebarOpen(true)}
+      <div className="overview-content-wrap d-flex flex-row">
+        <div
+          className={`overview-sidebar ${isSideBarOpen ? "open" : "close"} `}
+        >
+          <SideBarAccount
+            activeTab={activeTab}
+            setActiveTab={handleTabChange}
+            onClose={() => setIsSidebarOpen(false)}
           />
         </div>
-        {content}
+
+        <div
+          className="overview-header-menu d-flex flex-row justify-center items-center mt-4"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <img src={ICONS.right} alt="" />
+        </div>
+        <div className="overview-content width-fullsize">{content}</div>
       </div>
       <div>
         <Footer />

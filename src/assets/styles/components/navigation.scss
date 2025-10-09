@@ -18,6 +18,12 @@
     @media (max-width: 1024px) {
       margin-right: 5px;
     }
+    &-wrap {
+      gap: 10px;
+      @media (max-width: 1024px) {
+        gap: 2px;
+      }
+    }
     &-menu {
       filter: invert(1) brightness(2);
       &-wrap {

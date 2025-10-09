@@ -71,10 +71,10 @@ const Footer: React.FC = () => {
               Online Services
             </p>
             <div className="d-flex flex-col items-start mt-2">
-              <p className="footer-text text-font-light text-capitalize font-size-base">
+              <p className="footer-text text-font-light text-capitalize font-size-base" onClick={() => navigate("/support/contact")}>
                 Contact
               </p>
-              <p className="footer-text text-font-light text-capitalize font-size-base">
+              <p className="footer-text text-font-light text-capitalize font-size-base" onClick={() => navigate("/support/contact")}>
                 FAQ
               </p>
             </div>

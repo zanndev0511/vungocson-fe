@@ -19,5 +19,6 @@ export interface ProductCarousel {
 export interface CarouselProps {
   itemProducts: ProductCarousel[];
   className?: string;
+  imageClassName?: string;
 }
 export {};

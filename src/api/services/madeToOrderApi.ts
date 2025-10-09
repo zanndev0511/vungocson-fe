@@ -1,6 +1,6 @@
-import { ApiResponse, ListResponse } from "@api/common";
+import type { ApiResponse, ListResponse } from "@api/common";
 import axiosClient from "../index";
-import { MadeToOrderForm } from "@interfaces/pages/madeToOrder";
+import type { MadeToOrderForm } from "@interfaces/pages/madeToOrder";
 
 const madeToOrderApi = {
   getAll: (): Promise<ApiResponse<ListResponse<MadeToOrderForm>>> =>

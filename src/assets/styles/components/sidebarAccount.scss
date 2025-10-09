@@ -1,11 +1,11 @@
 .sidebarAccount {
   &-container {
     width: 400px;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #ffffff;
     @media (max-width: 1024px) {
       width: 100%;
-      position: absolute;
+      position: fixed;
       top: 0;
       z-index: 99999;
       overflow-y: auto;

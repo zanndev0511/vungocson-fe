@@ -23,6 +23,10 @@
     position: absolute;
     top: 0;
     height: 50%;
+    padding: 32px;
+    @media (max-width: 1024px) {
+      padding: 20px 8px;
+    }
   }
   &-navigation {
     width: 100%;

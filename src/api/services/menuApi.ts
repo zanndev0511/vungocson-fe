@@ -1,6 +1,6 @@
 import axiosClient from "../index";
-import { ApiResponse, ListResponse } from "@api/common";
-import { MenuSideBar } from "@interfaces/components/sideBar";
+import type { ApiResponse, ListResponse } from "@api/common";
+import type { MenuSideBar } from "@interfaces/components/sideBar";
 
 const menuApi = {
   getAll: (): Promise<ApiResponse<ListResponse<MenuSideBar>>> =>

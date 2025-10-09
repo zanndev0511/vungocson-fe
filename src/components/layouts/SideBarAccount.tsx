@@ -18,10 +18,9 @@ const SideBarAccount: React.FC<SidebarAccountProps> = (props) => {
     { label: "Addresses", icon: ICONS.address },
   ];
   const helpItems = [
-    { label: "Contact Us", link: "/contact/" },
-    { label: "Return Policy", link: "/returnPolicy/" },
-    { label: "Privacy Policy", link: "/privacyPolicy/" },
-    { label: "Terms and Conditions", link: "/termsAndConditions/" },
+    { label: "Contact Us", link: "/support/contact" },
+    { label: "Privacy Policy", link: "/privacy-policy" },
+    { label: "Terms and Conditions", link: "/terms-and-conditions" },
   ];
 
   const handleLogout = async () => {

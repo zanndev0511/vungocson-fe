@@ -7,6 +7,8 @@ export interface CartForm {
   color: string;
   size: string;
   quantity: number;
+  category?: string;
+  price: number;
 }
 
 interface CartItem {
@@ -14,6 +16,8 @@ interface CartItem {
   color: string;
   size: string;
   quantity: number;
+  category?: string;
+  price: number;
   product: {
     id: string;
     name: string;
@@ -27,7 +31,8 @@ export interface AddToCartPayload {
   quantity: number;
   size: string;
   color: string;
-  customSize?: CustomSizeInfo;
+  category?: string;
+  price: number;
 }
 
 export interface CustomSizeInfo {

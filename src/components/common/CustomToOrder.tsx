@@ -3,25 +3,20 @@ import { IMAGES } from "@constants/image";
 import "@styles/components/customToOrder.scss";
 import { useEffect, useState } from "react";
 import { Input } from "./Input";
-import type { OrderForm } from "@interfaces/pages/order";
-import type { CustomToOrderProps } from "@interfaces/components/customToOrder";
+import type {
+  CustomSizeOrderForm,
+  CustomSizeOrderMeasurements,
+  CustomToOrderProps,
+} from "@interfaces/components/customToOrder";
 import { Select } from "./Select";
 import { TextArea } from "./TextArea";
 import { CheckBox } from "./CheckBox";
-import cartApi from "@api/services/cartApi";
-import authApi from "@api/services/authApi";
 import type { NotifyItem } from "@interfaces/pages/account";
 import countryCallingCodes from "country-calling-code";
+import madeToOrderApi from "@api/services/madeToOrderApi";
 export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
-  const {
-    productId,
-    productName,
-    productColor,
-    productPrice,
-    productCategories,
-    isOpen,
-    onClose,
-  } = props;
+  const { productName, productPrice, productCategories, isOpen, onClose } =
+    props;
   const measureUnitOptions: [string, string][] = [
     ["cm", "CM"],
     ["in", "IN"],
@@ -32,52 +27,51 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
   const [checkboxError, setCheckboxError] = useState<string>("");
   const [notify, setNotify] = useState<NotifyItem | null>(null);
   const [errors, setErrors] = useState<
-    Partial<Record<keyof OrderForm, string>>
+    Partial<Record<keyof CustomSizeOrderForm, string>>
   >({});
-  const [order, setOrder] = useState<OrderForm>({
-    firstname: "",
-    lastname: "",
+  const [customOrder, setCustomOrder] = useState<CustomSizeOrderForm>({
+    firstName: "",
+    lastName: "",
     email: "",
     phoneCode: "",
     phone: "",
-    preferDate: "",
+    contactTime: "",
     measurementUnit: "cm",
-    height: 0,
-    weight: 0,
-    bust: 0,
-    waist: 0,
-    hips: 0,
-    shoulderWidth: 0,
-    armLength: 0,
-    neckCircumference: 0,
-    orderNote: "",
+    message: "",
+    socialMedia: "",
+    customSizeOrder: {
+      nameProduct: "",
+      height: 0,
+      weight: 0,
+      bust: 0,
+      waist: 0,
+      hips: 0,
+      shoulderWidth: 0,
+      armLength: 0,
+      neckCircumference: 0,
+    },
   });
 
+  const selectTime: Array<[string, string]> = [
+    ["any", "Any time"],
+    ["9-12", "9 AM – 12 AM"],
+    ["12-15", "12 PM – 3 PM"],
+    ["15-18", "3 PM – 6 PM"],
+  ];
+
   const validate = (): boolean => {
-    const newErrors: Partial<Record<keyof OrderForm, string>> = {};
+    const newErrors: Partial<Record<keyof CustomSizeOrderForm, string>> = {};
 
     if (step === 0) {
-      if (!order.firstname)
-        newErrors.firstname = "Please enter your first name.";
-      if (!order.lastname) newErrors.lastname = "Please enter your last name.";
-      if (!order.email) newErrors.email = "Please enter your email.";
-      if (!order.phone && !order.phoneCode)
+      if (!customOrder.firstName)
+        newErrors.firstName = "Please enter your first name.";
+      if (!customOrder.lastName)
+        newErrors.lastName = "Please enter your last name.";
+      if (!customOrder.email) newErrors.email = "Please enter your email.";
+      if (!customOrder.phone && !customOrder.phoneCode)
         newErrors.phone = "Please enter your phone.";
-      if (!order.preferDate)
-        newErrors.preferDate = "Prefered Delivery Date is required";
-    }
-
-    if (step === 1) {
-      if (!order.height) newErrors.height = "Height is required";
-      if (!order.weight) newErrors.weight = "Weight is required";
-      if (!order.bust) newErrors.bust = "Bust is required";
-      if (!order.waist) newErrors.waist = "Waist is required";
-      if (!order.hips) newErrors.hips = "Hips is required";
-      if (!order.shoulderWidth)
-        newErrors.shoulderWidth = "Shoulder Width is required";
-      if (!order.armLength) newErrors.armLength = "Arm Length is required";
-      if (!order.neckCircumference)
-        newErrors.neckCircumference = "Neck Circumference is required";
+      if (!customOrder.contactTime)
+        newErrors.contactTime = "Prefered Delivery Date is required";
     }
 
     if (step === 2) {
@@ -105,13 +99,26 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
     setStep((prev) => Math.max(prev - 1, 0));
   };
 
-  const handleChange = <K extends keyof OrderForm>(
+  const handleChange = <K extends keyof CustomSizeOrderForm>(
     field: K,
-    value: OrderForm[K]
+    value: CustomSizeOrderForm[K]
   ) => {
-    setOrder((prev) => ({
+    setCustomOrder((prev) => ({
       ...prev,
       [field]: value,
+    }));
+  };
+
+  const handleCustomSizeChange = <K extends keyof CustomSizeOrderMeasurements>(
+    field: K,
+    value: CustomSizeOrderMeasurements[K]
+  ) => {
+    setCustomOrder((prev) => ({
+      ...prev,
+      customSizeOrder: {
+        ...prev.customSizeOrder,
+        [field]: value,
+      },
     }));
   };
 
@@ -119,61 +126,41 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
     if (!validate() || !isCheckAgree) return;
 
     try {
-      await cartApi.add({
-        productId: productId,
-        quantity: 1,
-        size: "custom",
-        color: productColor,
-        customSize: {
-          firstName: order.firstname,
-          lastName: order.lastname,
-          email: order.email,
-          phone: order.phone,
-          phoneCode: order.phoneCode,
-          preferredDeliveryDate: order.preferDate,
-          measurements: {
-            height: order.height,
-            weight: order.weight,
-            bust: order.bust,
-            waist: order.waist,
-            hips: order.hips,
-            shoulderWidth: order.shoulderWidth,
-            armLength: order.armLength,
-            neckCircumference: order.neckCircumference,
-          },
+      await madeToOrderApi.create({
+        firstName: customOrder.firstName,
+        lastName: customOrder.lastName,
+        email: customOrder.email,
+        phoneCode: customOrder.phoneCode,
+        phone: customOrder.phone,
+        contactTime: customOrder.contactTime,
+        message: customOrder.message,
+        socialMedia: customOrder.socialMedia,
+        customSizeOrder: {
+          nameProduct: productName,
+          height: customOrder.customSizeOrder.height,
+          weight: customOrder.customSizeOrder.weight,
+          bust: customOrder.customSizeOrder.bust,
+          waist: customOrder.customSizeOrder.waist,
+          hips: customOrder.customSizeOrder.hips,
+          shoulderWidth: customOrder.customSizeOrder.shoulderWidth,
+          armLength: customOrder.customSizeOrder.armLength,
+          neckCircumference: customOrder.customSizeOrder.neckCircumference,
         },
       });
       setNotify({
         status: "success",
-        message: "Custom order added to cart. Please check your cart",
+        message: "Your order has been submitted. We will get in touch with you soon, please stay tuned.",
       });
+      setTimeout(() => setNotify(null), 5000);
     } catch (error) {
       console.error(error);
       setNotify({
         status: "fail",
-        message: "Failed to add custom order to your cart.",
+        message: "We’re sorry, but we couldn’t submit your order at the moment. Please try again later.",
       });
+      setTimeout(() => setNotify(null), 5000);
     }
   };
-
-  const fetchUser = async () => {
-    try {
-      const userData = await authApi.getProfile();
-
-      setOrder((prev) => ({
-        ...prev,
-        firstname: userData.firstname ?? "",
-        lastname: userData.lastname ?? "",
-        email: userData.email,
-      }));
-    } catch (err) {
-      console.error("Lỗi khi lấy user:", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -228,11 +215,6 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                       currency: "USD",
                     }).format(productPrice)}
                   </p>
-                  {!productColor && (
-                    <p className="text-font-regular font-size-sm text-start text-red-500 mt-2">
-                      Please select a color before entering custom size.
-                    </p>
-                  )}
                 </div>
                 <div className="d-flex flex-col mt-4">
                   <p className="text-font-regular font-size-sm text-start text-uppercase">
@@ -301,15 +283,15 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                           id="firstname"
                           type="text"
                           label="First Name"
-                          value={order.firstname}
+                          value={customOrder.firstName}
                           onChange={(e) =>
-                            handleChange("firstname", e.target.value)
+                            handleChange("firstName", e.target.value)
                           }
                           required
                         />
-                        {errors.firstname && (
+                        {errors.firstName && (
                           <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.firstname}
+                            {errors.firstName}
                           </p>
                         )}
                       </div>
@@ -318,15 +300,15 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                           id="lastname"
                           type="text"
                           label="Last Name"
-                          value={order.lastname}
+                          value={customOrder.lastName}
                           onChange={(e) =>
-                            handleChange("lastname", e.target.value)
+                            handleChange("lastName", e.target.value)
                           }
                           required
                         />
-                        {errors.lastname && (
+                        {errors.lastName && (
                           <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.lastname}
+                            {errors.lastName}
                           </p>
                         )}
                       </div>
@@ -336,7 +318,7 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                         id="email"
                         type="email"
                         label="Email"
-                        value={order.email}
+                        value={customOrder.email}
                         onChange={(e) => handleChange("email", e.target.value)}
                         required
                       />
@@ -351,7 +333,7 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                         <div className="d-flex flex-col width-fullsize">
                           <Select
                             label="PHONE CODE"
-                            value={order.phoneCode}
+                            value={customOrder.phoneCode}
                             options={countryCallingCodes.map((c) => [
                               `+${c.countryCodes[0]}`,
                               `${c.isoCode2} (+${c.countryCodes[0]})`,
@@ -366,37 +348,42 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                             id="phone"
                             type="phone"
                             label="Phone Number"
-                            value={order.phone}
+                            value={customOrder.phone}
                             onChange={(e) =>
                               handleChange("phone", e.target.value)
                             }
                             required
                           />
                         </div>
-                        {errors.phone && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.phone}
-                          </p>
-                        )}
                       </div>
+                      {errors.phone && (
+                        <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                          {errors.phone}
+                        </p>
+                      )}
                     </div>
 
                     <div className="d-flex flex-col width-fullsize">
                       <Input
-                        id="preferDate"
-                        type="date"
-                        label="Prefered Delivery Date"
-                        value={order.preferDate}
+                        id={"social"}
+                        type={"url"}
+                        label={"Social Media Contact"}
+                        value={customOrder.socialMedia}
                         onChange={(e) =>
-                          handleChange("preferDate", e.target.value)
+                          handleChange("socialMedia", e.target.value)
                         }
-                        required
                       />
-                      {errors.preferDate && (
-                        <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                          {errors.preferDate}
-                        </p>
-                      )}
+                    </div>
+
+                    <div className="d-flex flex-col width-fullsize">
+                      <Select
+                        label={"PREFERRED CONTACT TIME"}
+                        value={customOrder.contactTime}
+                        options={selectTime}
+                        onChange={(e) =>
+                          handleChange("contactTime", e.target.value)
+                        }
+                      />
                     </div>
                   </div>
                 )}
@@ -406,7 +393,7 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                       <Select
                         label="Measurement Unit"
                         options={measureUnitOptions}
-                        value={order.measurementUnit}
+                        value={customOrder.measurementUnit}
                         onChange={(e) =>
                           handleChange("measurementUnit", e.target.value)
                         }
@@ -419,34 +406,30 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                           id="height"
                           type="number"
                           label="Height"
-                          value={order.height.toString()}
+                          value={customOrder.customSizeOrder.height.toString()}
                           onChange={(e) =>
-                            handleChange("height", Number(e.target.value))
+                            handleCustomSizeChange(
+                              "height",
+                              Number(e.target.value)
+                            )
                           }
                           required
                         />
-                        {errors.height && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.height}
-                          </p>
-                        )}
                       </div>
                       <div className="d-flex flex-col width-fullsize">
                         <Input
                           id="weight"
                           type="number"
                           label="Weight"
-                          value={order.weight.toString()}
+                          value={customOrder.customSizeOrder.weight.toString()}
                           onChange={(e) =>
-                            handleChange("weight", Number(e.target.value))
+                            handleCustomSizeChange(
+                              "weight",
+                              Number(e.target.value)
+                            )
                           }
                           required
                         />
-                        {errors.weight && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.weight}
-                          </p>
-                        )}
                       </div>
                     </div>
                     <div className="d-flex flex-row width-fullsize gap-3">
@@ -455,34 +438,30 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                           id="bust"
                           type="number"
                           label="Bust"
-                          value={order.bust.toString()}
+                          value={customOrder.customSizeOrder.bust.toString()}
                           onChange={(e) =>
-                            handleChange("bust", Number(e.target.value))
+                            handleCustomSizeChange(
+                              "bust",
+                              Number(e.target.value)
+                            )
                           }
                           required
                         />
-                        {errors.bust && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.bust}
-                          </p>
-                        )}
                       </div>
                       <div className="d-flex flex-col width-fullsize">
                         <Input
                           id="waist"
                           type="number"
                           label="Waist"
-                          value={order.waist.toString()}
+                          value={customOrder.customSizeOrder.waist.toString()}
                           onChange={(e) =>
-                            handleChange("waist", Number(e.target.value))
+                            handleCustomSizeChange(
+                              "waist",
+                              Number(e.target.value)
+                            )
                           }
                           required
                         />
-                        {errors.waist && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.waist}
-                          </p>
-                        )}
                       </div>
                     </div>
                     <div className="d-flex flex-row width-fullsize gap-3">
@@ -491,37 +470,30 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                           id="hips"
                           type="number"
                           label="Hips"
-                          value={order.hips.toString()}
+                          value={customOrder.customSizeOrder.hips.toString()}
                           onChange={(e) =>
-                            handleChange("hips", Number(e.target.value))
+                            handleCustomSizeChange(
+                              "hips",
+                              Number(e.target.value)
+                            )
                           }
                           required
                         />
-                        {errors.hips && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.hips}
-                          </p>
-                        )}
                       </div>
                       <div className="d-flex flex-col width-fullsize">
                         <Input
                           id="shoulderWidth"
                           type="number"
                           label="Shoulder Width"
-                          value={order.shoulderWidth.toString()}
+                          value={customOrder.customSizeOrder.shoulderWidth.toString()}
                           onChange={(e) =>
-                            handleChange(
+                            handleCustomSizeChange(
                               "shoulderWidth",
                               Number(e.target.value)
                             )
                           }
                           required
                         />
-                        {errors.shoulderWidth && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.shoulderWidth}
-                          </p>
-                        )}
                       </div>
                     </div>
                     <div className="d-flex flex-row width-fullsize gap-3">
@@ -530,46 +502,39 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                           id="armLength"
                           type="number"
                           label="Arm Length"
-                          value={order.armLength.toString()}
+                          value={customOrder.customSizeOrder.armLength.toString()}
                           onChange={(e) =>
-                            handleChange("armLength", Number(e.target.value))
+                            handleCustomSizeChange(
+                              "armLength",
+                              Number(e.target.value)
+                            )
                           }
                           required
                         />
-                        {errors.armLength && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.armLength}
-                          </p>
-                        )}
                       </div>
                       <div className="d-flex flex-col width-fullsize">
                         <Input
                           id="neckCircumference"
                           type="number"
                           label="Neck Circumference"
-                          value={order.neckCircumference.toString()}
+                          value={customOrder.customSizeOrder.neckCircumference.toString()}
                           onChange={(e) =>
-                            handleChange(
+                            handleCustomSizeChange(
                               "neckCircumference",
                               Number(e.target.value)
                             )
                           }
                           required
                         />
-                        {errors.neckCircumference && (
-                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errors.neckCircumference}
-                          </p>
-                        )}
                       </div>
                     </div>
                     <div className="d-flex flex-col width-fullsize">
                       <TextArea
                         id="note"
-                        label="Order Note"
-                        value={order.orderNote}
+                        label="Message"
+                        value={customOrder.message}
                         onChange={(e) =>
-                          handleChange("orderNote", e.target.value)
+                          handleChange("message", e.target.value)
                         }
                       />
                     </div>
@@ -598,13 +563,18 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                       responsibility. Issues arising from incorrect measurements
                       will not be eligible for refund or exchange.
                     </p>
+                    <p className="text-font-regular font-size-sm text-start mt-2">
+                      After submitting, we will contact you to confirm your
+                      order.
+                    </p>
+                    {checkboxError && (
+                      <p className="text-font-regular font-size-sm text-start text-red-500 mt-2">
+                        {checkboxError}
+                      </p>
+                    )}
                   </div>
                 )}
-                {checkboxError && (
-                  <p className="text-font-regular font-size-sm text-start text-red-500 mt-2">
-                    {checkboxError}
-                  </p>
-                )}
+
                 <div className="mt-3">
                   {notify && (
                     <div
@@ -637,7 +607,7 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                     } text-font-regular font-size-sm mt-4 mb-4`}
                     onClick={step === 2 ? handleSubmit : handleNext}
                   >
-                    {step === 2 ? "ADD TO CART" : "NEXT"}
+                    {step === 2 ? "SUBMIT" : "NEXT"}
                   </button>
                 </div>
               </div>
