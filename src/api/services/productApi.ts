@@ -1,6 +1,6 @@
-import { ApiResponse, ListResponse } from "@api/common";
+import type { ApiResponse, ListResponse } from "@api/common";
 import axiosClient from "../index";
-import { Product } from "@interfaces/pages/product";
+import type { Product } from "@interfaces/pages/product";
 
 const productApi = {
   getAll: (): Promise<ApiResponse<ListResponse<Product>>> =>

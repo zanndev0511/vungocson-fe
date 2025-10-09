@@ -1,5 +1,5 @@
-import { ApiResponse, ListResponse } from "@api/common";
-import { Category } from "@interfaces/pages/category";
+import type { ApiResponse, ListResponse } from "@api/common";
+import type { Category } from "@interfaces/pages/category";
 import axiosClient from "../index";
 
 const categoryApi = {

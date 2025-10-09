@@ -1,6 +1,6 @@
 import { ICONS } from "@constants/icons";
 import { IMAGES } from "@constants/image";
-import { OrderDetailProps } from "@interfaces/pages/orderDetails";
+import type { OrderDetailProps } from "@interfaces/pages/orderDetails";
 import "@styles/pages/orderDetail.scss";
 
 import React, { useEffect } from "react";

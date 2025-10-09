@@ -1,5 +1,5 @@
 import { ICONS } from "@constants/icons";
-import { QuantityProps } from "@interfaces/components/quantity";
+import type { QuantityProps } from "@interfaces/components/quantity";
 import "@styles/components/quantity.scss";
 import React, { useEffect, useState } from "react";
 

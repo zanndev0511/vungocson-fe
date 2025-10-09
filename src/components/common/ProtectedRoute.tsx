@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import axiosClient from "@api/index";
 import { toast } from "react-toastify";
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode;
+ }) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(true);

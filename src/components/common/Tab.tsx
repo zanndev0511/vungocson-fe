@@ -1,4 +1,4 @@
-import { TabsProps } from "@interfaces/components/tab";
+import type { TabsProps } from "@interfaces/components/tab";
 import "@styles/components/tab.scss";
 import React, { useState } from "react";
 

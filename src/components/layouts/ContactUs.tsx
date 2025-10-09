@@ -1,6 +1,6 @@
 import { Button } from "@components/common/Button";
 import { ICONS } from "@constants/icons";
-import { ContactUsProps } from "@interfaces/pages/contactUs";
+import type { ContactUsProps } from "@interfaces/pages/contactUs";
 import "@styles/pages/contactUs.scss";
 import { useEffect } from "react";
 export const ContactUs: React.FC<ContactUsProps> = (props) => {

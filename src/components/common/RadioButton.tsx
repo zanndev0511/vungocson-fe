@@ -1,4 +1,4 @@
-import { RadioButtonProps } from "@interfaces/components/radioButton";
+import type { RadioButtonProps } from "@interfaces/components/radioButton";
 import "@styles/components/radioButton.scss";
 import React from "react";
 

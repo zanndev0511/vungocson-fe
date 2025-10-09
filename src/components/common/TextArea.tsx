@@ -1,4 +1,4 @@
-import { TextAreaProps } from '@interfaces/components/textArea'
+import type { TextAreaProps } from '@interfaces/components/textArea';
 import React from 'react'
 import "@styles/components/textarea.scss";
 

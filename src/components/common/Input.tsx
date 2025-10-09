@@ -1,6 +1,6 @@
 import React from "react";
 import "@styles/components/input.scss";
-import { InputProps } from "@interfaces/components/input";
+import type { InputProps } from "@interfaces/components/input";
 
 export const Input: React.FC<InputProps> = (props) => {
   const { id, label, type, value, onChange, onKeyDown, required, readonly, classNameLabel, className } =

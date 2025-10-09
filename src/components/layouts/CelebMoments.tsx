@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CelebMomentProps } from "@interfaces/components/celebMoments";
+import type { CelebMomentProps } from "@interfaces/components/celebMoments";
 import "@styles/components/celebMoments.scss";
 
 export const CelebMoments: React.FC<CelebMomentProps> = (props) => {

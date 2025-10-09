@@ -1,7 +1,7 @@
-import { ApiResponse } from "@api/common";
+import type { ApiResponse } from "@api/common";
 import axiosClient from "../index";
-import { Users } from "@interfaces/pages/users";
-import { ProfileForm } from "@interfaces/pages/account";
+import type { Users } from "@interfaces/pages/users";
+import type { ProfileForm } from "@interfaces/pages/account";
 
 const usersApi = {
   updateProfile: (id: string, data: Partial<ProfileForm>): Promise<ApiResponse<Users>> =>

@@ -3,7 +3,7 @@ import "@styles/pages/runway.scss";
 import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 import { useNavigate } from "react-router-dom";
-import { Runway } from "@interfaces/pages/runway";
+import type { Runway } from "@interfaces/pages/runway";
 import runwayApi from "@api/services/runwayApi";
 
 export const RunWay: React.FC = () => {

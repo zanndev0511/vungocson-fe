@@ -1,5 +1,5 @@
-import { ApiResponse } from "@api/common";
-import { InvoiceResponse } from "@interfaces/pages/payment";
+import type { ApiResponse } from "@api/common";
+import type { InvoiceResponse } from "@interfaces/pages/payment";
 import axiosClient from "../index";
 
 export const invoiceApi = {

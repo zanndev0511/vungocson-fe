@@ -1,6 +1,6 @@
-import { ApiResponse } from "@api/common";
+import type { ApiResponse } from "@api/common";
 import axiosClient from "../index";
-import { WishlistItem, AddToWishlistPayload } from "@interfaces/pages/wishlist";
+import type { WishlistItem, AddToWishlistPayload } from "@interfaces/pages/wishlist";
 
 const wishlistApi = {
   getAll: (): Promise<ApiResponse<WishlistItem[]>> =>

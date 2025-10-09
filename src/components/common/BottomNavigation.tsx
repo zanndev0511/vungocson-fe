@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BottomNavigationProps, NavItem } from "@interfaces/components/bottomNavigation";
+import type { BottomNavigationProps, NavItem } from "@interfaces/components/bottomNavigation";
 import { Button } from "./Button";
 import { useNavigate } from "react-router-dom";
 

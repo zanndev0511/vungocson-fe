@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalProps } from "@interfaces/components/modal";
+import type { ModalProps } from "@interfaces/components/modal";
 import "@styles/components/modal.scss";
 import { ICONS } from "@constants/icons";
 
@@ -50,8 +50,4 @@ const Modal: React.FC<ModalProps> = (props) => {
   );
 };
 
-Modal.defaultProps = {
-  isButton: true,
-  isCancel: true,
-};
 export default Modal;
