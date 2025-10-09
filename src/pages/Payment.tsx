@@ -124,6 +124,14 @@ export const Payment: React.FC = () => {
     }
   };
 
+  const removeVietnameseTones = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D");
+  };
+
   const subtotal = cartItems.reduce(
     (acc, item) => acc + Number(item.product.price),
     0
@@ -499,22 +507,26 @@ export const Payment: React.FC = () => {
               <div className="payment-address-done">
                 <div className="d-flex flex-col items-start gap-2">
                   <p className="text-font-semibold font-size-sm text-start text-uppercase">
-                    {selectedAddress?.lastName} {selectedAddress?.firstName}
+                    {removeVietnameseTones(selectedAddress?.lastName)}
+                    {removeVietnameseTones(selectedAddress?.firstName)}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {selectedAddress?.street}
+                    {removeVietnameseTones(selectedAddress?.street)}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {selectedAddress?.city}
+                    {removeVietnameseTones(selectedAddress?.city)}
                     {selectedAddress?.city && ", "}
-                    {
+                    {removeVietnameseTones(
                       State.getStatesOfCountry(selectedAddress?.country).find(
                         (s) => s.isoCode === selectedAddress?.state
-                      )?.name
-                    }
+                      )?.name ?? ""
+                    )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {Country.getCountryByCode(selectedAddress?.country)?.name}
+                    {removeVietnameseTones(
+                      Country.getCountryByCode(selectedAddress?.country)
+                        ?.name ?? ""
+                    )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
                     {selectedAddress?.zipCode}
@@ -542,22 +554,26 @@ export const Payment: React.FC = () => {
               <div className="payment-address-done">
                 <div className="d-flex flex-col items-start gap-2">
                   <p className="text-font-semibold font-size-sm text-start text-uppercase">
-                    {addAddress?.lastName} {addAddress?.firstName}
+                    {removeVietnameseTones(addAddress?.lastName ?? "")}{" "}
+                    {removeVietnameseTones(addAddress?.firstName ?? "")}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {addAddress?.street}
+                    {removeVietnameseTones(addAddress?.street ?? "")}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {addAddress?.city}
+                    {removeVietnameseTones(addAddress?.city ?? "")}
                     {addAddress?.city && ", "}
-                    {
+                    {removeVietnameseTones(
                       State.getStatesOfCountry(addAddress?.country).find(
                         (s) => s.isoCode === addAddress?.state
-                      )?.name
-                    }
+                      )?.name ?? ""
+                    )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {Country.getCountryByCode(addAddress?.country || "")?.name}
+                    {removeVietnameseTones(
+                      Country.getCountryByCode(addAddress?.country || "")
+                        ?.name ?? ""
+                    )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
                     {addAddress?.zipCode}
@@ -605,22 +621,25 @@ export const Payment: React.FC = () => {
                       )}
                       <div className="d-flex flex-col items-start mt-2 ml-2">
                         <p className="text-font-light font-size-sm text-uppercase">
-                          {addr?.firstName} {addr?.lastName}
+                          {removeVietnameseTones(addr?.firstName)}{" "}
+                          {removeVietnameseTones(addr?.lastName)}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
-                          {addr?.street}
+                          {removeVietnameseTones(addr?.street)}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
-                          {addr?.city}
+                          {removeVietnameseTones(addr?.city)}
                           {addr?.city && ", "}
-                          {
+                          {removeVietnameseTones(
                             State.getStatesOfCountry(addr?.country).find(
                               (s) => s.isoCode === addr?.state
-                            )?.name
-                          }
+                            )?.name ?? ""
+                          )}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
-                          {Country.getCountryByCode(addr?.country)?.name}
+                          {removeVietnameseTones(
+                            Country.getCountryByCode(addr?.country)?.name ?? ""
+                          )}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
                           {addr?.zipCode}
@@ -972,25 +991,26 @@ export const Payment: React.FC = () => {
                 {isSameAddress && Object.keys(addAddress).length !== 0 && (
                   <div className="d-flex flex-col gap-2">
                     <p className="text-font-semibold font-size-sm text-start text-uppercase">
-                      {addAddress.firstName} {addAddress.lastName}
+                      {removeVietnameseTones(addAddress.firstName ?? "")}{" "}
+                      {removeVietnameseTones(addAddress.lastName ?? "")}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {addAddress.street}
+                      {removeVietnameseTones(addAddress.street ?? "")}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {addAddress.city}
+                      {removeVietnameseTones(addAddress.city ?? "")}
                       {addAddress.city ?? ", "}
-                      {
+                      {removeVietnameseTones(
                         State.getStatesOfCountry(selectedAddress?.country).find(
                           (s) => s.isoCode === addAddress?.state
-                        )?.name
-                      }
+                        )?.name ?? ""
+                      )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {
+                      {removeVietnameseTones(
                         Country.getCountryByCode(addAddress?.country || "")
-                          ?.name
-                      }
+                          ?.name ?? ""
+                      )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {addAddress.zipCode}
@@ -1003,19 +1023,20 @@ export const Payment: React.FC = () => {
                 {isSameAddress && selectedAddress && (
                   <div className="d-flex flex-col gap-2">
                     <p className="text-font-semibold font-size-sm text-start text-uppercase">
-                      {selectedAddress.firstName} {selectedAddress.lastName}
+                      {removeVietnameseTones(selectedAddress.firstName)}{" "}
+                      {removeVietnameseTones(selectedAddress.lastName)}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {selectedAddress.street}
+                      {removeVietnameseTones(selectedAddress.street)}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {selectedAddress.city}
+                      {removeVietnameseTones(selectedAddress.city)}
                       {selectedAddress.city && ", "}
-                      {
+                      {removeVietnameseTones(
                         State.getStatesOfCountry(selectedAddress?.country).find(
                           (s) => s.isoCode === selectedAddress?.state
-                        )?.name
-                      }
+                        )?.name ?? ""
+                      )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {
@@ -1034,24 +1055,25 @@ export const Payment: React.FC = () => {
                 {!isSameAddress && (
                   <div className="d-flex flex-col gap-2">
                     <p className="text-font-semibold font-size-sm text-start text-uppercase">
-                      {formPaymentData.firstName} {formPaymentData.lastName}
+                      {removeVietnameseTones(formPaymentData.firstName)}{" "}
+                      {removeVietnameseTones(formPaymentData.lastName)}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {formPaymentData?.address1}
+                      {removeVietnameseTones(formPaymentData?.address1)}
                     </p>
                     {formPaymentData?.address2 && (
                       <p className="text-font-regular font-size-sm text-start">
-                        {formPaymentData?.address2}
+                        {removeVietnameseTones(formPaymentData?.address2)}
                       </p>
                     )}
                     <p className="text-font-regular font-size-sm text-start">
-                      {formPaymentData.city}
+                      {removeVietnameseTones(formPaymentData.city)}
                       {formPaymentData.city && ", "}
-                      {
+                      {removeVietnameseTones(
                         State.getStatesOfCountry(formPaymentData?.country).find(
                           (s) => s.isoCode === formPaymentData?.state
-                        )?.name
-                      }
+                        )?.name ?? ""
+                      )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {formPaymentData.postcode}
