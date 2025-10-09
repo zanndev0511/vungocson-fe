@@ -10,12 +10,12 @@ import Header from "@components/common/Header";
 import type { RegisterForm } from "@interfaces/pages/register";
 import authApi from "@api/services/authApi";
 import Modal from "@components/common/Modal";
+import { toast } from "react-toastify";
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isModal, setIsModal] = useState<boolean>(false);
-  const [notification, setNotification] = useState<string>("");
   const currentYear = new Date().getFullYear();
   const [day, setDay] = useState<string>("01");
   const [year, setYear] = useState(currentYear);
@@ -112,11 +112,22 @@ export const SignUp: React.FC = () => {
         birthday: formattedBirthday,
       };
       await authApi.register(payload);
-      setIsModal(true)
-      setNotification('Account created successfully. Please Login.')
+      setIsModal(true);
+      toast.success("Account created successfully. Please Login.", {
+        className: "result-toast text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
       navigate("/");
     } catch (error: any) {
-      setNotification(error.response?.data?.message || "Failed to create user")
+      toast.error(error.response?.data?.message ||
+        "Registration failed. Please check your details and try again.",
+        {
+          className: "result-toast text-font-regular font-size-sm",
+          autoClose: 5000,
+          position: "top-center",
+        }
+      );
       console.error("Create user failed", error);
     } finally {
       setLoading(false);
@@ -173,36 +184,33 @@ export const SignUp: React.FC = () => {
     <>
       <Header backgroundColor="black" />
       {isModal && (
-              <div className="signUp-modal d-flex justify-center items-center fullsize">
-                <Modal
-                  onClose={() => setIsModal(false)}
-                  isCancel={false}
-                  isButton={false}
-                  children={
-                    <div className="d-flex flex-col items-center">
-                      <div className="d-flex flex-row items-center justify-start gap-2">
-                        <div className="signUp-modal-done d-flex flex-col items-center justify-center">
-                          <img
-                            src={ICONS.done}
-                            alt=""
-                            className="signUp-modal-done-icon"
-                          />
-                        </div>
-                        <p className="font-size-regular text-font-sm">
-                          {notification}
-                        </p>
-                      </div>
-                      <button
-                        className="signUp-modal-button mt-4"
-                        onClick={() => navigate("/")}
-                      >
-                        OK
-                      </button>
-                    </div>
-                  }
-                />
+        <div className="signUp-modal d-flex justify-center items-center fullsize">
+          <Modal
+            onClose={() => setIsModal(false)}
+            isCancel={false}
+            isButton={false}
+            children={
+              <div className="d-flex flex-col items-center">
+                <div className="d-flex flex-row items-center justify-start gap-2">
+                  <div className="signUp-modal-done d-flex flex-col items-center justify-center">
+                    <img
+                      src={ICONS.done}
+                      alt=""
+                      className="signUp-modal-done-icon"
+                    />
+                  </div>
+                </div>
+                <button
+                  className="signUp-modal-button mt-4"
+                  onClick={() => navigate("/")}
+                >
+                  OK
+                </button>
               </div>
-            )}
+            }
+          />
+        </div>
+      )}
       <div className="signUp d-flex flex-col items-center">
         <div className="signUp-content d-flex flex-col justify-center items-center mt-5">
           <p className="text-font-semibold font-size-lg">CREATE ACCOUNT</p>
@@ -246,36 +254,37 @@ export const SignUp: React.FC = () => {
                   onClick={() => toggleHidePass("new")}
                 />
               </div>
-
-              <ul className="list-disc pl-6 text-font-regular font-size-sm text-start mt-2">
-                <li
-                  className={`${
-                    !passwordValid.isLengthValid
-                      ? "signUp-content-input-warning"
-                      : "signUp-content-input-correct"
-                  }`}
-                >
-                  Please enter at least 8 characters.
-                </li>
-                <li
-                  className={`${
-                    !passwordValid.hasNumber
-                      ? "signUp-content-input-warning"
-                      : "signUp-content-input-correct"
-                  }`}
-                >
-                  Please enter at least one number.
-                </li>
-                <li
-                  className={`${
-                    !passwordValid.hasSpecialChar
-                      ? "signUp-content-input-warning"
-                      : "signUp-content-input-correct"
-                  }`}
-                >
-                  Please enter one special character (!+,-./:;&lt;=&quot;?@).
-                </li>
-              </ul>
+              <div className="signUp-list-wrap">
+                <ul className="list-disc pl-6 text-font-regular font-size-sm text-start mt-2">
+                  <li
+                    className={`${
+                      !passwordValid.isLengthValid
+                        ? "signUp-content-input-warning"
+                        : "signUp-content-input-correct"
+                    }`}
+                  >
+                    Please enter at least 8 characters.
+                  </li>
+                  <li
+                    className={`${
+                      !passwordValid.hasNumber
+                        ? "signUp-content-input-warning"
+                        : "signUp-content-input-correct"
+                    }`}
+                  >
+                    Please enter at least one number.
+                  </li>
+                  <li
+                    className={`${
+                      !passwordValid.hasSpecialChar
+                        ? "signUp-content-input-warning"
+                        : "signUp-content-input-correct"
+                    }`}
+                  >
+                    Please enter one special character (!+,-./:;&lt;=&quot;?@).
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="signUp-content-input mt-3">
               <div className="signUp-content-password d-flex flex-row justify-center items-center">

@@ -93,4 +93,12 @@
       width: 40%;
     }
   }
+  &-list {
+    &-wrap {
+      padding-left: 32px;
+      @media (max-width: 1024px) {
+        padding-left: 20px;
+      }
+    }
+  }
 }
