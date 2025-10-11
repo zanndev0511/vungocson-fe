@@ -23,6 +23,7 @@ interface CartItem {
     name: string;
     productGallery: string[];
     price: number;
+    slug: string;
   };
 }
 

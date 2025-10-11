@@ -194,7 +194,7 @@ export const Login: React.FC<LoginProps> = (props) => {
                 onClick={authApi.loginWithFacebook}
               >
                 <img src={ICONS.facebook} alt="" />
-                <p className="text-font-regular font-size-base ml-3">
+                <p className="login-fontSize-base text-font-regular ml-3">
                   Continue with Facebook
                 </p>
               </div>
@@ -203,7 +203,7 @@ export const Login: React.FC<LoginProps> = (props) => {
                 onClick={authApi.loginWithGoogle}
               >
                 <img src={ICONS.google} alt="" />
-                <p className="text-font-regular font-size-base ml-3">
+                <p className="login-fontSize-base text-font-regular ml-3">
                   Continue with Google
                 </p>
               </div>

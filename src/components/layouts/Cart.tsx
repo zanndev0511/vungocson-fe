@@ -99,8 +99,13 @@ export const Cart: React.FC<CartProps> = (props) => {
             )}
             {cartItems.map((item) => (
               <div
-                className="d-flex flex-col items-start width-fullsize mt-4"
+                className="d-flex flex-col items-start width-fullsize cursor-pointer mt-4"
                 key={item.id}
+                onClick={() =>
+                  navigate(
+                    `/shop/product/${item.product.id}/${item.product.slug}`
+                  )
+                }
               >
                 <div className="cart-item d-flex flex-row justify-start items-start width-fullsize">
                   <div className="cart-imageProduct-wrap">
@@ -117,15 +122,17 @@ export const Cart: React.FC<CartProps> = (props) => {
                     <p className="text-font-semibold font-size-base text-uppercase width-fullsize text-start">
                       {item.product.name}
                     </p>
-                    {item.category && <div className="d-flex flex-row items-center font-size-sm width-fullsize mt-2">
-                      <p className="cart-label text-font-regular text-start">
-                        Category:
-                      </p>
-                      <p className="cart-label-value text-font-semibold text-start text-capitalize">
-                        {item.category}
-                      </p>
-                    </div>}
-                    
+                    {item.category && (
+                      <div className="d-flex flex-row items-center font-size-sm width-fullsize mt-2">
+                        <p className="cart-label text-font-regular text-start">
+                          Category:
+                        </p>
+                        <p className="cart-label-value text-font-semibold text-start text-capitalize">
+                          {item.category}
+                        </p>
+                      </div>
+                    )}
+
                     <div className="d-flex flex-row items-center font-size-sm width-fullsize mt-2">
                       <p className="cart-label text-font-regular text-start">
                         Color:
@@ -142,7 +149,10 @@ export const Cart: React.FC<CartProps> = (props) => {
                         {item.size === "custom" ? "Custom" : item.size}
                       </p>
                     </div>
-                    <div className="d-flex flex-row justify-between items-center width-fullsize mt-3">
+                    <div
+                      className="d-flex flex-row justify-between items-center width-fullsize mt-3"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <Quantity
                         className="cart-quantity-wrap"
                         value={item.quantity}
@@ -154,7 +164,10 @@ export const Cart: React.FC<CartProps> = (props) => {
                   </div>
                   <div
                     className="d-flex flex-row"
-                    onClick={() => handleRemoveItem(Number(item.id))}
+                    onClick={(e) => {
+                      handleRemoveItem(Number(item.id));
+                      e.stopPropagation();
+                    }}
                   >
                     <img src={ICONS.trash} alt="" className="cart-remove" />
                   </div>
@@ -176,7 +189,7 @@ export const Cart: React.FC<CartProps> = (props) => {
           <div className="d-flex justify-center width-fullsize mb-5">
             <button
               className="cart-button text-font-regular"
-              onClick={() => navigate("/checkout")}
+              onClick={() => (window.location.href = "/checkout")}
             >
               PROCEED TO CHECKOUT
             </button>

@@ -133,7 +133,7 @@ export const Payment: React.FC = () => {
   };
 
   const subtotal = cartItems.reduce(
-    (acc, item) => acc + Number(item.product.price),
+    (acc, item) => acc + Number(item.price),
     0
   );
   const tax = 0;
@@ -1537,8 +1537,8 @@ export const Payment: React.FC = () => {
                     style: "currency",
                     currency: "USD",
                   }).format(
-                    Number(grandTotal.toFixed(2)) +
-                      (grandTotal < 2276.02 ? 56.9 : 0)
+                    Number(subtotal.toFixed(2)) +
+                      (subtotal < 2276.02 ? 56.9 : 0)
                   )}
                 </p>
               </div>

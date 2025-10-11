@@ -110,6 +110,7 @@ export const MadeToOrder: React.FC = () => {
             title="MADE-TO-ORDER"
             description="To begin crafting your exclusive VUNGOC&SON piece, please complete the form below. Our team will reach out promptly to guide you through the next steps."
             namebtn={loading ? "Loading..." : "BOOK AN APPOINTMENT"}
+            isCancel
             onClick={handleSubmit}
             onClose={() => setShowModal(false)}
             children={
