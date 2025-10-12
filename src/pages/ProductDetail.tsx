@@ -188,6 +188,36 @@ export const ProductDetail: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const fetchCollectionById = async (): Promise<Collection | undefined> => {
+    try {
+      if (!product.collection) return;
+      const fetchedCollection = await collectionApi.getById(product.collection);
+      const activeProducts =
+        fetchedCollection.products?.filter((p) => p.status === "active") || [];
+
+      const filteredCollection = {
+        ...fetchedCollection,
+        products: activeProducts,
+      };
+      setCollection(filteredCollection);
+    } catch (err) {
+      console.error("Error fetching collection by id:", err);
+      setCollection({} as Collection);
+    }
+  };
+
+  const fetchProductById = async (): Promise<Product | undefined> => {
+    try {
+      if (!id) return;
+      const fetchedProduct = await productApi.getById(id);
+      setProduct(fetchedProduct);
+      return fetchedProduct;
+    } catch (err) {
+      console.error("Error fetching product by id:", err);
+      setProduct({} as Product);
+    }
+  };
+
   const handleAddToCart = async () => {
     const { size, color, quantity, category, price } = itemCart;
     if (!validate()) return;
@@ -262,43 +292,10 @@ export const ProductDetail: React.FC = () => {
     product.color?.map((c): [string, string] => [c, c]) ?? [];
 
   useEffect(() => {
-    const fetchProductById = async (): Promise<Product | undefined> => {
-      try {
-        if (!id) return;
-        const fetchedProduct = await productApi.getById(id);
-        setProduct(fetchedProduct);
-        return fetchedProduct;
-      } catch (err) {
-        console.error("Error fetching product by id:", err);
-        setProduct({} as Product);
-      }
-    };
-
     fetchProductById();
   }, [id]);
 
   useEffect(() => {
-    const fetchCollectionById = async (): Promise<Collection | undefined> => {
-      try {
-        if (!product.collection) return;
-        const fetchedCollection = await collectionApi.getById(
-          product.collection
-        );
-        const activeProducts =
-          fetchedCollection.products?.filter((p) => p.status === "active") ||
-          [];
-
-        const filteredCollection = {
-          ...fetchedCollection,
-          products: activeProducts,
-        };
-        setCollection(filteredCollection);
-      } catch (err) {
-        console.error("Error fetching collection by id:", err);
-        setCollection({} as Collection);
-      }
-    };
-
     fetchCollectionById();
   }, [product.collection]);
 
@@ -318,6 +315,7 @@ export const ProductDetail: React.FC = () => {
     } else {
       document.body.style.overflow = "auto";
     }
+
     return () => {
       document.body.style.overflow = "auto";
     };

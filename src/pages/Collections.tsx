@@ -92,7 +92,7 @@ export const Collections: React.FC = () => {
 
   useEffect(() => {
     fetchCollectionById();
-  }, [id, fetchCollectionById]);
+  }, [id]);
 
   useEffect(() => {
     if (!collection || !collection.banner || collection.banner.length === 0)
