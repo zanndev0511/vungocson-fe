@@ -661,8 +661,7 @@ export const Payment: React.FC = () => {
                   />
                 </div>
 
-                {addresses.length === 0 ||
-                  (isAddAddress && (
+                {(addresses.length === 0 || isAddAddress) && (
                     <div className="d-flex flex-col mt-3">
                       <div className="d-flex flex-row width-fullsize gap-3 mt-3">
                         <div className="width-fullsize">
@@ -829,7 +828,7 @@ export const Payment: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  )}
 
                 <div className="d-flex flex-col mt-4">
                   <p className="text-font-semibold font-size-md text-uppercase text-start">
