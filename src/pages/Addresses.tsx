@@ -133,6 +133,14 @@ export const Addresses: React.FC = () => {
       ...prev,
       [field]: value,
     }));
+
+    if (field === "country") {
+      address.state = "";
+      address.city = "";
+    }
+    if (field === "state") {
+      address.city = "";
+    }
   };
 
   const handleChangeEdit = <K extends keyof AddressFormData>(
@@ -402,7 +410,7 @@ export const Addresses: React.FC = () => {
                 <div className="mt-3">
                   <Select
                     label="COUNTRY"
-                    options={countries.map((c) => [c.isoCode, c.name])}
+                    options={countries.map((c) => [c.name, c.name])}
                     value={currentAddress.country}
                     onChange={(e) => handleChangeAdd("country", e.target.value)}
                     required
@@ -418,7 +426,7 @@ export const Addresses: React.FC = () => {
                     <Select
                       label="State/Province/Region"
                       value={address.state ? address.state : ""}
-                      options={states.map((s) => [s.isoCode, s.name])}
+                      options={states.map((s) => [s.name, s.name])}
                       onChange={(e) => handleChangeAdd("state", e.target.value)}
                       required
                     />
@@ -431,7 +439,7 @@ export const Addresses: React.FC = () => {
                   <div className="width-fullsize">
                     <Select
                       label="City/District"
-                      value={address.city}
+                      value={address.city ? address.city : ""}
                       options={cities.map((c) => [c.name, c.name])}
                       onChange={(e) => handleChangeAdd("city", e.target.value)}
                       required
@@ -641,7 +649,7 @@ export const Addresses: React.FC = () => {
                 <div className="mt-3">
                   <Select
                     label="COUNTRY"
-                    options={countries.map((c) => [c.isoCode, c.name])}
+                    options={countries.map((c) => [c.name, c.name])}
                     value={addressEdit.country}
                     onChange={(e) =>
                       handleChangeEdit("country", e.target.value)
@@ -659,7 +667,7 @@ export const Addresses: React.FC = () => {
                     <Select
                       label="State/Province/Region"
                       value={addressEdit.state}
-                      options={states.map((s) => [s.isoCode, s.name])}
+                      options={states.map((s) => [s.name, s.name])}
                       onChange={(e) => handleStateChange(e.target.value)}
                       required
                     />
@@ -848,8 +856,7 @@ export const Addresses: React.FC = () => {
                         <p>
                           {item.city}
                           {item.city && ", "}
-                          {states.find((s) => s.isoCode === item.state)?.name ||
-                            ""}
+                          {item.state}
                         </p>
                         <p>{item.zipCode}</p>
                         <p>{item.country}</p>

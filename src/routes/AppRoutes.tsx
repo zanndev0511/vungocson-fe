@@ -33,7 +33,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Home />} />
     <Route path="/shop" element={<Shop />} />
     <Route path="/collection/:id/:slug" element={<Collections />} />
-     <Route path="/made-to-order" element={<MadeToOrder />} />
+    <Route path="/made-to-order" element={<MadeToOrder />} />
     <Route path="/about" element={<About />} />
     <Route path="/news" element={<News />} />
     <Route path="/news/:id/:slug" element={<NewsDetails />} />

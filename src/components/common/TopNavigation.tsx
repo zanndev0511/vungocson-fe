@@ -123,7 +123,7 @@ const TopNavigation: React.FC<TopNavigationProps> = (props) => {
           }}
         />
       </div>
-      <div className="navigation-control-menu-wrap">
+      <div className="navigation-control-menu-wrap cursor-pointer">
         <img
           src={ICONS.burger_menu}
           alt="menu"

@@ -25,6 +25,7 @@ import { useCountriesStatesCities } from "@hooks/useCountriesStatesCities";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
+  const tabRef = useRef<HTMLDivElement>(null);
   const hostedFieldsInstance = useRef<any>(null);
   const [clientToken, setClientToken] = useState<string>("");
 
@@ -342,9 +343,13 @@ export const Payment: React.FC = () => {
   const handlePayment = async () => {
     if (currentTab === 0) {
       const isValid = await handleValidateCard();
-      if (isValid) setIsDonePayment(true);
+      if (isValid) {
+        setIsDonePayment(true);
+        tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      } 
     } else if (currentTab === 1) {
       setIsDonePayment(true);
+      tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -366,8 +371,14 @@ export const Payment: React.FC = () => {
     setFormPaymentData((prev) => ({
       ...prev,
       [field]: value,
-      ...(field === "country" ? { state: "", city: "" } : {}),
     }));
+     if (field === "country") {
+      formPaymentData.state = "";
+      formPaymentData.city = "";
+    }
+    if (field === "state") {
+      formPaymentData.city = "";
+    }
   };
   const handleChangeAdd = <K extends keyof AddressFormData>(
     field: K,
@@ -377,6 +388,13 @@ export const Payment: React.FC = () => {
       ...prev,
       [field]: value,
     }));
+    if (field === "country") {
+      addAddress.state = "";
+      addAddress.city = "";
+    }
+    if (field === "state") {
+      addAddress.city = "";
+    }
   };
 
   const fetchClientToken = async () => {
@@ -450,7 +468,7 @@ export const Payment: React.FC = () => {
             </p>
             <p className="text-font-regular font-size-sm">{email}</p>
           </div>
-          <div className="d-flex flex-col">
+          <div ref={tabRef} className="d-flex flex-col">
             <div className="d-flex flex-row items-center mt-4">
               <div className="d-flex flex-row items-center width-fullsize">
                 <div
@@ -503,18 +521,10 @@ export const Payment: React.FC = () => {
                     {removeVietnameseTones(selectedAddress?.city)}
                     {selectedAddress?.city && ", "}
 
-                    {removeVietnameseTones(
-                      stateList.find(
-                        (s) => s.isoCode === selectedAddress?.state
-                      )?.name ?? ""
-                    )}
+                    {removeVietnameseTones(selectedAddress.state ?? "")}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {removeVietnameseTones(
-                      countries.find(
-                        (c) => c.isoCode === selectedAddress?.country
-                      )?.name ?? ""
-                    )}
+                    {removeVietnameseTones(selectedAddress.country)}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
                     {selectedAddress?.zipCode}
@@ -551,18 +561,10 @@ export const Payment: React.FC = () => {
                   <p className="text-font-regular font-size-sm text-start ">
                     {removeVietnameseTones(addAddress?.city ?? "")}
                     {addAddress?.city && ", "}
-                    {removeVietnameseTones(
-                      stateList.find(
-                        (s) => s.isoCode === selectedAddress?.state
-                      )?.name ?? ""
-                    )}
+                    {removeVietnameseTones(addAddress?.state ?? "")}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
-                    {removeVietnameseTones(
-                      countries.find(
-                        (c) => c.isoCode === selectedAddress?.country
-                      )?.name ?? ""
-                    )}
+                    {removeVietnameseTones(addAddress?.country ?? "")}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
                     {addAddress?.zipCode}
@@ -576,7 +578,8 @@ export const Payment: React.FC = () => {
                     Express
                   </p>
                   <p className="text-font-regular font-size-sm text-start">
-                    US$ 0
+                    US${" "}
+                    {Number(grandTotal.toFixed(2)) < 2276.02 ? "56.90" : "0"}
                   </p>
                   <p className="text-font-regular font-size-sm text-start">
                     You will be notified when your item is shipped.
@@ -619,18 +622,10 @@ export const Payment: React.FC = () => {
                         <p className="text-font-light font-size-sm text-start">
                           {removeVietnameseTones(addr?.city)}
                           {addr?.city && ", "}
-                          {removeVietnameseTones(
-                            stateList.find(
-                              (s) => s.isoCode === addAddress?.state
-                            )?.name ?? ""
-                          )}
+                          {removeVietnameseTones(addr.state ?? "")}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
-                          {removeVietnameseTones(
-                            countries.find(
-                              (c) => c.isoCode === selectedAddress?.country
-                            )?.name ?? ""
-                          )}
+                          {removeVietnameseTones(addr.country ?? "")}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
                           {addr?.zipCode}
@@ -662,173 +657,173 @@ export const Payment: React.FC = () => {
                 </div>
 
                 {(addresses.length === 0 || isAddAddress) && (
-                    <div className="d-flex flex-col mt-3">
-                      <div className="d-flex flex-row width-fullsize gap-3 mt-3">
-                        <div className="width-fullsize">
-                          <Input
-                            id={"firstname"}
-                            label={"First Name"}
-                            type="text"
-                            value={addAddress?.firstName}
-                            required
-                            onChange={(e) =>
-                              handleChangeAdd("firstName", e.target.value)
-                            }
-                          />
-                          {errorsInput.firstName && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.firstName}
-                            </p>
-                          )}
-                        </div>
-                        <div className="width-fullsize">
-                          <Input
-                            id={"lastname"}
-                            label={"Last Name"}
-                            type="text"
-                            value={addAddress?.lastName}
-                            required
-                            onChange={(e) =>
-                              handleChangeAdd("lastName", e.target.value)
-                            }
-                          />
-                          {errorsInput.lastName && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.lastName}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="mt-3">
-                        <Select
-                          label="COUNTRY"
-                          options={countries.map((c) => [c.isoCode, c.name])}
-                          value={addAddress!.country}
-                          onChange={(e) =>
-                            handleChangeAdd("country", e.target.value)
-                          }
+                  <div className="d-flex flex-col mt-3">
+                    <div className="d-flex flex-row width-fullsize gap-3 mt-3">
+                      <div className="width-fullsize">
+                        <Input
+                          id={"firstname"}
+                          label={"First Name"}
+                          type="text"
+                          value={addAddress?.firstName}
                           required
+                          onChange={(e) =>
+                            handleChangeAdd("firstName", e.target.value)
+                          }
                         />
-                        {errorsInput.country && (
+                        {errorsInput.firstName && (
                           <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                            {errorsInput.country}
+                            {errorsInput.firstName}
                           </p>
                         )}
                       </div>
-                      <div className="addresses-modal-select-wrap width-fullsize gap-3 mt-3">
-                        <div className="width-fullsize">
-                          <Select
-                            label="State/Province/Region"
-                            value={addAddress?.state}
-                            options={stateList.map((s) => [s.isoCode, s.name])}
-                            onChange={(e) =>
-                              handleChangeAdd("state", e.target.value)
-                            }
-                            required
-                          />
-                          {errorsInput.state && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.state}
-                            </p>
-                          )}
-                        </div>
-                        <div className="width-fullsize">
-                          <Select
-                            label="City/District"
-                            value={addAddress?.city}
-                            options={cityList.map((c) => [c.name, c.name])}
-                            onChange={(e) =>
-                              handleChangeAdd("city", e.target.value)
-                            }
-                            required
-                          />
-                          {errorsInput.city && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.city}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="addresses-modal-select-wrap gap-3 mt-3">
-                        <div className="width-fullsize">
-                          <Input
-                            id={"street"}
-                            type={"text"}
-                            label={"Street Address"}
-                            value={addAddress?.street}
-                            onChange={(e) =>
-                              handleChangeAdd("street", e.target.value)
-                            }
-                            required
-                          />
-                          {errorsInput.street && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.street}
-                            </p>
-                          )}
-                          {errorsInput.zipCode && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.zipCode}
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="">
-                          <Input
-                            id={"postal_code"}
-                            type="text"
-                            label="POSTAL CODE"
-                            value={addAddress?.zipCode}
-                            onChange={(e) =>
-                              handleChangeAdd("zipCode", e.target.value)
-                            }
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="d-flex flex-row mt-3">
-                        <div className="d-flex flex-col justify-center items-start width-fullsize">
-                          <div className=" d-flex flex-row width-fullsize gap-3 mt-2">
-                            <div className="addresses-modal-select-phone">
-                              <Select
-                                label="PHONE CODE"
-                                value={addAddress?.phoneCode}
-                                options={countryCallingCodes.map((c) => [
-                                  `+${c.countryCodes[0]}`,
-                                  `${c.isoCode2} (+${c.countryCodes[0]})`,
-                                ])}
-                                onChange={(e) =>
-                                  handleChangeAdd("phoneCode", e.target.value)
-                                }
-                              />
-                            </div>
-                            <Input
-                              id={"phone"}
-                              type="tel"
-                              label={"Phone"}
-                              value={addAddress?.phone}
-                              onChange={(e) =>
-                                handleChangeAdd("phone", e.target.value)
-                              }
-                              required
-                            />
-                          </div>
-                          {errorsInput.phoneCode && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
-                              {errorsInput.phoneCode}
-                            </p>
-                          )}
-                          {errorsInput.phone && (
-                            <p className="text-font-regular font-size-sm text-start text-red-500 mt-1 ml-1">
-                              {errorsInput.phone}
-                            </p>
-                          )}
-                        </div>
+                      <div className="width-fullsize">
+                        <Input
+                          id={"lastname"}
+                          label={"Last Name"}
+                          type="text"
+                          value={addAddress?.lastName}
+                          required
+                          onChange={(e) =>
+                            handleChangeAdd("lastName", e.target.value)
+                          }
+                        />
+                        {errorsInput.lastName && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                            {errorsInput.lastName}
+                          </p>
+                        )}
                       </div>
                     </div>
-                  )}
+                    <div className="mt-3">
+                      <Select
+                        label="COUNTRY"
+                        options={countries.map((c) => [c.name, c.name])}
+                        value={addAddress!.country}
+                        onChange={(e) =>
+                          handleChangeAdd("country", e.target.value)
+                        }
+                        required
+                      />
+                      {errorsInput.country && (
+                        <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                          {errorsInput.country}
+                        </p>
+                      )}
+                    </div>
+                    <div className="addresses-modal-select-wrap width-fullsize gap-3 mt-3">
+                      <div className="width-fullsize">
+                        <Select
+                          label="State/Province/Region"
+                          value={addAddress?.state ? addAddress.state : ""}
+                          options={stateList.map((s) => [s.name, s.name])}
+                          onChange={(e) =>
+                            handleChangeAdd("state", e.target.value)
+                          }
+                          required
+                        />
+                        {errorsInput.state && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                            {errorsInput.state}
+                          </p>
+                        )}
+                      </div>
+                      <div className="width-fullsize">
+                        <Select
+                          label="City/District"
+                          value={addAddress?.city ? addAddress.city : ''}
+                          options={cityList.map((c) => [c.name, c.name])}
+                          onChange={(e) =>
+                            handleChangeAdd("city", e.target.value)
+                          }
+                          required
+                        />
+                        {errorsInput.city && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                            {errorsInput.city}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="addresses-modal-select-wrap gap-3 mt-3">
+                      <div className="width-fullsize">
+                        <Input
+                          id={"street"}
+                          type={"text"}
+                          label={"Street Address"}
+                          value={addAddress?.street}
+                          onChange={(e) =>
+                            handleChangeAdd("street", e.target.value)
+                          }
+                          required
+                        />
+                        {errorsInput.street && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                            {errorsInput.street}
+                          </p>
+                        )}
+                        {errorsInput.zipCode && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                            {errorsInput.zipCode}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="">
+                        <Input
+                          id={"postal_code"}
+                          type="text"
+                          label="POSTAL CODE"
+                          value={addAddress?.zipCode}
+                          onChange={(e) =>
+                            handleChangeAdd("zipCode", e.target.value)
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="d-flex flex-row mt-3">
+                      <div className="d-flex flex-col justify-center items-start width-fullsize">
+                        <div className=" d-flex flex-row width-fullsize gap-3 mt-2">
+                          <div className="addresses-modal-select-phone">
+                            <Select
+                              label="PHONE CODE"
+                              value={addAddress?.phoneCode}
+                              options={countryCallingCodes.map((c) => [
+                                `+${c.countryCodes[0]}`,
+                                `${c.isoCode2} (+${c.countryCodes[0]})`,
+                              ])}
+                              onChange={(e) =>
+                                handleChangeAdd("phoneCode", e.target.value)
+                              }
+                            />
+                          </div>
+                          <Input
+                            id={"phone"}
+                            type="tel"
+                            label={"Phone"}
+                            value={addAddress?.phone}
+                            onChange={(e) =>
+                              handleChangeAdd("phone", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        {errorsInput.phoneCode && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-2 ml-1">
+                            {errorsInput.phoneCode}
+                          </p>
+                        )}
+                        {errorsInput.phone && (
+                          <p className="text-font-regular font-size-sm text-start text-red-500 mt-1 ml-1">
+                            {errorsInput.phone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="d-flex flex-col mt-4">
                   <p className="text-font-semibold font-size-md text-uppercase text-start">
@@ -913,6 +908,7 @@ export const Payment: React.FC = () => {
                 <div
                   className="payment-button-edit d-flex flex-row justify-end width-fullsize mr-3"
                   onClick={() => {
+                    if (clientToken) initHostedFields();
                     setIsDonePayment(false);
                     checkIsEdit("payment");
                     if (!isDoneAddress) setIsDoneAddress(true);
@@ -989,18 +985,11 @@ export const Payment: React.FC = () => {
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {removeVietnameseTones(addAddress.city ?? "")}
-                      {addAddress.city ?? ", "}
-                      {removeVietnameseTones(
-                        stateList.find((s) => s.isoCode === addAddress?.state)
-                          ?.name ?? ""
-                      )}
+                      {addAddress.city && ", "}
+                      {removeVietnameseTones(addAddress.state ?? "")}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {removeVietnameseTones(
-                        countries.find(
-                          (c) => c.isoCode === selectedAddress?.country
-                        )?.name ?? ""
-                      )}
+                      {removeVietnameseTones(addAddress.country ?? "")}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {addAddress.zipCode}
@@ -1022,17 +1011,10 @@ export const Payment: React.FC = () => {
                     <p className="text-font-regular font-size-sm text-start">
                       {removeVietnameseTones(selectedAddress.city)}
                       {selectedAddress.city && ", "}
-                      {removeVietnameseTones(
-                        stateList.find((s) => s.isoCode === addAddress?.state)
-                          ?.name ?? ""
-                      )}
+                      {removeVietnameseTones(selectedAddress.state ?? "")}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {removeVietnameseTones(
-                        countries.find(
-                          (c) => c.isoCode === selectedAddress?.country
-                        )?.name ?? ""
-                      )}
+                      {removeVietnameseTones(selectedAddress.country)}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {selectedAddress.zipCode}
@@ -1059,10 +1041,11 @@ export const Payment: React.FC = () => {
                     <p className="text-font-regular font-size-sm text-start">
                       {removeVietnameseTones(formPaymentData.city)}
                       {formPaymentData.city && ", "}
-                      {removeVietnameseTones(
-                        stateList.find((s) => s.isoCode === addAddress?.state)
-                          ?.name ?? ""
-                      )}
+                      {removeVietnameseTones(formPaymentData.state ?? "")}
+                      {removeVietnameseTones(formPaymentData.country ?? "")}
+                    </p>
+                    <p className="text-font-regular font-size-sm text-start">
+                      {removeVietnameseTones(formPaymentData.country ?? "")}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {formPaymentData.postcode}
@@ -1263,10 +1246,7 @@ export const Payment: React.FC = () => {
                             <div className="payment-credit-billing width-fullsize gap-3 mt-3">
                               <Select
                                 label="COUNTRY"
-                                options={countries.map((c) => [
-                                  c.isoCode,
-                                  c.name,
-                                ])}
+                                options={countries.map((c) => [c.name, c.name])}
                                 value={formPaymentData!.country}
                                 onChange={(e) =>
                                   handleChangePayment("country", e.target.value)
@@ -1279,7 +1259,7 @@ export const Payment: React.FC = () => {
                                   label="State/Province/Region"
                                   value={formPaymentData?.state}
                                   options={stateListPayment.map((s) => [
-                                    s.isoCode,
+                                    s.name,
                                     s.name,
                                   ])}
                                   onChange={(e) =>
@@ -1327,7 +1307,7 @@ export const Payment: React.FC = () => {
                                   value={
                                     formPaymentData?.phonecode
                                       ? formPaymentData?.phonecode
-                                      : "+84"
+                                      : ""
                                   }
                                   options={countryCallingCodes.map((c) => [
                                     `+${c.countryCodes[0]}`,
