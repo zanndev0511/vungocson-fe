@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@api/common";
+import type { ApiResponse, User } from "@api/common";
 import axiosClient from "../index";
 import type { RegisterForm } from "@interfaces/pages/register";
 import type { LoginForm } from "@interfaces/pages/login";
@@ -91,7 +91,7 @@ const authApi = {
   },
 
   handleGoogleCallback: (): Promise<
-    ApiResponse<{ accessToken: string; user: any }>
+    ApiResponse<{ accessToken: string; user: User }>
   > => axiosClient.get("/auth/google/callback"),
 
   forgotPassword: (data: { email: string }) =>

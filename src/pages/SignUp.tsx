@@ -416,13 +416,11 @@ export const SignUp: React.FC = () => {
                   onClick={() => navigate("/termsAndConditions/")}
                 >
                   Terms of Use
-                </span>
-                 , that you have read and understood our 
+                </span>, that you have read and understood our
                 <span
                   className="signUp-content-direct text-font-semibold"
                   onClick={() => navigate("/privacy-policy/")}
-                >
-                  privacy policy
+                > privacy policy
                 </span>
                 , and that you want to create your VUNGOC&SON profile.
               </p>

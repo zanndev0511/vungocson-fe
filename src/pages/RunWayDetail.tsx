@@ -19,24 +19,6 @@ export const RunWayDetail: React.FC = () => {
 
   const [runway, setRunway] = useState<Runway>();
 
-  const fetchRunwayById = async (): Promise<Runway | undefined> => {
-    try {
-      if (!id) return;
-      const fetchedRunway: Runway = await runwayApi.getById(id);
-
-      if (Array.isArray(fetchedRunway.celebs)) {
-        fetchedRunway.celebs.sort(
-          (a, b) =>
-            new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
-        );
-      }
-
-      setRunway(fetchedRunway);
-    } catch (err) {
-      console.error("Error fetching banner by id:", err);
-      setRunway({} as Runway);
-    }
-  };
   const totalPages = runway?.celebs ? Math.ceil(runway.celebs.length / 3) : 0;
 
   useEffect(() => {
@@ -85,6 +67,25 @@ export const RunWayDetail: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchRunwayById = async (): Promise<Runway | undefined> => {
+      try {
+        if (!id) return;
+        const fetchedRunway: Runway = await runwayApi.getById(id);
+
+        if (Array.isArray(fetchedRunway.celebs)) {
+          fetchedRunway.celebs.sort(
+            (a, b) =>
+              new Date(a.createdAt!).getTime() -
+              new Date(b.createdAt!).getTime()
+          );
+        }
+
+        setRunway(fetchedRunway);
+      } catch (err) {
+        console.error("Error fetching banner by id:", err);
+        setRunway({} as Runway);
+      }
+    };
     fetchRunwayById();
   }, [id]);
 

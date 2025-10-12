@@ -9,10 +9,15 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let failedQueue: any[] = [];
+type QueueItem = {
+  resolve: (token: string | null) => void;
+  reject: (error: unknown) => void;
+};
 
-const processQueue = (error: any, token: string | null = null) => {
+let isRefreshing = false;
+let failedQueue: QueueItem[] = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);

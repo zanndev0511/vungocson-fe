@@ -13,19 +13,18 @@ export const NewsDetails: React.FC = () => {
   const [content, setContent] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
-  const fetchNews = async () => {
-    try {
-      const res = await newsApi.getById(id!);
-      setContent(res.content);
-      setTitle(res.title);
-    } catch (err) {
-      console.error("Failed to fetch news content:", err);
-    }
-  };
-
   useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await newsApi.getById(id!);
+        setContent(res.content);
+        setTitle(res.title);
+      } catch (err) {
+        console.error("Failed to fetch news content:", err);
+      }
+    };
     fetchNews();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -39,7 +38,7 @@ export const NewsDetails: React.FC = () => {
         </div>
       </div>
       <div>
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

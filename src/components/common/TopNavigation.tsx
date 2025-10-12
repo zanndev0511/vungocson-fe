@@ -115,7 +115,11 @@ const TopNavigation: React.FC<TopNavigationProps> = (props) => {
           className="text-font-regular text-start"
           variant="hover-underline"
           onClick={() => {
-            userName ? setIsWelcomeOpen(true) : setIsLoginOpen(!isLoginOpen);
+            if (userName) {
+              setIsWelcomeOpen(true);
+            } else {
+              setIsLoginOpen(!isLoginOpen);
+            }
           }}
         />
       </div>

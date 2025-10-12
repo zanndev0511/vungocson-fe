@@ -133,7 +133,7 @@ export const Account: React.FC = () => {
 
       showNotify("profile", "success", "Update profile successfully!");
       fetchUser();
-    } catch (err: any) {
+    } catch (err: unknown) {
       showNotify("profile", "fail", "Failed to update Profile!!");
     } finally {
       setLoading(false);
