@@ -313,6 +313,7 @@ export const Account: React.FC = () => {
               namebtn={loading ? "LOADING..." : "SAVE"}
               onClick={handleUpdateProfile}
               onClose={() => setShowModal(false)}
+              isCancel
               children={
                 <div className="d-flex flex-col text-font-regular font-size-sm gap-3 pl-4 pr-4">
                   {notify.profile.message && (
@@ -420,6 +421,7 @@ export const Account: React.FC = () => {
               namebtn={loading ? "LOADING..." : "SAVE"}
               onClose={() => setShowModal(false)}
               onClick={handleChangePasswordSubmit}
+              isCancel
               children={
                 <>
                   <div className="d-flex flex-col text-font-regular font-size-sm pl-4 pr-4">

@@ -9,8 +9,8 @@ import { ICONS } from "@constants/icons";
 import type { AddressFormData, Notify } from "@interfaces/pages/addresses";
 import "@styles/pages/addresses.scss";
 import countryCallingCodes from "country-calling-code";
-import { Country, State, City } from "country-state-city";
 import addressApi from "@api/services/addressApi";
+import { useCountriesStatesCities } from "@hooks/useCountriesStatesCities";
 
 export const Addresses: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -58,12 +58,10 @@ export const Addresses: React.FC = () => {
   const [fetchedAddress, setFetchedAddress] = useState<AddressFormData[]>([]);
 
   const currentAddress = typeModal === "edit" ? addressEdit : address;
-  const countries = Country.getAllCountries();
-  const stateList = State.getStatesOfCountry(currentAddress.country);
-  const cityList =
-    currentAddress.country && currentAddress.state
-      ? City.getCitiesOfState(currentAddress.country, currentAddress.state)
-      : [];
+  const { countries, states, cities } = useCountriesStatesCities(
+    currentAddress.country,
+    currentAddress.state
+  );
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof AddressFormData, string>> = {};
@@ -338,6 +336,7 @@ export const Addresses: React.FC = () => {
             title="ADD NEW ADDRESS"
             namebtn={loading ? "LOADING..." : "ADD NEW ADDRESS"}
             onClick={handleCreateAddress}
+            isCancel
             children={
               <div ref={modalRef} className="d-flex flex-col p-3">
                 {notify.add.message && (
@@ -404,7 +403,7 @@ export const Addresses: React.FC = () => {
                   <Select
                     label="COUNTRY"
                     options={countries.map((c) => [c.isoCode, c.name])}
-                    value={address.country}
+                    value={currentAddress.country}
                     onChange={(e) => handleChangeAdd("country", e.target.value)}
                     required
                   />
@@ -418,8 +417,8 @@ export const Addresses: React.FC = () => {
                   <div className="width-fullsize">
                     <Select
                       label="State/Province/Region"
-                      value={address.state}
-                      options={stateList.map((s) => [s.isoCode, s.name])}
+                      value={address.state ? address.state : ""}
+                      options={states.map((s) => [s.isoCode, s.name])}
                       onChange={(e) => handleChangeAdd("state", e.target.value)}
                       required
                     />
@@ -433,7 +432,7 @@ export const Addresses: React.FC = () => {
                     <Select
                       label="City/District"
                       value={address.city}
-                      options={cityList.map((c) => [c.name, c.name])}
+                      options={cities.map((c) => [c.name, c.name])}
                       onChange={(e) => handleChangeAdd("city", e.target.value)}
                       required
                     />
@@ -576,6 +575,7 @@ export const Addresses: React.FC = () => {
             title="Edit address"
             namebtn={loading ? "LOADING..." : "UPDATE ITEM"}
             onClick={handleEditAddress}
+            isCancel
             children={
               <div ref={modalRef} className="d-flex flex-col p-3">
                 {notify.edit.message && (
@@ -659,7 +659,7 @@ export const Addresses: React.FC = () => {
                     <Select
                       label="State/Province/Region"
                       value={addressEdit.state}
-                      options={stateList.map((s) => [s.isoCode, s.name])}
+                      options={states.map((s) => [s.isoCode, s.name])}
                       onChange={(e) => handleStateChange(e.target.value)}
                       required
                     />
@@ -673,7 +673,7 @@ export const Addresses: React.FC = () => {
                     <Select
                       label="City/District"
                       value={addressEdit.city}
-                      options={cityList.map((c) => [c.name, c.name])}
+                      options={cities.map((c) => [c.name, c.name])}
                       onChange={(e) => handleChangeEdit("city", e.target.value)}
                       required
                     />
@@ -848,11 +848,8 @@ export const Addresses: React.FC = () => {
                         <p>
                           {item.city}
                           {item.city && ", "}
-                          {
-                            State.getStatesOfCountry(item.country).find(
-                              (s) => s.isoCode === item.state
-                            )?.name
-                          }
+                          {states.find((s) => s.isoCode === item.state)?.name ||
+                            ""}
                         </p>
                         <p>{item.zipCode}</p>
                         <p>{item.country}</p>

@@ -1,30 +1,30 @@
 import ProtectedRoute from "@components/common/ProtectedRoute";
 import {
-  ResetPasswordForm,
+  About,
+  Account,
+  Addresses,
+  Collections,
+  ContactUs,
   ForgetPassword,
   Home,
-  ProductDetail,
-  Shop,
-  SignUp,
-  Account,
-  MyOrders,
-  Addresses,
-  Payment,
-  Notify,
-  Wishlist,
-  Result,
   MadeToOrder,
-  Collections,
-  RunWay,
-  RunWayDetail,
-  About,
+  MenuPages,
+  MyOrders,
   News,
   NewsDetails,
-  MenuPages,
-  ContactUs,
+  Notify,
+  Payment,
   PrivacyPolicy,
+  ProductDetail,
+  ResetPasswordForm,
+  RunWay,
+  RunWayDetail,
+  Shop,
+  SignUp,
   TermAndCondition,
+  Wishlist,
 } from "@constants/index";
+import { Result } from "@pages/Result";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Routes, Route } from "react-router-dom";
 
@@ -33,7 +33,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Home />} />
     <Route path="/shop" element={<Shop />} />
     <Route path="/collection/:id/:slug" element={<Collections />} />
-    <Route path="/made-to-order" element={<MadeToOrder />} />
+     <Route path="/made-to-order" element={<MadeToOrder />} />
     <Route path="/about" element={<About />} />
     <Route path="/news" element={<News />} />
     <Route path="/news/:id/:slug" element={<NewsDetails />} />

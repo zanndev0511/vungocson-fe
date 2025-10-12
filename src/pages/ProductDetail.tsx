@@ -332,6 +332,7 @@ export const ProductDetail: React.FC = () => {
           <Modal
             onClose={() => setShowModal(false)}
             isButton={false}
+            isCancel
             children={<p>Bảng size hiện ở đây</p>}
           />
         </div>

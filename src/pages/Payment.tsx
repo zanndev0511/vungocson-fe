@@ -14,7 +14,6 @@ import Header from "@components/common/Header";
 import authApi from "@api/services/authApi";
 import addressApi from "@api/services/addressApi";
 import type { AddressFormData } from "@interfaces/pages/addresses";
-import { City, Country, State } from "country-state-city";
 import { Button } from "@components/common/Button";
 import paymentApi from "@api/services/paymentApi";
 import cartApi from "@api/services/cartApi";
@@ -22,6 +21,7 @@ import type { CartItem } from "@interfaces/pages/cart";
 import braintree from "braintree-web";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router-dom";
+import { useCountriesStatesCities } from "@hooks/useCountriesStatesCities";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
@@ -78,25 +78,14 @@ export const Payment: React.FC = () => {
 
   const [addAddress, setAddAddress] = useState<Partial<AddressFormData>>({});
 
-  const countries = Country.getAllCountries();
-  const stateList = addAddress?.country
-    ? State.getStatesOfCountry(addAddress.country)
-    : [];
+  const {
+    countries,
+    states: stateList,
+    cities: cityList,
+  } = useCountriesStatesCities(addAddress?.country, addAddress?.state);
 
-  const cityList =
-    addAddress?.country && addAddress?.state
-      ? City.getCitiesOfState(addAddress.country, addAddress.state)
-      : [];
-
-  const stateListPayment =
-    formPaymentData?.country && formPaymentData.country !== ""
-      ? State.getStatesOfCountry(formPaymentData.country)
-      : [];
-
-  const cityListPayment =
-    formPaymentData?.country && formPaymentData?.state
-      ? City.getCitiesOfState(formPaymentData.country, formPaymentData.state)
-      : [];
+  const { states: stateListPayment, cities: cityListPayment } =
+    useCountriesStatesCities(formPaymentData?.country, formPaymentData?.state);
 
   const fetchAddress = async () => {
     try {
@@ -132,10 +121,7 @@ export const Payment: React.FC = () => {
       .replace(/Đ/g, "D");
   };
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + Number(item.price),
-    0
-  );
+  const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price), 0);
   const tax = 0;
   const grandTotal = subtotal + tax;
 
@@ -516,16 +502,18 @@ export const Payment: React.FC = () => {
                   <p className="text-font-regular font-size-sm text-start ">
                     {removeVietnameseTones(selectedAddress?.city)}
                     {selectedAddress?.city && ", "}
+
                     {removeVietnameseTones(
-                      State.getStatesOfCountry(selectedAddress?.country).find(
+                      stateList.find(
                         (s) => s.isoCode === selectedAddress?.state
                       )?.name ?? ""
                     )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
                     {removeVietnameseTones(
-                      Country.getCountryByCode(selectedAddress?.country)
-                        ?.name ?? ""
+                      countries.find(
+                        (c) => c.isoCode === selectedAddress?.country
+                      )?.name ?? ""
                     )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
@@ -564,15 +552,16 @@ export const Payment: React.FC = () => {
                     {removeVietnameseTones(addAddress?.city ?? "")}
                     {addAddress?.city && ", "}
                     {removeVietnameseTones(
-                      State.getStatesOfCountry(addAddress?.country).find(
-                        (s) => s.isoCode === addAddress?.state
+                      stateList.find(
+                        (s) => s.isoCode === selectedAddress?.state
                       )?.name ?? ""
                     )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
                     {removeVietnameseTones(
-                      Country.getCountryByCode(addAddress?.country || "")
-                        ?.name ?? ""
+                      countries.find(
+                        (c) => c.isoCode === selectedAddress?.country
+                      )?.name ?? ""
                     )}
                   </p>
                   <p className="text-font-regular font-size-sm text-start ">
@@ -631,14 +620,16 @@ export const Payment: React.FC = () => {
                           {removeVietnameseTones(addr?.city)}
                           {addr?.city && ", "}
                           {removeVietnameseTones(
-                            State.getStatesOfCountry(addr?.country).find(
-                              (s) => s.isoCode === addr?.state
+                            stateList.find(
+                              (s) => s.isoCode === addAddress?.state
                             )?.name ?? ""
                           )}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
                           {removeVietnameseTones(
-                            Country.getCountryByCode(addr?.country)?.name ?? ""
+                            countries.find(
+                              (c) => c.isoCode === selectedAddress?.country
+                            )?.name ?? ""
                           )}
                         </p>
                         <p className="text-font-light font-size-sm text-start">
@@ -1001,15 +992,15 @@ export const Payment: React.FC = () => {
                       {removeVietnameseTones(addAddress.city ?? "")}
                       {addAddress.city ?? ", "}
                       {removeVietnameseTones(
-                        State.getStatesOfCountry(selectedAddress?.country).find(
-                          (s) => s.isoCode === addAddress?.state
-                        )?.name ?? ""
+                        stateList.find((s) => s.isoCode === addAddress?.state)
+                          ?.name ?? ""
                       )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {removeVietnameseTones(
-                        Country.getCountryByCode(addAddress?.country || "")
-                          ?.name ?? ""
+                        countries.find(
+                          (c) => c.isoCode === selectedAddress?.country
+                        )?.name ?? ""
                       )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
@@ -1033,16 +1024,16 @@ export const Payment: React.FC = () => {
                       {removeVietnameseTones(selectedAddress.city)}
                       {selectedAddress.city && ", "}
                       {removeVietnameseTones(
-                        State.getStatesOfCountry(selectedAddress?.country).find(
-                          (s) => s.isoCode === selectedAddress?.state
-                        )?.name ?? ""
+                        stateList.find((s) => s.isoCode === addAddress?.state)
+                          ?.name ?? ""
                       )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
-                      {
-                        Country.getCountryByCode(selectedAddress?.country || "")
-                          ?.name
-                      }
+                      {removeVietnameseTones(
+                        countries.find(
+                          (c) => c.isoCode === selectedAddress?.country
+                        )?.name ?? ""
+                      )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">
                       {selectedAddress.zipCode}
@@ -1070,9 +1061,8 @@ export const Payment: React.FC = () => {
                       {removeVietnameseTones(formPaymentData.city)}
                       {formPaymentData.city && ", "}
                       {removeVietnameseTones(
-                        State.getStatesOfCountry(formPaymentData?.country).find(
-                          (s) => s.isoCode === formPaymentData?.state
-                        )?.name ?? ""
+                        stateList.find((s) => s.isoCode === addAddress?.state)
+                          ?.name ?? ""
                       )}
                     </p>
                     <p className="text-font-regular font-size-sm text-start">

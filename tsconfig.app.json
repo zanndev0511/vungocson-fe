@@ -34,7 +34,8 @@
       "@interfaces/*": ["./src/interfaces/*"],
       "@interfaces/pages/*": ["./src/interfaces/pages/*"],
       "@api/*": ["./src/api/*"],
-      "@services/*": ["./src/services/*"]
+      "@services/*": ["./src/services/*"],
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["src"]
