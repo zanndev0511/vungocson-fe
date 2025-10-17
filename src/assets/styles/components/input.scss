@@ -31,5 +31,25 @@
     opacity: 0.6;
     transform: translateY(0);
   }
+   &[type="password"] {
+    &::-ms-reveal,
+    &::-ms-clear {
+      display: none;
+    }
+
+    &::-webkit-credentials-auto-fill-button {
+      visibility: hidden;
+      display: none !important;
+    }
+
+    &::-webkit-textfield-decoration-container {
+      display: none !important;
+    }
+
+    &::after,
+    &::before {
+      display: none !important;
+    }
+  }
 }
 

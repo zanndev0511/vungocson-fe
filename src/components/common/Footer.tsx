@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
           </div>
           <div className="d-flex flex-col">
             <p className="footer-text text-font-semibold text-uppercase font-size-md text-start">
-              Online Services
+              Online Support
             </p>
             <div className="d-flex flex-col items-start mt-2">
               <p
@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
               </p>
               <p
                 className="footer-text text-font-light text-capitalize font-size-base"
-                onClick={() => navigate("/support/contact")}
+                onClick={() => navigate("/support/faq")}
               >
                 FAQ
               </p>
@@ -122,10 +122,10 @@ const Footer: React.FC = () => {
                     Email:
                   </p>
                   <a
-                    href="mailto:vungocson.design@gmail.com"
+                    href="mailto:info@vungocandson.com"
                     className="footer-info-link"
                   >
-                    vungocson.design@gmail.com
+                    info@vungocandson.com
                   </a>
                 </div>
               </div>

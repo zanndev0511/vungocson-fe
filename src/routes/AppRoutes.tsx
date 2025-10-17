@@ -5,6 +5,7 @@ import {
   Addresses,
   Collections,
   ContactUs,
+  FAQ,
   ForgetPassword,
   Home,
   MadeToOrder,
@@ -103,6 +104,7 @@ const AppRoutes = () => (
     <Route path="/support/contact" element={<ContactUs />} />
     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
     <Route path="/terms-and-conditions" element={<TermAndCondition />} />
+    <Route path="/support/faq" element={<FAQ />} />
   </Routes>
 );
 

@@ -26,10 +26,10 @@ export const ContactUs: React.FC = () => {
                   <li>
                     <span className="text-font-semibold">Email:</span>
                     <a
-                      href="mailto:vungocson.design@gmail.com"
+                      href="mailto:support@vungocandson.com"
                       className="contactUs-info ml-1"
                     >
-                      vungocson.design@gmail.com
+                      support@vungocandson.com
                     </a>
                   </li>
                   <li>

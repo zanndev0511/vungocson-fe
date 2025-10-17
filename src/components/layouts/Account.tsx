@@ -6,13 +6,13 @@ import { Select } from "@components/common/Select";
 import { ICONS } from "@constants/icons";
 import type {
   ChangePasswordForm,
-  Notify,
   ProfileForm,
 } from "@interfaces/pages/account";
 import type { Users } from "@interfaces/pages/users";
 import { Overview } from "@pages/Overview";
 import "@styles/pages/account.scss";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const Account: React.FC = () => {
   type ModalType = "profile" | "email";
@@ -20,10 +20,6 @@ export const Account: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [typeModal, setTypeModal] = useState<ModalType>("profile");
   const [loading, setLoading] = useState<boolean>(false);
-  const [notify, setNotify] = useState<Notify>({
-    profile: { status: "", message: "" },
-    password: { status: "", message: "" },
-  });
   const [errorsInput, setErrorsInput] = useState<
     Partial<Record<keyof ProfileForm, string>>
   >({});
@@ -61,12 +57,6 @@ export const Account: React.FC = () => {
     ["Mrs", "Mrs"],
     ["Mr", "Mr"],
   ];
-
-  const currentYear = new Date().getFullYear();
-  const [day, setDay] = useState<number>();
-  const [year, setYear] = useState<number>(currentYear);
-  const [month, setMonth] = useState<number>(1);
-
   const [user, setUser] = useState<Users & { name?: string }>();
 
   const removeVietnameseTones = (str: string | undefined) => {
@@ -117,64 +107,38 @@ export const Account: React.FC = () => {
 
     try {
       setLoading(true);
-      let formattedBirthday = "";
-      if (day !== undefined && month !== undefined && year !== undefined) {
-        formattedBirthday = `${year}-${String(month).padStart(2, "0")}-${String(
-          day
-        ).padStart(2, "0")}`;
-      }
 
       await usersApi.updateProfile(user!.id, {
         firstname: profile.firstname,
         lastname: profile.lastname,
         title: profile.title,
-        birthday: formattedBirthday,
+        birthday: profile.birthday,
       });
 
-      showNotify("profile", "success", "Update profile successfully!");
+      toast.success("Update profile successfully!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
       fetchUser();
     } catch (err: unknown) {
-      showNotify("profile", "fail", "Failed to update Profile!!");
+      toast.error("Failed to update Profile!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
+      setShowModal(false);
     }
-  };
-
-  const showNotify = (
-    key: "profile" | "password",
-    status: Notify["profile"]["status"],
-    message: string,
-    duration: number = 5000
-  ) => {
-    setNotify((prev) => ({
-      ...prev,
-      [key]: { status, message },
-    }));
-
-    setTimeout(() => {
-      setNotify((prev) => ({
-        ...prev,
-        [key]: { status: "", message: "" },
-      }));
-    }, duration);
   };
 
   const fetchUser = async () => {
     try {
       const userData = await authApi.getProfile();
-
-      let formattedBirthday = "";
-      if (userData.birthday) {
-        const [y, m, d] = userData.birthday.split("-");
-        formattedBirthday = `${m}/${d}/${y}`;
-        setDay(Number(d));
-        setMonth(Number(m));
-        setYear(Number(y));
-      }
       const fullUser = {
         ...userData,
         name: `${userData.firstname} ${userData.lastname}`.trim(),
-        birthday: formattedBirthday,
       };
 
       setUser(fullUser);
@@ -191,25 +155,29 @@ export const Account: React.FC = () => {
 
   const handleChangePasswordSubmit = async () => {
     if (!changePassword.currentPassword || !changePassword.newPassword) {
-      showNotify("password", "fail", "Please fill in all password fields!");
+      toast.error("Please fill in all password fields!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
       return;
     }
 
     if (changePassword.newPassword !== confirmPassword) {
-      showNotify(
-        "password",
-        "fail",
-        "New password and confirm password do not match!"
-      );
+      toast.error("New password and confirm password do not match!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
       return;
     }
 
     if (!isNewPassValid) {
-      showNotify(
-        "password",
-        "fail",
-        "New password does not meet requirements!"
-      );
+      toast.error("New password does not meet requirements!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
       return;
     }
 
@@ -220,54 +188,25 @@ export const Account: React.FC = () => {
         newPassword: changePassword.newPassword,
       });
 
-      showNotify("password", "success", "Password changed successfully!");
+      toast.success("Password changed successfully!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
 
       setChangePassword({ currentPassword: "", newPassword: "" });
       setConfirmPassword("");
     } catch (err: any) {
-      showNotify(
-        "password",
-        "fail",
-        err.response?.data?.message || "Failed to change password!"
-      );
+      toast.error(err.response?.data?.message || "Failed to change password!", {
+        className: "text-font-regular font-size-sm",
+        autoClose: 5000,
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
+      setShowModal(false);
     }
   };
-
-  const isLeapYear = (year: number): boolean => {
-    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-  };
-
-  const getDaysInMonth = (year: number, month: number): number => {
-    if (month === 2) {
-      return isLeapYear(year) ? 29 : 28;
-    }
-
-    const monthsWith30Days = [4, 6, 9, 11];
-    return monthsWith30Days.includes(month) ? 30 : 31;
-  };
-
-  const years = Array.from(
-    { length: currentYear - 1900 + 1 },
-    (_, i) => 1900 + i
-  );
-
-  const yearOptions: [string, string][] = years.map((y) => [
-    String(y),
-    String(y),
-  ]);
-
-  const months = Array.from({ length: 12 }, (_, i) =>
-    String(i + 1).padStart(2, "0")
-  );
-
-  const monthOptions: [string, string][] = months.map((m) => [m, m]);
-
-  const days = Array.from({ length: getDaysInMonth(year, month) }, (_, i) =>
-    String(i + 1).padStart(2, "0")
-  );
-  const dayOptions: [string, string][] = days.map((d) => [d, d]);
 
   const toggleHidePass = (field: PassType) => {
     setHidePass((prev) => ({
@@ -314,20 +253,9 @@ export const Account: React.FC = () => {
               onClick={handleUpdateProfile}
               onClose={() => setShowModal(false)}
               isCancel
+              isButton
               children={
                 <div className="d-flex flex-col text-font-regular font-size-sm gap-3 pl-4 pr-4">
-                  {notify.profile.message && (
-                    <div
-                      className={`account-modal-input-notify ${
-                        notify.profile.status === "success" ? "success" : "fail"
-                      } d-flex flex-row justify-start`}
-                    >
-                      <p className="text-font-regular font-size-sm">
-                        {notify.profile.message}
-                      </p>
-                    </div>
-                  )}
-
                   <div className="d-flex flex-col">
                     <Input
                       id="firstname"
@@ -380,37 +308,15 @@ export const Account: React.FC = () => {
                   </div>
 
                   <div className="d-flex flex-col">
-                    <div className="d-flex flex-row gap-3">
-                      <Select
-                        label="Month"
-                        options={monthOptions}
-                        value={
-                          month !== undefined
-                            ? String(month).padStart(2, "0")
-                            : undefined
-                        }
-                        onChange={(e) => setMonth(Number(e.target.value))}
-                        required
-                      />
-                      <Select
-                        label="Day"
-                        options={dayOptions}
-                        value={
-                          day !== undefined
-                            ? String(day).padStart(2, "0")
-                            : undefined
-                        }
-                        onChange={(e) => setDay(Number(e.target.value))}
-                        required
-                      />
-                      <Select
-                        label="Year"
-                        options={yearOptions}
-                        value={year !== undefined ? String(year) : undefined}
-                        onChange={(e) => setYear(Number(e.target.value))}
-                        required
-                      />
-                    </div>
+                    <Input
+                      id={"birthday"}
+                      type={"date"}
+                      label="Date of birth"
+                      value={profile.birthday ?? ""}
+                      onChange={(e) =>
+                        handleChangeProfile("birthday", e.target.value)
+                      }
+                    />
                   </div>
                 </div>
               }
@@ -421,23 +327,11 @@ export const Account: React.FC = () => {
               namebtn={loading ? "LOADING..." : "SAVE"}
               onClose={() => setShowModal(false)}
               onClick={handleChangePasswordSubmit}
+              isButton
               isCancel
               children={
                 <>
                   <div className="d-flex flex-col text-font-regular font-size-sm pl-4 pr-4">
-                    {notify.password.message && (
-                      <div
-                        className={`account-modal-input-notify ${
-                          notify.password.status === "success"
-                            ? "success"
-                            : "fail"
-                        } d-flex flex-row justify-start mb-3`}
-                      >
-                        <p className="text-font-regular font-size-sm">
-                          {notify.password.message}
-                        </p>
-                      </div>
-                    )}
                     <div className="d-flex flex-col justify-center items-start">
                       <Input
                         id={"email"}
@@ -509,24 +403,27 @@ export const Account: React.FC = () => {
                         <ul className="list-disc ml-4 text-start mt-2">
                           <li
                             className={`${
-                              !newPassValid.isLengthValid &&
-                              "account-modal-input-warning"
+                              !newPassValid.isLengthValid
+                                ? "account-modal-input-warning"
+                                : "account-modal-input-match"
                             }`}
                           >
                             Please enter at least 8 characters
                           </li>
                           <li
                             className={`${
-                              !newPassValid.hasNumber &&
-                              "account-modal-input-warning"
+                              !newPassValid.hasNumber
+                                ? "account-modal-input-warning"
+                                : "account-modal-input-match"
                             }`}
                           >
                             Please enter at least one number
                           </li>
                           <li
                             className={`${
-                              !newPassValid.hasSpecialChar &&
-                              "account-modal-input-warning"
+                              !newPassValid.hasSpecialChar
+                                ? "account-modal-input-warning"
+                                : "account-modal-input-match"
                             }`}
                           >
                             Please enter one special character (!+,-./:;{"<"}=
@@ -613,7 +510,11 @@ export const Account: React.FC = () => {
                       Date of birth:
                     </p>
                     <p className="text-font-regular font-size-base text-start">
-                      {user?.birthday}
+                      {new Date(user?.birthday ?? "").toLocaleString("en-US", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
                     </p>
                   </div>
                 </div>

@@ -89,8 +89,6 @@ export const SignUp: React.FC = () => {
   const handleCreateUser = async () => {
     if (!validate()) return;
 
-    if (!validate()) return;
-
     if (
       !passwordValid.isLengthValid ||
       !passwordValid.hasNumber ||

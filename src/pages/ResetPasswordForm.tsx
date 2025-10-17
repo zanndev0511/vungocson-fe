@@ -150,7 +150,7 @@ export const ResetPasswordForm: React.FC = () => {
               />
             </div>
 
-            <ul className="list-disc pl-6 text-font-regular font-size-sm text-start width-fullsize mt-2">
+            <ul className="list-disc pl-3 text-font-regular font-size-sm text-start width-fullsize mt-2">
               <li
                 className={
                   passwordValid.isLengthValid

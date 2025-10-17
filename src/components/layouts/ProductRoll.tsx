@@ -41,6 +41,9 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
         <div className={`collection-carousel ${className}`}>
           <div className="collection-carousel-title">
             <p className="text-uppercase text-font-bold font-size-xl">
+              {runwayFeature?.name}
+            </p>
+            <p className="text-font-regular font-size-base">
               {runwayFeature?.collection?.name}
             </p>
             <button

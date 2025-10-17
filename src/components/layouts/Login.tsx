@@ -36,8 +36,8 @@ export const Login: React.FC<LoginProps> = (props) => {
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof LoginForm, string>> = {};
 
-    if (!login.email) newErrors.email = "Email is required";
-    if (!login.password) newErrors.password = "Password is required";
+    if (!login.email) newErrors.email = "Please enter your email.";
+    if (!login.password) newErrors.password = "Please enter your password.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -111,7 +111,7 @@ export const Login: React.FC<LoginProps> = (props) => {
             onClick={onClose}
           />
         </div>
-        <div className="login-content d-flex flex-col items-start pl-5 pr-5">
+        <div className="login-content d-flex flex-col items-start">
           <p className="text-font-regular font-size-4xl">LOGIN</p>
           <div className="d-flex flex-col width-fullsize mt-3">
             <div className="width-fullsize">

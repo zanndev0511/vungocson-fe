@@ -24,3 +24,4 @@ export { MadeToOrder } from "@pages/MadeToOrder";
 export {Collections} from "@pages/Collections";
 export {News} from "@pages/News";
 export {NewsDetails} from "@pages/NewsDetails";
+export {FAQ} from "@pages/FAQ";

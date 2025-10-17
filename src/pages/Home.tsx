@@ -22,6 +22,9 @@ import type { Product } from "@interfaces/pages/product";
 import productApi from "@api/services/productApi";
 import type { NewsData } from "@interfaces/components/news";
 import newsApi from "@api/services/newsApi";
+import type { FeaturedCelebrity } from "@interfaces/components/featuredCelebrity";
+import featuredCelebrityApi from "@api/services/featuredCeleb";
+import { FeaturedCelebs } from "@components/layouts/FeaturedCelebs";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -33,6 +36,7 @@ export const Home: React.FC = () => {
   const [news, setNews] = useState<NewsData[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [showHeader, setShowHeader] = useState(false);
+  const [featuredCeleb, setFeaturedCeleb] = useState<FeaturedCelebrity[]>([]);
 
   const fetchBanner = async () => {
     try {
@@ -118,11 +122,29 @@ export const Home: React.FC = () => {
     }
   };
 
+  const fetchFeaturedCeleb = async () => {
+    try {
+      const data = await featuredCelebrityApi.getAll();
+      const items: FeaturedCelebrity[] = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.data)
+        ? data.data
+        : [];
+      const activeCelebs = items.filter((celeb) => celeb.status === "active");
+
+      setFeaturedCeleb(activeCelebs);
+    } catch (err) {
+      console.error("Error fetching celeb:", err);
+      setFeaturedCeleb([]);
+    }
+  };
+
   useEffect(() => {
     fetchBanner();
     fetchRunway();
     fetchProducts();
     fetchNews();
+    fetchFeaturedCeleb();
   }, []);
 
   useEffect(() => {
@@ -136,7 +158,6 @@ export const Home: React.FC = () => {
   return (
     <>
       {showHeader && <Header />}
-
       <div className="banner-container">
         <Banner images={banners} />
         <div className="banner-overlay" />
@@ -172,6 +193,12 @@ export const Home: React.FC = () => {
       <div className="home-content">
         <div>
           {runwayFeature && <ProductRoll runwayFeature={runwayFeature} />}
+        </div>
+        <div className="">
+          <p className="home-fontSize-2xl text-font-semibold text-uppercase p-5">
+            <span className="text-font-regular">Celebs in</span> VUNGOC&SON
+          </p>
+          <FeaturedCelebs data={featuredCeleb} />
         </div>
         <div className="">
           <p className="home-fontSize-2xl text-font-semibold text-uppercase p-5">

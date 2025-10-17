@@ -51,6 +51,9 @@
       &-warning {
         color: #dc2626;
       }
+      &-match {
+        color: #7bd85f;
+      }
       &-phone {
         width: 75%;
       }
@@ -112,4 +115,11 @@
       width: 100%;
     }
   }
+}
+
+.Toastify__toast {
+  z-index: 9999999 !important;
+}
+.Toastify__toast-container {
+  z-index: 9999999 !important;
 }

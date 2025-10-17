@@ -1,11 +1,8 @@
-import { CheckBox } from "@components/common/CheckBox";
 import Footer from "@components/common/Footer";
 import { RadioButton } from "@components/common/RadioButton";
 import { Select } from "@components/common/Select";
-import { Tabs } from "@components/common/Tab";
 import { ICONS } from "@constants/icons";
-import { IMAGES } from "@constants/image";
-import type { CardInfor, PaymentFormData } from "@interfaces/pages/payment";
+// import type { CardInfor, PaymentFormData } from "@interfaces/pages/payment";
 import "@styles/pages/payment.scss";
 import React, { useEffect, useRef, useState } from "react";
 import countryCallingCodes from "country-calling-code";
@@ -30,16 +27,16 @@ export const Payment: React.FC = () => {
   const [clientToken, setClientToken] = useState<string>("");
 
   const [shipping, setShipping] = useState<string>("express");
-  const [isSameAddress, setIsSameAddress] = useState<boolean>(true);
-  const [isAddAdditionContact, setIsAddAdditionContact] =
-    useState<boolean>(false);
-  const [currentTab, setCurrentTab] = useState<number>(0);
+  // const [isSameAddress, setIsSameAddress] = useState<boolean>(true);
+  // const [isAddAdditionContact, setIsAddAdditionContact] =
+  //   useState<boolean>(false);
+  // const [currentTab, setCurrentTab] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
   const [isAddAddress, setIsAddAddress] = useState<boolean>(false);
   const [isDoneAddress, setIsDoneAddress] = useState<boolean>(false);
   const [isDonePayment, setIsDonePayment] = useState<boolean>(false);
-  const [errorsPayment, setErrorPayment] = useState<string>("");
+  // const [errorsPayment, setErrorPayment] = useState<string>("");
   const [errorsInput, setErrorsInput] = useState<
     Partial<Record<keyof AddressFormData, string>>
   >({});
@@ -52,7 +49,7 @@ export const Payment: React.FC = () => {
     null
   );
 
-  const [cardInfo, setCardInfo] = useState<CardInfor>();
+  // const [cardInfo, setCardInfo] = useState<CardInfor>();
   const [checkEdit, setCheckEdit] = useState<{
     address: boolean;
     payment: boolean;
@@ -61,21 +58,21 @@ export const Payment: React.FC = () => {
     payment: false,
   });
 
-  const [formPaymentData, setFormPaymentData] = useState<PaymentFormData>({
-    nameOnCard: "",
-    firstName: "",
-    lastName: "",
-    address1: "",
-    address2: "",
-    city: "",
-    postcode: "",
-    country: "",
-    state: "",
-    phonecode: "",
-    phone: "",
-    phonecode2: "",
-    phone2: "",
-  });
+  // const [formPaymentData, setFormPaymentData] = useState<PaymentFormData>({
+  //   nameOnCard: "",
+  //   firstName: "",
+  //   lastName: "",
+  //   address1: "",
+  //   address2: "",
+  //   city: "",
+  //   postcode: "",
+  //   country: "",
+  //   state: "",
+  //   phonecode: "",
+  //   phone: "",
+  //   phonecode2: "",
+  //   phone2: "",
+  // });
 
   const [addAddress, setAddAddress] = useState<Partial<AddressFormData>>({});
 
@@ -85,8 +82,8 @@ export const Payment: React.FC = () => {
     cities: cityList,
   } = useCountriesStatesCities(addAddress?.country, addAddress?.state);
 
-  const { states: stateListPayment, cities: cityListPayment } =
-    useCountriesStatesCities(formPaymentData?.country, formPaymentData?.state);
+  // const { states: stateListPayment, cities: cityListPayment } =
+  //   useCountriesStatesCities(formPaymentData?.country, formPaymentData?.state);
 
   const fetchAddress = async () => {
     try {
@@ -136,10 +133,7 @@ export const Payment: React.FC = () => {
       newErrors.lastName = "Please enter your last name";
     }
     if (!addAddress?.country?.trim()) {
-      newErrors.country = "Please select country.";
-    }
-    if (!addAddress?.phoneCode?.trim()) {
-      newErrors.phoneCode = "Please select phone code.";
+      newErrors.country = "Please select your country.";
     }
     if (!addAddress?.zipCode?.trim()) {
       newErrors.zipCode = "Please enter postal code.";
@@ -149,9 +143,9 @@ export const Payment: React.FC = () => {
     if (!addAddress?.street?.trim()) {
       newErrors.street = "Please enter street.";
     }
-    if (!addAddress?.phone?.trim()) {
+    if (!addAddress?.phone?.trim() && !addAddress?.phoneCode?.trim()) {
       newErrors.phone = "Please enter phone number.";
-    } else if (!/^[0-9+\-()\s]{6,20}$/.test(addAddress?.phone)) {
+    } else if (!/^[0-9+\-()\s]{6,20}$/.test(addAddress?.phone!)) {
       newErrors.phone = "Please enter a valid phone number.";
     }
 
@@ -159,153 +153,153 @@ export const Payment: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleValidateCard = (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (!hostedFieldsInstance.current) {
-        resolve(false);
-        return;
-      }
+  // const handleValidateCard = (): Promise<boolean> => {
+  //   return new Promise((resolve) => {
+  //     if (!hostedFieldsInstance.current) {
+  //       resolve(false);
+  //       return;
+  //     }
 
-      hostedFieldsInstance.current.tokenize((err: any, payload: any) => {
-        if (err) {
-          console.error(err.code, err.message);
-          if (err.code === "HOSTED_FIELDS_FIELDS_EMPTY") {
-            setErrorPayment("Please fill in all card details.");
-          } else if (err.code === "HOSTED_FIELDS_FIELDS_INVALID") {
-            setErrorPayment("Some card details are invalid.");
-          } else if (err.code === "HOSTED_FIELDS_FIELDS_INCOMPLETE") {
-            setErrorPayment("Card details are incomplete.");
-          }
-          resolve(false);
-          return;
-        }
-        const { cardType, lastFour, expirationMonth, expirationYear } =
-          payload.details;
-        setCardInfo({
-          cardType,
-          cardNumber: lastFour,
-          cardExp: `${expirationMonth}/${expirationYear}`,
-          cardName: formPaymentData.nameOnCard,
-        });
-        setErrorPayment("");
-        resolve(true);
-      });
-    });
-  };
+  //     hostedFieldsInstance.current.tokenize((err: any, payload: any) => {
+  //       if (err) {
+  //         console.error(err.code, err.message);
+  //         if (err.code === "HOSTED_FIELDS_FIELDS_EMPTY") {
+  //           setErrorPayment("Please fill in all card details.");
+  //         } else if (err.code === "HOSTED_FIELDS_FIELDS_INVALID") {
+  //           setErrorPayment("Some card details are invalid.");
+  //         } else if (err.code === "HOSTED_FIELDS_FIELDS_INCOMPLETE") {
+  //           setErrorPayment("Card details are incomplete.");
+  //         }
+  //         resolve(false);
+  //         return;
+  //       }
+  //       const { cardType, lastFour, expirationMonth, expirationYear } =
+  //         payload.details;
+  //       setCardInfo({
+  //         cardType,
+  //         cardNumber: lastFour,
+  //         cardExp: `${expirationMonth}/${expirationYear}`,
+  //         cardName: formPaymentData.nameOnCard,
+  //       });
+  //       setErrorPayment("");
+  //       resolve(true);
+  //     });
+  //   });
+  // };
 
-  const handlePaymentCredit = async () => {
-    if (!hostedFieldsInstance.current) return;
-    setLoading(true);
+  // const handlePaymentCredit = async () => {
+  //   if (!hostedFieldsInstance.current) return;
+  //   setLoading(true);
 
-    try {
-      hostedFieldsInstance.current.tokenize(async (err: any, payload: any) => {
-        if (err) {
-          console.error(err.code, err.message);
-          setErrorPayment("Unexpected tokenize error, please retry.");
-          setLoading(false);
-          return;
-        }
-        const shipping = selectedAddress || addAddress;
-        const amount = Number(grandTotal.toFixed(2));
-        const nameOnCard = formPaymentData.nameOnCard;
-        const taxRate = 0;
-        const shippingfee = amount < 2276.02 ? 56.9 : 0;
-        try {
-          const res = await paymentApi.createTransaction(
-            amount,
-            taxRate,
-            shippingfee,
-            payload.nonce,
-            nameOnCard,
-            {
-              shippingAddress: {
-                firstName: shipping.firstName || "",
-                lastName: shipping.lastName || "",
-                street: shipping.street || "",
-                city: shipping.city || "",
-                state: shipping.state || "",
-                country: shipping.country || "",
-                zipcode: shipping.zipCode || "",
-                phoneCode: shipping.phoneCode || undefined,
-                phone: shipping.phone || undefined,
-              },
-              billingAddress: {
-                firstName: !isSameAddress
-                  ? formPaymentData.firstName
-                  : selectedAddress?.firstName || addAddress?.firstName || "",
-                lastName: !isSameAddress
-                  ? formPaymentData.lastName
-                  : selectedAddress?.lastName || addAddress?.lastName || "",
-                street: !isSameAddress
-                  ? formPaymentData.address1
-                  : selectedAddress?.street || addAddress?.street || "",
-                street2: !isSameAddress ? formPaymentData.address2 : undefined,
-                city: !isSameAddress
-                  ? formPaymentData.city
-                  : selectedAddress?.city || addAddress?.city || "",
-                state: !isSameAddress
-                  ? formPaymentData.state
-                  : selectedAddress?.state || addAddress?.state || "",
-                country: !isSameAddress
-                  ? formPaymentData.country
-                  : selectedAddress?.country || addAddress?.country || "",
-                zipcode: !isSameAddress
-                  ? formPaymentData.postcode
-                  : selectedAddress?.zipCode || addAddress?.zipCode || "",
-                phoneCode: !isSameAddress
-                  ? formPaymentData.phonecode
-                  : selectedAddress?.phoneCode || addAddress?.phoneCode || "",
-                phone: !isSameAddress
-                  ? formPaymentData.phone
-                  : selectedAddress?.phone || addAddress?.phone || "",
-                phoneCode2: !isSameAddress
-                  ? formPaymentData.phonecode2
-                  : undefined,
-                phone2: !isSameAddress ? formPaymentData.phone2 : undefined,
-              },
-            }
-          );
-          if (hostedFieldsInstance.current) {
-            hostedFieldsInstance.current.teardown((err: any) => {
-              if (err) console.error("Error tearing down Hosted Fields:", err);
-            });
-            hostedFieldsInstance.current = null;
-          }
+  //   try {
+  //     hostedFieldsInstance.current.tokenize(async (err: any, payload: any) => {
+  //       if (err) {
+  //         console.error(err.code, err.message);
+  //         setErrorPayment("Unexpected tokenize error, please retry.");
+  //         setLoading(false);
+  //         return;
+  //       }
+  //       const shipping = selectedAddress || addAddress;
+  //       const amount = Number(grandTotal.toFixed(2));
+  //       const nameOnCard = formPaymentData.nameOnCard;
+  //       const taxRate = 0;
+  //       const shippingfee = amount < 2276.02 ? 56.9 : 0;
+  //       try {
+  //         const res = await paymentApi.createTransaction(
+  //           amount,
+  //           taxRate,
+  //           shippingfee,
+  //           payload.nonce,
+  //           nameOnCard,
+  //           {
+  //             shippingAddress: {
+  //               firstName: shipping.firstName || "",
+  //               lastName: shipping.lastName || "",
+  //               street: shipping.street || "",
+  //               city: shipping.city || "",
+  //               state: shipping.state || "",
+  //               country: shipping.country || "",
+  //               zipcode: shipping.zipCode || "",
+  //               phoneCode: shipping.phoneCode || undefined,
+  //               phone: shipping.phone || undefined,
+  //             },
+  //             billingAddress: {
+  //               firstName: !isSameAddress
+  //                 ? formPaymentData.firstName
+  //                 : selectedAddress?.firstName || addAddress?.firstName || "",
+  //               lastName: !isSameAddress
+  //                 ? formPaymentData.lastName
+  //                 : selectedAddress?.lastName || addAddress?.lastName || "",
+  //               street: !isSameAddress
+  //                 ? formPaymentData.address1
+  //                 : selectedAddress?.street || addAddress?.street || "",
+  //               street2: !isSameAddress ? formPaymentData.address2 : undefined,
+  //               city: !isSameAddress
+  //                 ? formPaymentData.city
+  //                 : selectedAddress?.city || addAddress?.city || "",
+  //               state: !isSameAddress
+  //                 ? formPaymentData.state
+  //                 : selectedAddress?.state || addAddress?.state || "",
+  //               country: !isSameAddress
+  //                 ? formPaymentData.country
+  //                 : selectedAddress?.country || addAddress?.country || "",
+  //               zipcode: !isSameAddress
+  //                 ? formPaymentData.postcode
+  //                 : selectedAddress?.zipCode || addAddress?.zipCode || "",
+  //               phoneCode: !isSameAddress
+  //                 ? formPaymentData.phonecode
+  //                 : selectedAddress?.phoneCode || addAddress?.phoneCode || "",
+  //               phone: !isSameAddress
+  //                 ? formPaymentData.phone
+  //                 : selectedAddress?.phone || addAddress?.phone || "",
+  //               phoneCode2: !isSameAddress
+  //                 ? formPaymentData.phonecode2
+  //                 : undefined,
+  //               phone2: !isSameAddress ? formPaymentData.phone2 : undefined,
+  //             },
+  //           }
+  //         );
+  //         if (hostedFieldsInstance.current) {
+  //           hostedFieldsInstance.current.teardown((err: any) => {
+  //             if (err) console.error("Error tearing down Hosted Fields:", err);
+  //           });
+  //           hostedFieldsInstance.current = null;
+  //         }
 
-          if (res.data.success) {
-            navigate("/checkout/notify", {
-              state: { status: "success" },
-            });
-          } else {
-            navigate("/checkout/notify", {
-              state: { status: "fail" },
-            });
-          }
-        } catch (err: any) {
-          if (hostedFieldsInstance.current) {
-            hostedFieldsInstance.current.teardown((err: any) => {
-              if (err) console.error("Error tearing down Hosted Fields:", err);
-            });
-            hostedFieldsInstance.current = null;
-          }
-          navigate("/checkout/notify", {
-            state: { status: "fail" },
-          });
-          alert(err);
-        } finally {
-          setLoading(false);
-        }
-      });
-    } catch (err: any) {
-      if (hostedFieldsInstance.current) {
-        hostedFieldsInstance.current.teardown((err: any) => {
-          if (err) console.error("Error tearing down Hosted Fields:", err);
-        });
-        hostedFieldsInstance.current = null;
-      }
-      setLoading(false);
-    }
-  };
+  //         if (res.data.success) {
+  //           navigate("/checkout/notify", {
+  //             state: { status: "success" },
+  //           });
+  //         } else {
+  //           navigate("/checkout/notify", {
+  //             state: { status: "fail" },
+  //           });
+  //         }
+  //       } catch (err: any) {
+  //         if (hostedFieldsInstance.current) {
+  //           hostedFieldsInstance.current.teardown((err: any) => {
+  //             if (err) console.error("Error tearing down Hosted Fields:", err);
+  //           });
+  //           hostedFieldsInstance.current = null;
+  //         }
+  //         navigate("/checkout/notify", {
+  //           state: { status: "fail" },
+  //         });
+  //         alert(err);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     });
+  //   } catch (err: any) {
+  //     if (hostedFieldsInstance.current) {
+  //       hostedFieldsInstance.current.teardown((err: any) => {
+  //         if (err) console.error("Error tearing down Hosted Fields:", err);
+  //       });
+  //       hostedFieldsInstance.current = null;
+  //     }
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleCreatePaypalOrder = async () => {
     const amount = Number(grandTotal.toFixed(2));
@@ -340,18 +334,21 @@ export const Payment: React.FC = () => {
     }
   };
 
-  const handlePayment = async () => {
-    if (currentTab === 0) {
-      const isValid = await handleValidateCard();
-      if (isValid) {
-        setIsDonePayment(true);
-        tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      } 
-    } else if (currentTab === 1) {
-      setIsDonePayment(true);
-      tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  // const handlePayment = async () => {
+  //   // if (currentTab === 0) {
+  //   //   const isValid = await handleValidateCard();
+  //   //   if (isValid) {
+  //   //     setIsDonePayment(true);
+  //   //     tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  //   //   }
+  //   // } else if (currentTab === 1) {
+  //   //   setIsDonePayment(true);
+  //   //   tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  //   // }
+
+  //   setIsDonePayment(true);
+  //   tabRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  // };
 
   const fetchUserEmail = async () => {
     try {
@@ -364,22 +361,22 @@ export const Payment: React.FC = () => {
     }
   };
 
-  const handleChangePayment = <K extends keyof PaymentFormData>(
-    field: K,
-    value: PaymentFormData[K]
-  ) => {
-    setFormPaymentData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-     if (field === "country") {
-      formPaymentData.state = "";
-      formPaymentData.city = "";
-    }
-    if (field === "state") {
-      formPaymentData.city = "";
-    }
-  };
+  // const handleChangePayment = <K extends keyof PaymentFormData>(
+  //   field: K,
+  //   value: PaymentFormData[K]
+  // ) => {
+  //   setFormPaymentData((prev) => ({
+  //     ...prev,
+  //     [field]: value,
+  //   }));
+  //   if (field === "country") {
+  //     formPaymentData.state = "";
+  //     formPaymentData.city = "";
+  //   }
+  //   if (field === "state") {
+  //     formPaymentData.city = "";
+  //   }
+  // };
   const handleChangeAdd = <K extends keyof AddressFormData>(
     field: K,
     value: AddressFormData[K]
@@ -454,7 +451,7 @@ export const Payment: React.FC = () => {
     fetchUserEmail();
     fetchAddress();
     fetchCart();
-    setLoading(false);
+    // setLoading(false);
   }, []);
 
   return (
@@ -483,7 +480,7 @@ export const Payment: React.FC = () => {
                       className="payment-step-icon"
                     />
                   ) : (
-                    <p className="text-font-semibold font-size-sm">1</p>
+                    <p className="text-font-semibold font-size-base">1</p>
                   )}
                 </div>
                 <p className="payment-step-label text-font-semibold text-uppercase text-start ml-3">
@@ -496,7 +493,7 @@ export const Payment: React.FC = () => {
                   onClick={() => {
                     setIsDoneAddress(false);
                     checkIsEdit("address");
-                    if (!isDonePayment && cardInfo) setIsDonePayment(true);
+                    if (!isDonePayment) setIsDonePayment(true);
                   }}
                 >
                   <Button
@@ -730,7 +727,7 @@ export const Payment: React.FC = () => {
                       <div className="width-fullsize">
                         <Select
                           label="City/District"
-                          value={addAddress?.city ? addAddress.city : ''}
+                          value={addAddress?.city ? addAddress.city : ""}
                           options={cityList.map((c) => [c.name, c.name])}
                           onChange={(e) =>
                             handleChangeAdd("city", e.target.value)
@@ -874,7 +871,7 @@ export const Payment: React.FC = () => {
                     }
                   }}
                 >
-                  {checkEdit.address && (cardInfo || currentTab === 1)
+                  {checkEdit.address
                     ? "Save Changes"
                     : "Continue to payment"}
                 </button>
@@ -885,26 +882,28 @@ export const Payment: React.FC = () => {
             <div
               className={`${
                 !isDoneAddress &&
-                !cardInfo &&
-                currentTab === 0 &&
                 "payment-step-container"
               } d-flex flex-row items-center`}
+              // className={`
+              //   payment-step-container d-flex flex-row items-center`}
             >
               <div
-                className={`payment-step ${
-                  isDonePayment && "done"
-                } d-flex justify-center items-center`}
+                // className={`payment-step ${
+                //   isDonePayment && "done"
+                // } d-flex justify-center items-center`}
+                className={`payment-step d-flex justify-center items-center`}
               >
-                {isDonePayment ? (
+                {/* {isDonePayment ? (
                   <img src={ICONS.done} alt="" className="payment-step-icon" />
                 ) : (
                   <p className="text-font-semibold font-size-sm">2</p>
-                )}
+                )} */}
+                <p className="text-font-semibold font-size-base">2</p>
               </div>
               <p className="payment-step-label text-font-semibold font-size-xl text-uppercase text-start ml-3">
                 Payment
               </p>
-              {isDonePayment && (
+              {/* {isDonePayment && (
                 <div
                   className="payment-button-edit d-flex flex-row justify-end width-fullsize mr-3"
                   onClick={() => {
@@ -920,9 +919,9 @@ export const Payment: React.FC = () => {
                     className="text-font-semibold"
                   />
                 </div>
-              )}
+              )} */}
             </div>
-            {isDonePayment && currentTab === 1 && (
+            {/* {isDonePayment && (
               <div className="payment-infor-paypal-wrap d-flex flex-row items-center gap-1">
                 <img
                   src={IMAGES.paypal}
@@ -933,9 +932,9 @@ export const Payment: React.FC = () => {
                   Paypal Account
                 </p>
               </div>
-            )}
+            )} */}
 
-            {isDonePayment && cardInfo && currentTab === 0 && (
+            {/* {isDonePayment && cardInfo && currentTab === 0 && (
               <div className="payment-infor gap-3">
                 <div className="d-flex flex-col gap-2 items-start">
                   <div className="d-flex flex-row items-center gap-1">
@@ -1061,332 +1060,332 @@ export const Payment: React.FC = () => {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
 
             <div
               className={`payment-tab ${
-                isDoneAddress && !isDonePayment ? "block" : "none"
-              } d-flex flex-col items-start width-fullsize mt-4`}
+                isDoneAddress ? "block" : "none"
+              } d-flex flex-col items-center width-fullsize mt-4`}
             >
-              <Tabs
+              {/* <Tabs
                 onTabChange={(index) => setCurrentTab(index)}
                 tabs={[
-                  {
-                    label: "Credit Card",
-                    content: (
-                      <div className="d-flex flex-col">
-                        <div className="payment-credit-wrap gap-2 width-fullsize">
-                          <div className="d-flex flex-col width-fullsize">
-                            <div className="d-flex flex-row items-center">
-                              <p className="text-font-semibold font-size-sm text-uppercase">
-                                Credit Card Number
-                              </p>
-                            </div>
-                            <div
-                              id="card-number"
-                              className="payment-input-card"
-                            ></div>
-                          </div>
-                          <div className="d-flex flex-col">
-                            <div className="d-flex flex-row items-center">
-                              <p className="text-font-semibold font-size-sm text-uppercase">
-                                CVC
-                              </p>
-                            </div>
-                            <div id="cvv" className="payment-input-card"></div>
-                          </div>
-                          <div className="d-flex flex-col">
-                            <div className="d-flex flex-row items-center">
-                              <p className="text-font-semibold font-size-sm text-uppercase">
-                                Expiration Date
-                              </p>
-                            </div>
-                            <div
-                              id="expiration-date"
-                              className="payment-input-card"
-                            ></div>
-                          </div>
-                        </div>
-                        <div className="d-flex flex-row items-center mt-2">
-                          <p className="text-font-regular font-size-sm text-start">
-                            Accepted credit cards
-                          </p>
-                          <div className="payment-credit-card gap-2 ml-3">
-                            <img
-                              src={IMAGES.jcb}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                            <img
-                              src={IMAGES.visa}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                            <img
-                              src={IMAGES.amex}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                            <img
-                              src={IMAGES.diner}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                            <img
-                              src={IMAGES.masterCard}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                            <img
-                              src={IMAGES.union}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                            <img
-                              src={IMAGES.discover}
-                              alt=""
-                              className="payment-credit-icon"
-                            />
-                          </div>
-                        </div>
-                        <div className="d-flex flex-col mt-2">
-                          <div className="d-flex flex-row items-center">
-                            <p className="text-font-semibold font-size-sm text-uppercase">
-                              Name on Card
-                            </p>
-                          </div>
-                          <input
-                            id="text"
-                            type="text"
-                            value={formPaymentData.nameOnCard}
-                            onChange={(e) => {
-                              const noAccentUpper = e.target.value
-                                .normalize("NFD")
-                                .replace(/[\u0300-\u036f]/g, "")
-                                .toUpperCase();
-                              handleChangePayment("nameOnCard", noAccentUpper);
-                            }}
-                            required
-                            className="payment-input payment-input-card-name text-font-regular font-size-sm text-uppercase mt-2"
-                          />
-                        </div>
-                        <div className="d-flex flex-col justify-center mt-3">
-                          <CheckBox
-                            isCheck={isSameAddress}
-                            setIsCheck={() => setIsSameAddress(!isSameAddress)}
-                            titleBtn={
-                              "Billing Address and Phone are the same as Shipping Information."
-                            }
-                            classNameContainer="payment-credit-checkbox"
-                          />
-                        </div>
-                        {!isSameAddress && (
-                          <div className="d-flex flex-col items-start mt-3">
-                            <p className="text-font-semibold font-size-sm">
-                              Please enter the corresponding billing information
-                              for the payment method you intend to use.
-                            </p>
-                            <div className="d-flex flex-row width-fullsize gap-3 mt-3">
-                              <Input
-                                id={"firstname"}
-                                type={"text"}
-                                label="FIRST NAME"
-                                value={formPaymentData.firstName}
-                                onChange={(e) =>
-                                  handleChangePayment(
-                                    "firstName",
-                                    e.target.value
-                                  )
-                                }
-                                required
-                              />
-                              <Input
-                                id={"lastname"}
-                                type={"text"}
-                                label="LAST NAME"
-                                value={formPaymentData.lastName}
-                                onChange={(e) =>
-                                  handleChangePayment(
-                                    "lastName",
-                                    e.target.value
-                                  )
-                                }
-                                required
-                              />
-                            </div>
-                            <div className="width-fullsize mt-3">
-                              <Input
-                                id={"address1"}
-                                type={"text"}
-                                label="ADDRESS 1"
-                                value={formPaymentData.address1}
-                                onChange={(e) =>
-                                  handleChangePayment(
-                                    "address1",
-                                    e.target.value
-                                  )
-                                }
-                                required
-                              />
-                            </div>
-                            <div className="width-fullsize mt-3">
-                              <Input
-                                id={"address2"}
-                                type={"text"}
-                                label="ADDRESS 2"
-                                value={formPaymentData.address2}
-                                onChange={(e) =>
-                                  handleChangePayment(
-                                    "address2",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </div>
-                            <div className="payment-credit-billing width-fullsize gap-3 mt-3">
-                              <Select
-                                label="COUNTRY"
-                                options={countries.map((c) => [c.name, c.name])}
-                                value={formPaymentData!.country}
-                                onChange={(e) =>
-                                  handleChangePayment("country", e.target.value)
-                                }
-                                required
-                              />
+                  // {
+                  //   label: "Credit Card",
+                  //   content: (
+                  //     <div className="d-flex flex-col">
+                  //       <div className="payment-credit-wrap gap-2 width-fullsize">
+                  //         <div className="d-flex flex-col width-fullsize">
+                  //           <div className="d-flex flex-row items-center">
+                  //             <p className="text-font-semibold font-size-sm text-uppercase">
+                  //               Credit Card Number
+                  //             </p>
+                  //           </div>
+                  //           <div
+                  //             id="card-number"
+                  //             className="payment-input-card"
+                  //           ></div>
+                  //         </div>
+                  //         <div className="d-flex flex-col">
+                  //           <div className="d-flex flex-row items-center">
+                  //             <p className="text-font-semibold font-size-sm text-uppercase">
+                  //               CVC
+                  //             </p>
+                  //           </div>
+                  //           <div id="cvv" className="payment-input-card"></div>
+                  //         </div>
+                  //         <div className="d-flex flex-col">
+                  //           <div className="d-flex flex-row items-center">
+                  //             <p className="text-font-semibold font-size-sm text-uppercase">
+                  //               Expiration Date
+                  //             </p>
+                  //           </div>
+                  //           <div
+                  //             id="expiration-date"
+                  //             className="payment-input-card"
+                  //           ></div>
+                  //         </div>
+                  //       </div>
+                  //       <div className="d-flex flex-row items-center mt-2">
+                  //         <p className="text-font-regular font-size-sm text-start">
+                  //           Accepted credit cards
+                  //         </p>
+                  //         <div className="payment-credit-card gap-2 ml-3">
+                  //           <img
+                  //             src={IMAGES.jcb}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //           <img
+                  //             src={IMAGES.visa}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //           <img
+                  //             src={IMAGES.amex}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //           <img
+                  //             src={IMAGES.diner}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //           <img
+                  //             src={IMAGES.masterCard}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //           <img
+                  //             src={IMAGES.union}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //           <img
+                  //             src={IMAGES.discover}
+                  //             alt=""
+                  //             className="payment-credit-icon"
+                  //           />
+                  //         </div>
+                  //       </div>
+                  //       <div className="d-flex flex-col mt-2">
+                  //         <div className="d-flex flex-row items-center">
+                  //           <p className="text-font-semibold font-size-sm text-uppercase">
+                  //             Name on Card
+                  //           </p>
+                  //         </div>
+                  //         <input
+                  //           id="text"
+                  //           type="text"
+                  //           value={formPaymentData.nameOnCard}
+                  //           onChange={(e) => {
+                  //             const noAccentUpper = e.target.value
+                  //               .normalize("NFD")
+                  //               .replace(/[\u0300-\u036f]/g, "")
+                  //               .toUpperCase();
+                  //             handleChangePayment("nameOnCard", noAccentUpper);
+                  //           }}
+                  //           required
+                  //           className="payment-input payment-input-card-name text-font-regular font-size-sm text-uppercase mt-2"
+                  //         />
+                  //       </div>
+                  //       <div className="d-flex flex-col justify-center mt-3">
+                  //         <CheckBox
+                  //           isCheck={isSameAddress}
+                  //           setIsCheck={() => setIsSameAddress(!isSameAddress)}
+                  //           titleBtn={
+                  //             "Billing Address and Phone are the same as Shipping Information."
+                  //           }
+                  //           classNameContainer="payment-credit-checkbox"
+                  //         />
+                  //       </div>
+                  //       {!isSameAddress && (
+                  //         <div className="d-flex flex-col items-start mt-3">
+                  //           <p className="text-font-semibold font-size-sm">
+                  //             Please enter the corresponding billing information
+                  //             for the payment method you intend to use.
+                  //           </p>
+                  //           <div className="d-flex flex-row width-fullsize gap-3 mt-3">
+                  //             <Input
+                  //               id={"firstname"}
+                  //               type={"text"}
+                  //               label="FIRST NAME"
+                  //               value={formPaymentData.firstName}
+                  //               onChange={(e) =>
+                  //                 handleChangePayment(
+                  //                   "firstName",
+                  //                   e.target.value
+                  //                 )
+                  //               }
+                  //               required
+                  //             />
+                  //             <Input
+                  //               id={"lastname"}
+                  //               type={"text"}
+                  //               label="LAST NAME"
+                  //               value={formPaymentData.lastName}
+                  //               onChange={(e) =>
+                  //                 handleChangePayment(
+                  //                   "lastName",
+                  //                   e.target.value
+                  //                 )
+                  //               }
+                  //               required
+                  //             />
+                  //           </div>
+                  //           <div className="width-fullsize mt-3">
+                  //             <Input
+                  //               id={"address1"}
+                  //               type={"text"}
+                  //               label="ADDRESS 1"
+                  //               value={formPaymentData.address1}
+                  //               onChange={(e) =>
+                  //                 handleChangePayment(
+                  //                   "address1",
+                  //                   e.target.value
+                  //                 )
+                  //               }
+                  //               required
+                  //             />
+                  //           </div>
+                  //           <div className="width-fullsize mt-3">
+                  //             <Input
+                  //               id={"address2"}
+                  //               type={"text"}
+                  //               label="ADDRESS 2"
+                  //               value={formPaymentData.address2}
+                  //               onChange={(e) =>
+                  //                 handleChangePayment(
+                  //                   "address2",
+                  //                   e.target.value
+                  //                 )
+                  //               }
+                  //             />
+                  //           </div>
+                  //           <div className="payment-credit-billing width-fullsize gap-3 mt-3">
+                  //             <Select
+                  //               label="COUNTRY"
+                  //               options={countries.map((c) => [c.name, c.name])}
+                  //               value={formPaymentData!.country}
+                  //               onChange={(e) =>
+                  //                 handleChangePayment("country", e.target.value)
+                  //               }
+                  //               required
+                  //             />
 
-                              <div className="width-fullsize">
-                                <Select
-                                  label="State/Province/Region"
-                                  value={formPaymentData?.state}
-                                  options={stateListPayment.map((s) => [
-                                    s.name,
-                                    s.name,
-                                  ])}
-                                  onChange={(e) =>
-                                    handleChangePayment("state", e.target.value)
-                                  }
-                                  required
-                                />
-                              </div>
-                            </div>
-                            <div className="d-flex flex-row width-fullsize gap-3 mt-3">
-                              <div className="width-fullsize">
-                                <Select
-                                  label="City/District"
-                                  value={formPaymentData?.city}
-                                  options={cityListPayment.map((c) => [
-                                    c.name,
-                                    c.name,
-                                  ])}
-                                  onChange={(e) =>
-                                    handleChangePayment("city", e.target.value)
-                                  }
-                                  required
-                                />
-                              </div>
-                              <div className="">
-                                <Input
-                                  id={"postcode"}
-                                  type={"text"}
-                                  label="POSTCODE"
-                                  value={formPaymentData.postcode}
-                                  onChange={(e) =>
-                                    handleChangePayment(
-                                      "postcode",
-                                      e.target.value
-                                    )
-                                  }
-                                  required
-                                />
-                              </div>
-                            </div>
-                            <div className="d-flex flex-row width-fullsize mt-3">
-                              <div className="payment-credit-billing-phonecode">
-                                <Select
-                                  label="PHONE CODE"
-                                  value={
-                                    formPaymentData?.phonecode
-                                      ? formPaymentData?.phonecode
-                                      : ""
-                                  }
-                                  options={countryCallingCodes.map((c) => [
-                                    `+${c.countryCodes[0]}`,
-                                    `${c.isoCode2} (+${c.countryCodes[0]})`,
-                                  ])}
-                                  onChange={(e) =>
-                                    handleChangePayment(
-                                      "phonecode",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </div>
+                  //             <div className="width-fullsize">
+                  //               <Select
+                  //                 label="State/Province/Region"
+                  //                 value={formPaymentData?.state}
+                  //                 options={stateListPayment.map((s) => [
+                  //                   s.name,
+                  //                   s.name,
+                  //                 ])}
+                  //                 onChange={(e) =>
+                  //                   handleChangePayment("state", e.target.value)
+                  //                 }
+                  //                 required
+                  //               />
+                  //             </div>
+                  //           </div>
+                  //           <div className="d-flex flex-row width-fullsize gap-3 mt-3">
+                  //             <div className="width-fullsize">
+                  //               <Select
+                  //                 label="City/District"
+                  //                 value={formPaymentData?.city}
+                  //                 options={cityListPayment.map((c) => [
+                  //                   c.name,
+                  //                   c.name,
+                  //                 ])}
+                  //                 onChange={(e) =>
+                  //                   handleChangePayment("city", e.target.value)
+                  //                 }
+                  //                 required
+                  //               />
+                  //             </div>
+                  //             <div className="">
+                  //               <Input
+                  //                 id={"postcode"}
+                  //                 type={"text"}
+                  //                 label="POSTCODE"
+                  //                 value={formPaymentData.postcode}
+                  //                 onChange={(e) =>
+                  //                   handleChangePayment(
+                  //                     "postcode",
+                  //                     e.target.value
+                  //                   )
+                  //                 }
+                  //                 required
+                  //               />
+                  //             </div>
+                  //           </div>
+                  //           <div className="d-flex flex-row width-fullsize mt-3">
+                  //             <div className="payment-credit-billing-phonecode">
+                  //               <Select
+                  //                 label="PHONE CODE"
+                  //                 value={
+                  //                   formPaymentData?.phonecode
+                  //                     ? formPaymentData?.phonecode
+                  //                     : ""
+                  //                 }
+                  //                 options={countryCallingCodes.map((c) => [
+                  //                   `+${c.countryCodes[0]}`,
+                  //                   `${c.isoCode2} (+${c.countryCodes[0]})`,
+                  //                 ])}
+                  //                 onChange={(e) =>
+                  //                   handleChangePayment(
+                  //                     "phonecode",
+                  //                     e.target.value
+                  //                   )
+                  //                 }
+                  //               />
+                  //             </div>
 
-                              <div className="width-fullsize ml-3">
-                                <Input
-                                  id={"phone"}
-                                  type={"phone"}
-                                  label="PHONE NUMBER"
-                                  value={formPaymentData.phone}
-                                  onChange={(e) =>
-                                    handleChangePayment("phone", e.target.value)
-                                  }
-                                  classNameLabel="text-start"
-                                  required
-                                />
-                              </div>
-                            </div>
-                            <div className="mt-3">
-                              <CheckBox
-                                isCheck={isAddAdditionContact}
-                                setIsCheck={() =>
-                                  setIsAddAdditionContact(!isAddAdditionContact)
-                                }
-                                titleBtn={"Add additional contact number"}
-                                classNameContainer="payment-credit-checkbox"
-                              />
-                            </div>
-                            {isAddAdditionContact && (
-                              <div className="d-flex flex-row width-fullsize mt-3">
-                                <div className="payment-credit-billing-phonecode">
-                                  <Select
-                                    label="PHONE CODE"
-                                    value={formPaymentData?.phonecode2}
-                                    options={countryCallingCodes.map((c) => [
-                                      `+${c.countryCodes[0]}`,
-                                      `${c.isoCode2} (+${c.countryCodes[0]})`,
-                                    ])}
-                                    onChange={(e) =>
-                                      handleChangePayment(
-                                        "phonecode2",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
+                  //             <div className="width-fullsize ml-3">
+                  //               <Input
+                  //                 id={"phone"}
+                  //                 type={"phone"}
+                  //                 label="PHONE NUMBER"
+                  //                 value={formPaymentData.phone}
+                  //                 onChange={(e) =>
+                  //                   handleChangePayment("phone", e.target.value)
+                  //                 }
+                  //                 classNameLabel="text-start"
+                  //                 required
+                  //               />
+                  //             </div>
+                  //           </div>
+                  //           <div className="mt-3">
+                  //             <CheckBox
+                  //               isCheck={isAddAdditionContact}
+                  //               setIsCheck={() =>
+                  //                 setIsAddAdditionContact(!isAddAdditionContact)
+                  //               }
+                  //               titleBtn={"Add additional contact number"}
+                  //               classNameContainer="payment-credit-checkbox"
+                  //             />
+                  //           </div>
+                  //           {isAddAdditionContact && (
+                  //             <div className="d-flex flex-row width-fullsize mt-3">
+                  //               <div className="payment-credit-billing-phonecode">
+                  //                 <Select
+                  //                   label="PHONE CODE"
+                  //                   value={formPaymentData?.phonecode2}
+                  //                   options={countryCallingCodes.map((c) => [
+                  //                     `+${c.countryCodes[0]}`,
+                  //                     `${c.isoCode2} (+${c.countryCodes[0]})`,
+                  //                   ])}
+                  //                   onChange={(e) =>
+                  //                     handleChangePayment(
+                  //                       "phonecode2",
+                  //                       e.target.value
+                  //                     )
+                  //                   }
+                  //                 />
+                  //               </div>
 
-                                <div className="width-fullsize ml-3">
-                                  <Input
-                                    id={"phone"}
-                                    type={"phone"}
-                                    label="PHONE NUMBER"
-                                    classNameLabel="text-start"
-                                    value={formPaymentData.phone2}
-                                    onChange={(e) =>
-                                      handleChangePayment(
-                                        "phone2",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ),
-                  },
+                  //               <div className="width-fullsize ml-3">
+                  //                 <Input
+                  //                   id={"phone"}
+                  //                   type={"phone"}
+                  //                   label="PHONE NUMBER"
+                  //                   classNameLabel="text-start"
+                  //                   value={formPaymentData.phone2}
+                  //                   onChange={(e) =>
+                  //                     handleChangePayment(
+                  //                       "phone2",
+                  //                       e.target.value
+                  //                     )
+                  //                   }
+                  //                 />
+                  //               </div>
+                  //             </div>
+                  //           )}
+                  //         </div>
+                  //       )}
+                  //     </div>
+                  //   ),
+                  // },
                   {
                     label: "PayPal",
                     content: (
@@ -1401,18 +1400,28 @@ export const Payment: React.FC = () => {
                     ),
                   },
                 ]}
-              />
-              {errorsPayment && (
+              /> */}
+              <div className="payment-infor-paypal-wrap width-fullsize">
+                <div className="payment-order-button-paypal width-fullsize">
+                  <PayPalButtons
+                  className="paypal-button-custom"
+                    createOrder={handleCreatePaypalOrder}
+                    onApprove={handleApprovePaypalOrder}
+                  />
+                </div>
+              </div>
+
+              {/* {errorsPayment && (
                 <p className="text-font-regular font-size-sm text-start text-red-500 mt-4 ml-1">
                   {errorsPayment}
                 </p>
-              )}
-              <button
+              )} */}
+              {/* <button
                 className="payment-button text-font-semibold font-size-sm text-uppercase mt-3"
                 onClick={handlePayment}
               >
-                {checkEdit.payment ? "Save Changes" : "Confirm Details"}
-              </button>
+                Confirm Details
+              </button> */}
             </div>
           </div>
         </div>
@@ -1513,7 +1522,7 @@ export const Payment: React.FC = () => {
               </div>
             </div>
             <div className="d-flex flex-col width-fullsize gap-2 mt-3">
-              {isDoneAddress && isDonePayment && currentTab === 0 ? (
+              {/* {isDoneAddress && isDonePayment && currentTab === 0 ? (
                 <button
                   className="payment-order-button text-font-semibold font-size-sm text-uppercase"
                   onClick={handlePaymentCredit}
@@ -1525,14 +1534,14 @@ export const Payment: React.FC = () => {
                 (selectedAddress || addAddress) &&
                 isDonePayment &&
                 isDoneAddress && (
-                  <PayPalButtons
+                   <PayPalButtons
                     className="payment-order-button-paypal"
                     fundingSource="paypal"
                     createOrder={handleCreatePaypalOrder}
                     onApprove={handleApprovePaypalOrder}
                   />
                 )
-              )}
+              )} */}
               <p className="text-font-regular font-size-xs text-justify">
                 Please note that the full payment will be charged immediately
                 when the order is placed. This payment ensures that your order

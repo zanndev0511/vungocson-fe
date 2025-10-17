@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <div className="App">
           <AppRoutes />
         </div>
-        <ToastContainer />
+        <ToastContainer/>
       </ScrollToTop>
     </BrowserRouter>
   );

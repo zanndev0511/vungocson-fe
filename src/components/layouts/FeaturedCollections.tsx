@@ -32,7 +32,7 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
   };
 
   return (
-    <div className="d-flex flex-col justify-center items-center">
+    <div className="d-flex flex-col justify-center items-center width-fullsize">
       <div className="featured-collection-wrap">
         {runway.map((item, index) => (
           <div

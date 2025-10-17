@@ -73,7 +73,7 @@ export const ContactUs: React.FC<ContactUsProps> = (props) => {
                   variant="static-underline"
                   className="font-size-sm"
                   onClick={() =>
-                    (window.location.href = "mailto:vungocson.design@gmail.com")
+                    (window.location.href = "mailto:info@vungocandson.com")
                   }
                 />
               </div>

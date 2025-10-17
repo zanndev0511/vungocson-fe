@@ -12,6 +12,7 @@ export default defineConfig({
   clearScreen: false,
   logLevel: "info",
   server: {
+    host: true,
     port: 3002,
     open: true,
   },

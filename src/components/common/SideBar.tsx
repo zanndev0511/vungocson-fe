@@ -29,7 +29,7 @@ export const SideBar: React.FC<SidebarProps> = (props) => {
   const specNavigation = [
     { name: "My Orders", src: "/me/orders" },
     { name: "Contact", src: "/support/contact" },
-    { name: "FAQ", src: "/account" },
+    { name: "FAQ", src: "/support/faq" },
   ];
 
   const fetchMenus = async () => {
