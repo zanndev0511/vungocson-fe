@@ -19,4 +19,17 @@ export interface RunwayProductRoll {
   created: string;
   updated: string;
 }
-export {};
+
+export interface CollectionRunway {
+  id?: string;
+  name: string;
+  slug: string;
+  description: string;
+  products: ProductRunway[];
+  banner: string[];
+  status: "active" | "inactive";
+  sortOrder: number;
+  productsCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}

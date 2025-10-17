@@ -1,18 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { FeaturedCollectionsProps } from "@interfaces/components/featuredCollections";
 import "@styles/components/featuredCollections.scss";
 import { Button } from "@components/common/Button";
 import { ICONS } from "@constants/icons";
 import DOMPurify from "dompurify";
+import { useNavigate } from "react-router-dom";
 
 export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
   props
 ) => {
   const { runway } = props;
+  const navigate = useNavigate();
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [playingStates, setPlayingStates] = useState<boolean[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPlayingStates(runway.map(() => true));
   }, [runway]);
 
@@ -78,7 +80,15 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
                 ></p>
               </div>
               <div className="mt-4">
-                <Button label={"Discover More"} variant="static-underline" />
+                <Button
+                  label={"Discover More"}
+                  variant="static-underline"
+                  onClick={() =>
+                    navigate(
+                      `/collection/${item.collection?.id}/${item.collection?.slug}`
+                    )
+                  }
+                />
               </div>
             </div>
           </div>

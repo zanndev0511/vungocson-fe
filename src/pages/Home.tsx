@@ -222,7 +222,7 @@ export const Home: React.FC = () => {
           <Carousel itemProducts={products} />
         </div>
         <div className="mt-5">
-          <News listNews={news} />
+          {news.length > 0 && <News listNews={news} />} 
         </div>
       </div>
       <div>

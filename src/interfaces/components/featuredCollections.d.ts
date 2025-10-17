@@ -1,7 +1,7 @@
 export interface FeaturedCollectionsProps {
-    runway: RunwayFeatured[];
-    className?: string;
-    redirectUrl?: string;
+  runway: RunwayFeatured[];
+  className?: string;
+  redirectUrl?: string;
 }
 export interface RunwayFeatured {
   id: string;
@@ -9,13 +9,23 @@ export interface RunwayFeatured {
   banners: string[];
   description: string;
   video: string;
-  celebs: CelebRunway[];
-  products: ProductRunway[];
-  collectionId: string;
   collection?: CollectionRunway;
   status: "active" | "inactive";
-  galleries: GalleryRunway[]
   isFeatured: boolean;
   created: string;
   updated: string;
+}
+
+export interface CollectionRunway {
+  id?: string;
+  name: string;
+  slug: string;
+  description: string;
+  products: ProductRunway[];
+  banner: string[];
+  status: "active" | "inactive";
+  sortOrder: number;
+  productsCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
