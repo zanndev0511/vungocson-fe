@@ -149,14 +149,16 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
       });
       setNotify({
         status: "success",
-        message: "Your order has been submitted. We will get in touch with you soon, please stay tuned.",
+        message:
+          "Your order has been submitted. We will get in touch with you soon, please stay tuned.",
       });
       setTimeout(() => setNotify(null), 5000);
     } catch (error) {
       console.error(error);
       setNotify({
         status: "fail",
-        message: "We’re sorry, but we couldn’t submit your order at the moment. Please try again later.",
+        message:
+          "We’re sorry, but we couldn’t submit your order at the moment. Please try again later.",
       });
       setTimeout(() => setNotify(null), 5000);
     }
@@ -221,10 +223,34 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                     MADE-TO-MEASURE
                   </p>
                   <p className="text-font-light-italic font-size-xs text-start mt-2">
-                    Please proceed payment by selecting your custom size. If you
-                    haven’t provided your measurements yet, kindly input your
-                    custom size to complete the process.
+                    Measure your body with a sewing tape measure. You may need
+                    the help of another person for certain points.
                   </p>
+                  <div className="d-flex flex-col mt-2">
+                    <p className="text-font-semibold font-size-xs text-start">
+                      1. BUST
+                    </p>
+                    <p className="text-font-regular font-size-xs text-start">
+                      Measure under your arms, around the fullest part of your
+                      chest.
+                    </p>
+                  </div>
+                  <div className="d-flex flex-col mt-1">
+                    <p className="text-font-semibold font-size-xs text-start">
+                      2. WAIST
+                    </p>
+                    <p className="text-font-regular font-size-xs text-start">
+                      Measure around you natural wasteline, below your rib cage, leaving the tape a bit loose.
+                    </p>
+                  </div>
+                  <div className="d-flex flex-col mt-1">
+                    <p className="text-font-semibold font-size-xs text-start">
+                      3. HIPS
+                    </p>
+                    <p className="text-font-regular font-size-xs text-start">
+                      Measure around the fullest part of your body, above the top of your legs.
+                    </p>
+                  </div>
                 </div>
                 <div className="d-flex flex-row justify-center items-center width-fullsize mt-5">
                   <div className="d-flex flex-col items-center justify-center relative">
@@ -549,19 +575,10 @@ export const CustomToOrder: React.FC<CustomToOrderProps> = (props) => {
                       setIsCheck={() => setIsCheckAgree(!isCheckAgree)}
                     />
                     <p className="text-font-light font-size-xs text-start">
-                      1. Minor discrepancies (+/- 1-2cm) in measurements may
-                      occur due to the nature of tailoring and fabric
-                      characteristics.
+                      1. You can request an exchange or a return of your items within 20 days from delivery following our quick and easy return procedure.
                     </p>
                     <p className="text-font-light font-size-xs text-start">
-                      2. Custom-to-order products are non-refundable and
-                      non-exchangeable, except in cases of significant technical
-                      errors on our part.
-                    </p>
-                    <p className="text-font-light font-size-xs text-start">
-                      3. All measurements provided are the customer’s
-                      responsibility. Issues arising from incorrect measurements
-                      will not be eligible for refund or exchange.
+                      2. You can find more information in the section returns and refunds.
                     </p>
                     <p className="text-font-regular font-size-sm text-start mt-2">
                       After submitting, we will contact you to confirm your

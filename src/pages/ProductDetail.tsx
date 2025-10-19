@@ -1,5 +1,5 @@
 import "@styles/pages/productDetail.scss";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Quantity } from "@components/common/Quantity";
 import { ICONS } from "@constants/icons";
 import Carousel from "@components/layouts/Carousel";
@@ -44,13 +44,14 @@ export const ProductDetail: React.FC = () => {
     y: 0,
   });
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const imageTrackRef = useRef<HTMLDivElement>(null);
 
   const [tabs, setTabs] = useState({
-    isDescription: false,
+    isDescription: true,
     isProductDetails: false,
   });
 
-  const size: Array<string> = ["S", "M", "L"];
+  const size: Array<string> = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL"];
   const [likedItems, setLikedItems] = useState<string[]>([]);
   const [product, setProduct] = useState<Product>({
     sku: "",
@@ -285,6 +286,20 @@ export const ProductDetail: React.FC = () => {
     }
   };
 
+  const scrollToImage = (index: number) => {
+    const container = imageTrackRef.current;
+    if (!container) return;
+
+    const images = container.querySelectorAll(
+      ".productDetail-infor-image-slide"
+    );
+    const targetImage = images[index] as HTMLElement;
+
+    if (targetImage) {
+      targetImage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  };
+
   const productSizeOptions: [string, string][] = size.map(
     (s): [string, string] => [s, s]
   );
@@ -325,6 +340,39 @@ export const ProductDetail: React.FC = () => {
     fetchWishlist();
   }, []);
 
+  useEffect(() => {
+    const container = imageTrackRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const images = container.querySelectorAll(
+        ".productDetail-infor-image-slide"
+      );
+
+      let maxVisibleIndex = 0;
+      let maxVisibleArea = 0;
+
+      images.forEach((img, index) => {
+        const rect = img.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        const visibleHeight =
+          Math.min(rect.bottom, containerRect.bottom) -
+          Math.max(rect.top, containerRect.top);
+
+        if (visibleHeight > maxVisibleArea) {
+          maxVisibleArea = visibleHeight;
+          maxVisibleIndex = index;
+        }
+      });
+
+      setCurrentIndex(maxVisibleIndex);
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [product.productGallery]);
+
   return (
     <>
       {showModal && (
@@ -333,14 +381,153 @@ export const ProductDetail: React.FC = () => {
             onClose={() => setShowModal(false)}
             isButton={false}
             isCancel
-            children={<p>Bảng size hiện ở đây</p>}
+            children={
+              <div className="d-flex flex-col width-fullsize gap-4 pl-3 pr-3">
+                <div className="d-flex flex-col items-start width-fullsize gap-3">
+                  <p className="text-font-semibold font-size-base text-start">
+                    SIZE GUIDE
+                  </p>
+                  <p className="text-font-regular font-size-sm text-start">
+                    THE SIZE SHOWN ON THE ITEM’S LABEL IS INDICATED ON EVERY
+                    ITEM PAGE AND CONVERTED INTO YOUR COUNTRY’S CORRESPONDING
+                    SIZE. TO SEARCH FOR THE SIZE THAT INTERESTS YOU, PLEASE USE
+                    VUNGOC&SON SIZE CHART, WHICH SHOULD HELP YOU FIND THE RIGHT
+                    FIT WITH AN INDICATIVE VALUE, FROM XXS TO XXXL, WHICH WE USE
+                    TO GROUP ALL DIFFERENT SIZES TOGETHER IN ONE SYSTEM.
+                  </p>
+                  <p className="text-font-regular font-size-sm text-start">
+                    FIND THE RIGHT SIZE FOR YOU WITH THE HELP OF OUR TABLES.
+                    BODY MEASUREMENTS ARE IN CENTIMETERS OR INCHES.
+                  </p>
+                </div>
+                <div className="d-flex flex-col items-start width-fullsize gap-3">
+                  <p className="text-font-semibold font-size-base width-fullsize text-start">
+                    SIZE GUIDE FROM VUNGOC&SON
+                  </p>
+                  <div className="d-flex flex-col items-center width-fullsize gap-2">
+                    <p className="text-font-regular font-size-sm width-fullsize text-end">
+                      <span className="text-font-semibold">CM/</span> INCH
+                    </p>
+                    <div className="productDetail-table-wrap">
+                      <table className="productDetail-table text-font-regular">
+                        <thead className="productDetail-table-head bg-gray-100">
+                          <tr>
+                            <th className="p-3">International</th>
+                            <th className="p-3">US</th>
+                            <th className="p-3">EU/FR</th>
+                            <th className="p-3">Shoulder</th>
+                            <th className="p-3">Bust</th>
+                            <th className="p-3">Waist</th>
+                            <th className="p-3">Hip</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="p-3">XXS</td>
+                            <td className="p-3">0</td>
+                            <td className="p-3">32</td>
+                            <td className="p-3">32</td>
+                            <td className="p-3">78</td>
+                            <td className="p-3">61</td>
+                            <td className="p-3">85</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">XS</td>
+                            <td className="p-3">2</td>
+                            <td className="p-3">34</td>
+                            <td className="p-3">33</td>
+                            <td className="p-3">82</td>
+                            <td className="p-3">62</td>
+                            <td className="p-3">86</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">S</td>
+                            <td className="p-3">4</td>
+                            <td className="p-3">36</td>
+                            <td className="p-3">34</td>
+                            <td className="p-3">86</td>
+                            <td className="p-3">66</td>
+                            <td className="p-3">90</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">M</td>
+                            <td className="p-3">6</td>
+                            <td className="p-3">38</td>
+                            <td className="p-3">35</td>
+                            <td className="p-3">90</td>
+                            <td className="p-3">70</td>
+                            <td className="p-3">94</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">L</td>
+                            <td className="p-3">8</td>
+                            <td className="p-3">40</td>
+                            <td className="p-3">36</td>
+                            <td className="p-3">94</td>
+                            <td className="p-3">74</td>
+                            <td className="p-3">98</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">XL</td>
+                            <td className="p-3">10</td>
+                            <td className="p-3">42</td>
+                            <td className="p-3">37</td>
+                            <td className="p-3">98</td>
+                            <td className="p-3">78</td>
+                            <td className="p-3">102</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">XXL</td>
+                            <td className="p-3">12</td>
+                            <td className="p-3">44</td>
+                            <td className="p-3">38</td>
+                            <td className="p-3">102</td>
+                            <td className="p-3">82</td>
+                            <td className="p-3">106</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3">3XL</td>
+                            <td className="p-3">14</td>
+                            <td className="p-3">46</td>
+                            <td className="p-3">49</td>
+                            <td className="p-3">106</td>
+                            <td className="p-3">86</td>
+                            <td className="p-3">110</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
           />
         </div>
       )}
       <Header backgroundColor="black" />
       <div className="productDetail d-flex flex-col">
-        <div className="productDetail-infor-image-wrap">
-          <div className="productDetail-infor-image-container d-flex flex-col width-fullsize">
+        <div className="productDetail-infor-image-wrap gap-10">
+          <div className="productDetail-infor-image-mini-container gap-2">
+            {product.productGallery.map((item, index) => (
+              <div
+                key={index}
+                className={`productDetail-infor-image-mini-wrap cursor-pointer ${
+                  currentIndex === index ? "active" : ""
+                }`}
+                onClick={() => scrollToImage(index)}
+              >
+                <img
+                  src={item}
+                  alt=""
+                  className="productDetail-infor-image-mini"
+                />
+              </div>
+            ))}
+          </div>
+          <div
+            className="productDetail-infor-image-container d-flex flex-col"
+            ref={imageTrackRef}
+          >
             <div
               className="productDetail-infor-image-track"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -387,7 +574,7 @@ export const ProductDetail: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="productDetail-infor-wrap d-flex flex-col width-fullsize">
+          <div className="productDetail-infor-wrap d-flex flex-col">
             <p className="productDetail-infor-product-name text-font-semibold font-size-xl text-start">
               {product.name}
             </p>
@@ -496,7 +683,7 @@ export const ProductDetail: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="mt-3">
+            <div className="d-flex flex-col gap-3 mt-3">
               <div
                 className="productDetail-infor-wishlist d-flex flex-row"
                 onClick={() => toggleLike(String(product.id))}
@@ -516,30 +703,32 @@ export const ProductDetail: React.FC = () => {
                     : "ADD TO WISHLIST"}
                 </p>
               </div>
-              <div className="d-flex flex-col gap-2 mt-4">
-                <div
-                  className="productDetail-infor-customSize d-flex flex-row"
-                  onClick={() => setIsOpenCustomToOrder(true)}
-                >
-                  <img
-                    src={ICONS.pencil}
-                    alt=""
-                    className="productDetail-infor-icon"
-                  />
-                  <p className="text-font-regular font-size-sm ml-3">
-                    CUSTOM TO ORDER
-                  </p>
-                </div>
-                <div className="productDetail-infor-sizeGuide d-flex flex-row">
-                  <img
-                    src={ICONS.ruler}
-                    alt=""
-                    className="productDetail-infor-icon"
-                  />
-                  <p className="text-font-regular font-size-sm ml-3">
-                    SIZE GUIDE
-                  </p>
-                </div>
+
+              <div
+                className="productDetail-infor-customSize d-flex flex-row"
+                onClick={() => setIsOpenCustomToOrder(true)}
+              >
+                <img
+                  src={ICONS.pencil}
+                  alt=""
+                  className="productDetail-infor-icon"
+                />
+                <p className="text-font-regular font-size-sm ml-3">
+                  CUSTOM TO ORDER
+                </p>
+              </div>
+              <div
+                className="productDetail-infor-sizeGuide d-flex flex-row"
+                onClick={() => setShowModal(true)}
+              >
+                <img
+                  src={ICONS.ruler}
+                  alt=""
+                  className="productDetail-infor-icon"
+                />
+                <p className="text-font-regular font-size-sm ml-3">
+                  SIZE GUIDE
+                </p>
               </div>
             </div>
             <div className="productDetail-divider mt-4" />
@@ -574,7 +763,7 @@ export const ProductDetail: React.FC = () => {
               </div>
             </div>
             <div className="productDetail-divider" />
-            <div className="d-flex flex-col pl-2 pr-2 pt-3 pb-3">
+            {/* <div className="d-flex flex-col pl-2 pr-2 pt-3 pb-3">
               <div className="d-flex flex-row justify-between">
                 <p className="text-font-semibold font-size-base">
                   PRODUCT DETAILS
@@ -610,8 +799,8 @@ export const ProductDetail: React.FC = () => {
                   details create an interesting feature for this outfit.
                 </p>
               </div>
-            </div>
-            <div className="productDetail-divider" />
+            </div> */}
+            {/* <div className="productDetail-divider" /> */}
           </div>
         </div>
         <div className="productDetail-recommend d-flex flex-col items-center">
