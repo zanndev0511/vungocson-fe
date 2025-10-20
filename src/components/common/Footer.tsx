@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
           />
         </div>
 
-        <div className="footer-content justify-center mt-5">
+        <div className="footer-content mt-5">
           <div className="d-flex flex-col">
             <p className="footer-text text-font-semibold text-uppercase font-size-md text-start">
               Explore Vungoc&son
@@ -101,12 +101,12 @@ const Footer: React.FC = () => {
                     Address:
                   </p>
                   <a
-                    href="https://www.google.com/maps?q=85+Le+Thanh+Ton+st.,+Dis1,+HCMC,+Vietnam"
+                    href="https://maps.app.goo.gl/zT2DpTv5D5iKWKJT6"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="footer-info-link text-start"
                   >
-                    85 Le Thanh Ton St., Dis1, HCMC, Vietnam
+                    85 Le Thanh Ton Street, Saigon Ward, Ho Chi Minh City, Vietnam
                   </a>
                 </div>
                 <div className="d-flex flex-row footer-text">

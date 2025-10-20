@@ -180,7 +180,7 @@ export const About: React.FC = () => {
             <img src={IMAGES.essence2} alt="" className="about-essence-image" />
           </div>
           <div className="about-essence-image-wrap">
-            <img src={IMAGES.essence3} alt="" className="about-essence-image" />
+            <img src={IMAGES.essence4} alt="" className="about-essence-image" />
           </div>
         </div>
       </div>

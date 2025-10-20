@@ -33,6 +33,7 @@ import vungocson4 from '@images/vungocson/vungocson4.jpg';
 import essence1 from '@images/about/essence1.jpg';
 import essence2 from '@images/about/essence2.jpg';
 import essence3 from '@images/about/essence3.jpg';
+import essence4 from '@images/about/essence4.jpg';
 
 import new1 from '@images/news/new1.jpeg';
 import new2 from '@images/news/new2.jpg';
@@ -109,6 +110,7 @@ export const IMAGES = {
   essence1,
   essence2,
   essence3,
+  essence4,
 };
 
 export type ImageName = keyof typeof IMAGES;
