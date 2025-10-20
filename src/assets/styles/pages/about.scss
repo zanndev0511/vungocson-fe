@@ -28,7 +28,7 @@
     }
     &-logo {
       &-wrap {
-        width: 100%;
+        max-width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, 350px);
         gap: 30px;
@@ -36,7 +36,7 @@
         justify-items: center;
         opacity: 0.4;
         @media (max-width: 1024px) {
-          grid-template-columns: repeat(auto-fill, 100px);
+          grid-template-columns: repeat(auto-fill, 90px);
         }
       }
     }
