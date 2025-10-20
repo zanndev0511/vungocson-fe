@@ -25,12 +25,14 @@ import celeb3 from '@images/celebs/celeb3.jpg';
 import celeb4 from '@images/celebs/celeb4.jpg';
 import celeb5 from '@images/celebs/celeb5.jpg';
 
-import vungocson from '@images/vungocson/vungocson.png';
+import vungocson1 from '@images/vungocson/vungocson1.jpg';
 import vungocson2 from '@images/vungocson/vungocson2.png';
-import vungocson3 from '@images/vungocson/vungocson3.png';
+import vungocson3 from '@images/vungocson/vungocson3.jpg';
 import vungocson4 from '@images/vungocson/vungocson4.jpg';
-import vungocson5 from '@images/vungocson/vungocson5.png';
-import vungocson6 from '@images/vungocson/vungocson6.png';
+
+import essence1 from '@images/about/essence1.jpg';
+import essence2 from '@images/about/essence2.jpg';
+import essence3 from '@images/about/essence3.jpg';
 
 import new1 from '@images/news/new1.jpeg';
 import new2 from '@images/news/new2.jpg';
@@ -80,12 +82,10 @@ export const IMAGES = {
   celeb3,
   celeb4,
   celeb5,
-  vungocson,
+  vungocson1,
   vungocson2,
   vungocson3,
   vungocson4,
-  vungocson5,
-  vungocson6,
   new1,
   new2,
   news3,
@@ -105,7 +105,10 @@ export const IMAGES = {
   paypal,
   bannerPaintMyLove,
   womanModal,
-  manModel
+  manModel,
+  essence1,
+  essence2,
+  essence3,
 };
 
 export type ImageName = keyof typeof IMAGES;
