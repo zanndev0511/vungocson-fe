@@ -26,22 +26,22 @@
       &-description {
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 7;
-        line-clamp: 7;
+        -webkit-line-clamp: 5;
+        line-clamp: 5;
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 24px;
         @media (max-width: 1024px) {
-             -webkit-line-clamp: 5;
-        line-clamp: 5;
+             -webkit-line-clamp: 4;
+        line-clamp: 4;
           }
         &-wrap {
-          height: 165px;
+          height: 120px;
           overflow: hidden;
           margin-top: 10px;
           @media (max-width: 1024px) {
             padding: 0 20px;
-            height: 120px;
+            height: 90px;
           }
         }
       }
@@ -58,7 +58,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
-    justify-content: center;
+    justify-items: center;
     @media (max-width: 1024px) {
       grid-template-columns: repeat(1, 1fr);
       gap: 25px;
@@ -66,21 +66,21 @@
   }
   &-fontSize {
     &-base {
-      font-size: 16px;
+      font-size: 14px;
       @media (max-width: 1024px) {
-        font-size: 13px;
+        font-size: 11px;
       }
     }
     &-lg {
-      font-size: 20px;
+      font-size: 18px;
       @media (max-width: 1024px) {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
     &-md {
-      font-size: 18px;
+      font-size: 16px;
       @media (max-width: 1024px) {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
   }

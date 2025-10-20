@@ -60,8 +60,8 @@ const Carousel: React.FC<CarouselProps> = (props) => {
               />
             </div>
 
-            <div className="carousel-item-name-wrap d-flex flex-col items-start">
-              <p className="carousel-item-name text-font-semibold text-color text-start">
+            <div className="carousel-item-name-wrap d-flex flex-col items-center">
+              <p className="carousel-item-name text-font-semibold font-size-sm text-color text-center">
                 {itemProduct.name}
               </p>
             </div>

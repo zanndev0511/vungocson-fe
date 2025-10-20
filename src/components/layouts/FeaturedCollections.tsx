@@ -71,7 +71,7 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
               </p>
               <div className="featured-collection-video-content-description-wrap">
                 <p
-                  className="featured-collection-video-content-description featured-collection-fontSize-base text-font-light"
+                  className="featured-collection-video-content-description font-size-sm text-font-light"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(item.description ?? "", {
                       FORBID_ATTR: ["style"],
@@ -79,10 +79,11 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
                   }}
                 ></p>
               </div>
-              <div className="mt-4">
+              <div className="mt-2">
                 <Button
                   label={"Discover More"}
                   variant="static-underline"
+                  className="font-size-sm"
                   onClick={() =>
                     navigate(
                       `/collection/${item.collection?.id}/${item.collection?.slug}`

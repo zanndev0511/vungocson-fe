@@ -172,7 +172,7 @@ export const Home: React.FC = () => {
         <div>
           {runwayFeature && <ProductRoll runwayFeature={runwayFeature} />}
         </div>
-        <div className="">
+        <div className="d-flex flex-col items-center width-fullsize">
           <p className="home-fontSize-2xl text-font-semibold text-uppercase p-5">
             The Collection Series
           </p>
