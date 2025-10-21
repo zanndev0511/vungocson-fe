@@ -49,11 +49,13 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
                 autoPlay
                 loop
                 muted
+                playsInline
                 className="featured-collection-video"
               >
                 <source src={encodeURI(item.video)} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
+
               <div
                 className="featured-collection-video-control-container d-flex flex-row justify-center items-center"
                 onClick={() => togglePlay(index)}
