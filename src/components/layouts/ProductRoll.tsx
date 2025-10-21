@@ -17,10 +17,11 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
       <div className="collection-intro-container gap-4 fullsize">
         <video
           src={runwayFeature?.video}
-          controls
           autoPlay
           loop
           muted
+          playsInline
+          controls
           className="collection-video"
         />
         <div className="collection-content">
@@ -48,7 +49,9 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
             </p>
             <button
               className="collection-button text-font-light p-2 m-3"
-              onClick={() => navigate(`/runway/${runwayFeature.id}/${runwayFeature.slug}`)}
+              onClick={() =>
+                navigate(`/runway/${runwayFeature.id}/${runwayFeature.slug}`)
+              }
             >
               Discover More
             </button>
