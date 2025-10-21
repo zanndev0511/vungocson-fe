@@ -64,7 +64,9 @@ export const Home: React.FC = () => {
         ? response.data.data
         : [];
 
-      const activeItems = items.filter((item) => item.status === "active");
+      const activeItems = items.filter(
+        (item) => item.status === "active" && item.isFeatured !== true
+      );
       const featureRunway = items.find(
         (item) => item.isFeatured === true && item.status === "active"
       );
