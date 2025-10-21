@@ -48,7 +48,7 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
             </p>
             <button
               className="collection-button text-font-light p-2 m-3"
-              onClick={() => navigate(`/collection/${runwayFeature.collection?.id}/${runwayFeature.collection?.slug}`)}
+              onClick={() => navigate(`/runway/${runwayFeature.id}/${runwayFeature.slug}`)}
             >
               Discover More
             </button>

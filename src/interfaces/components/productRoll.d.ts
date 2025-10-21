@@ -9,6 +9,7 @@ export interface RunwayProductRoll {
   banners: string[];
   description: string;
   video: string;
+  slug: string;
   celebs: CelebRunway[];
   products: ProductRunway[];
   collectionId: string;
