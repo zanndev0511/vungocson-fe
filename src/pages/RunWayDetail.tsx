@@ -14,6 +14,8 @@ export const RunWayDetail: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
+  const [showVideoCampainModal, setShowVideoCampainModal] =
+    useState<boolean>(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -99,7 +101,7 @@ export const RunWayDetail: React.FC = () => {
             className="runwayDetail-banner"
           />
           <div className="runwayDetail-banner-overlay" />
-          <div className="runwayDetail-banner-content d-flex flex-col items-center justify-center">
+          <div className="runwayDetail-banner-content d-flex flex-col items-center justify-center gap-2">
             <p className="runwayDetail-banner-content-title text-font-semibold font-size-3xl text-uppercase">
               {runway?.name}
             </p>
@@ -191,10 +193,39 @@ export const RunWayDetail: React.FC = () => {
             />
           ))}
         </div>
+        <div className="runwayDetail-banner-container d-flex flex-col items-center">
+          <img
+            src={runway?.banners[1] ? runway?.banners[1] : runway?.banners[0]}
+            alt=""
+            className="runwayDetail-banner"
+          />
+          <div className="runwayDetail-banner-overlay" />
+          <div className="runwayDetail-banner-content d-flex flex-col items-center justify-center gap-2">
+            <p className="runwayDetail-banner-content-title text-font-semibold font-size-3xl text-uppercase">
+              campaign
+            </p>
+            <button
+              className="runwayDetail-banner-button d-flex flex-row justify-center items-center"
+              onClick={() => setShowVideoCampainModal(true)}
+            >
+              <img
+                src={ICONS.play}
+                alt=""
+                className="runwayDetail-banner-button-icon"
+              />
+              <p className="text-font-semibold font-size-sm ml-2">
+                SEE THE FILM
+              </p>
+            </button>
+          </div>
+        </div>
       </div>
 
-      {showVideoModal && (
-        <div className="video-modal-overlay" onClick={closeVideoModal}>
+      {showVideoCampainModal && (
+        <div
+          className="video-modal-overlay"
+          onClick={() => setShowVideoCampainModal(false)}
+        >
           <div
             className="video-modal-content"
             onClick={(e) => e.stopPropagation()}
@@ -203,14 +234,16 @@ export const RunWayDetail: React.FC = () => {
               src={ICONS.cancel}
               alt=""
               className="video-modal-close"
-              onClick={closeVideoModal}
+              onClick={() => setShowVideoCampainModal(false)}
             />
             <video
               width="100%"
               height="100%"
               autoPlay
               controls
-              poster={runway?.banners[0]}
+              poster={
+                runway?.banners[1] ? runway?.banners[1] : runway?.banners[0]
+              }
             >
               <source src={runway?.video} type="video/mp4" />
               Your browser does not support the video tag.
@@ -218,8 +251,32 @@ export const RunWayDetail: React.FC = () => {
           </div>
         </div>
       )}
+      {showVideoModal && (
+        <div className="video-modal-overlay" onClick={closeVideoModal}>
+          <div
+            className="runwayDetail-video-wrap"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={ICONS.cancel}
+              alt="close"
+              className="video-modal-close"
+              onClick={closeVideoModal}
+            />
+            <iframe
+              width="100%"
+              height="100%"
+              src={runway?.youtubeUrl}
+              title="YouTube video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
 
-      <div className="mt-3">
+      <div className="">
         <Footer />
       </div>
     </>

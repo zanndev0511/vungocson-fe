@@ -119,12 +119,6 @@
     width: 100%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
-  &-content {
-    padding: 64px;
-    @media (max-width: 1024px) {
-      padding: 10px;
-    }
-  }
   &-fontSize {
     &-base {
       font-size: 14px;
@@ -149,6 +143,12 @@
       @media (max-width: 1024px) {
         font-size: 18px;
       }
+    }
+  }
+  &-view {
+    padding: 0 64px;
+    @media (max-width: 1024px) {
+      padding: 0 15px;
     }
   }
 }

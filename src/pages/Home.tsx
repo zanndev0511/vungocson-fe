@@ -180,7 +180,7 @@ export const Home: React.FC = () => {
         </div>
         <div className="home-divider mt-5" />
         <div className="mt-4">
-          <div className="d-flex flex-row justify-between mb-3">
+          <div className="home-view d-flex flex-row justify-between mb-3">
             <span className="font-size-lg text-font-semibold text-uppercase">
               NEW ARRIVALS
             </span>
@@ -194,7 +194,7 @@ export const Home: React.FC = () => {
           <Carousel itemProducts={products} />
         </div>
         <div className="mt-5">
-          {news.length > 0 && <News listNews={news} />} 
+          {news.length > 0 && <News listNews={news} />}
         </div>
       </div>
       <div>

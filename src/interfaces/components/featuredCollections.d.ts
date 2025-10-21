@@ -8,6 +8,7 @@ export interface RunwayFeatured {
   name: string;
   banners: string[];
   description: string;
+  slug: string;
   video: string;
   collection?: CollectionRunway;
   status: "active" | "inactive";

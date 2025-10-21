@@ -64,8 +64,29 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = (
                   className="featured-collection-video-control-icon"
                 />
               </div>
+              <div className="featured-collection-overlay">
+                <div className="featured-collection-overlay-title d-flex flex-col items-start justify-end">
+                  <p className="text-font-semibold font-size-sm text-uppercase text-start">
+                    {item.collection?.name}
+                  </p>
+                  <p className="text-font-semibold font-size-sm text-uppercase text-start">
+                    {item.name} Fashion Show
+                  </p>
+                  <div>
+                    <Button
+                      label={"Discover More"}
+                      variant="static-underline"
+                      className="font-size-sm"
+                      onClick={() =>
+                        navigate(`/runway/${item.id}/${item.slug}`)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="featured-collection-video-content d-flex flex-col items-center mt-3">
+
+            <div className="featured-collection-video-content mt-3">
               <p className="text-font-semibold font-size-md text-uppercase">
                 {item.name}
               </p>

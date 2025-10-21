@@ -30,6 +30,9 @@
     &-wrap {
       max-width: 300px;
       height: 100%;
+      @media (max-width: 1024px) {
+        width: 210px;
+      }
     }
   }
 
@@ -48,7 +51,10 @@
     font-size: 18px;
     z-index: 10;
     transition: background-color 0.3s ease, transform 0.2s ease;
-
+    @media (max-width: 1024px) {
+      width: 40px;
+      height: 40px;
+    }
     &.prev {
       left: 20px;
       margin-bottom: 30px;

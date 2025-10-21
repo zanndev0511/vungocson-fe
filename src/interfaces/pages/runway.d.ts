@@ -4,13 +4,14 @@ export interface Runway {
   banners: string[];
   description: string;
   video: string;
-  slug?: string
+  slug: string;
+  youtubeUrl: string;
   celebs: CelebRunway[];
   products: ProductRunway[];
   collectionId: string;
   collection?: CollectionRunway;
   status: "active" | "inactive";
-  galleries: GalleryRunway[]
+  galleries: GalleryRunway[];
   isFeatured: boolean;
   created: string;
   updated: string;
@@ -88,7 +89,7 @@ export interface GalleryRunway {
 }
 
 export interface ProductGallery {
-  id?: string
+  id?: string;
   sku: string;
   name: string;
   description: string;
