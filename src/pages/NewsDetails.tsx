@@ -30,13 +30,15 @@ export const NewsDetails: React.FC = () => {
   return (
     <>
       <Header backgroundColor="black" />
-      <div className="newsDetail d-flex flex-col items-center">
-        <div className="newsDetail-content">
-          <p className="text-font-semibold font-size-3xl text-start text-uppercase">
-            {title}
-          </p>
-          {parse(DOMPurify.sanitize(content))}
-        </div>
+      <div className="newsDetail d-flex flex-col items-start gap-8">
+        <div className="newsDetail-content-wrap d-flex flex-col items-start width-fullsize">
+              <div className="newsDetail-content">
+                <p className="text-font-semibold font-size-3xl text-start text-uppercase">
+                  {title}
+                </p>
+                {parse(DOMPurify.sanitize(content))}
+              </div>
+            </div>
       </div>
       <div>
         <Footer/>
