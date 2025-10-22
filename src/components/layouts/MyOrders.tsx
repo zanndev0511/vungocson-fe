@@ -400,7 +400,7 @@ export const MyOrders: React.FC = () => {
                           <p className="myOrders-box-label text-font-semibold font-size-sm text-start">
                             Order date:
                           </p>
-                          <p className="myOrders-box-product-infor-date text-font-regular text-capitalize text-start">
+                          <p className="myOrders-box-product-infor-date text-font-regular font-size-sm text-capitalize text-start">
                             {new Date(item.createdAt).toLocaleString("en-US", {
                               day: "2-digit",
                               month: "2-digit",

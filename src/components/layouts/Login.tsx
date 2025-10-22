@@ -162,19 +162,19 @@ export const Login: React.FC<LoginProps> = (props) => {
                 classNameContainer="items-center width-fullsize"
               />
               <p
-                className="login-password-forget text-font-regular text-end"
+                className="login-password-forget text-font-regular font-size-sm text-end"
                 onClick={() => navigate("/forget-password")}
               >
                 Forget your password?
               </p>
             </div>
             <button
-              className="login-button text-font-regular mt-4"
+              className="login-button text-font-regular font-size-base mt-4"
               onClick={handleLogin}
             >
               {loading ? "Loading..." : "LOGIN"}
             </button>
-            <p className="text-font-regular font-size-sm mt-3">
+            <p className="text-font-regular font-size-sm mt-3 text-center">
               Don’t have an account?{" "}
               <span
                 className="login-create text-font-semibold"
@@ -194,7 +194,7 @@ export const Login: React.FC<LoginProps> = (props) => {
                 onClick={authApi.loginWithFacebook}
               >
                 <img src={ICONS.facebook} alt="" />
-                <p className="login-fontSize-base text-font-regular ml-3">
+                <p className="login-fontSize-base text-font-regular font-size-base ml-3">
                   Continue with Facebook
                 </p>
               </div>
@@ -203,7 +203,7 @@ export const Login: React.FC<LoginProps> = (props) => {
                 onClick={authApi.loginWithGoogle}
               >
                 <img src={ICONS.google} alt="" />
-                <p className="login-fontSize-base text-font-regular ml-3">
+                <p className="login-fontSize-base text-font-regular font-size-base ml-3">
                   Continue with Google
                 </p>
               </div>

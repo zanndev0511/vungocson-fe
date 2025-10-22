@@ -18,7 +18,7 @@ export const Input: React.FC<InputProps> = (props) => {
         readOnly={readonly}
         className={`input font-size-sm ${className}`}
       />
-      <p className={`input-label-focus text-uppercase text-font-regular font-size-xs ${classNameLabel}`}>
+      <p className={`input-label-focus text-uppercase text-font-regular font-size-sm ${classNameLabel}`}>
         {label}
         {required && <span className="input-mandatory">*</span>}
       </p>

@@ -168,9 +168,9 @@ export const RunWayDetail: React.FC = () => {
           </div>
         </div>
         <div className="runwayDetail-description d-flex flex-col items-center gap-3">
-          <p className="text-font-semibold font-size-xl">{runway?.name}</p>
+          <p className="text-font-semibold font-size-md text-center">{runway?.name}</p>
           <p
-            className="text-font-regular font-size-base"
+            className="text-font-regular font-size-sm text-center"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(runway?.description ?? "", {
                 FORBID_ATTR: ["style"],

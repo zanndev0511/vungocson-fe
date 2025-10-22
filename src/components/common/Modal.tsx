@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             <div className="modal-content  mt-3">{children}</div>
             {isButton && (
               <button
-                className="modal-button text-font-light font-size-xs p-2 m-4 width-fullsize"
+                className="modal-button text-font-light font-size-xs m-4 width-fullsize"
                 onClick={onClick}
               >
                 {namebtn}

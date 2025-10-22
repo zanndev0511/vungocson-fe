@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
                     rel="noopener noreferrer"
                     className="footer-info-link text-start"
                   >
-                    85 Le Thanh Ton Street, Saigon Ward, Ho Chi Minh City, Vietnam
+                    85 Le Thanh Ton Street, Saigon District, Ho Chi Minh City, Vietnam
                   </a>
                 </div>
                 <div className="d-flex flex-row footer-text">

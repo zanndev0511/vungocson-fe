@@ -25,11 +25,11 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
           className="collection-video"
         />
         <div className="collection-content">
-          <p className="font-size-md text-uppercase text-font-bold text-color">
+          <p className="font-size-md text-uppercase text-font-bold text-color text-center">
             {runwayFeature?.name}
           </p>
           <p
-            className="collection-intro-description font-size-sm text-font-light text-color"
+            className="collection-intro-description font-size-sm text-font-light text-color text-center"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(runwayFeature?.description ?? "", {
                 FORBID_ATTR: ["style"],
@@ -40,11 +40,11 @@ const ProductRoll: React.FC<ProductRollProps> = (props) => {
       </div>
       <div className="flex flex-row justify-center items-center mt-4 relative">
         <div className={`collection-carousel ${className}`}>
-          <div className="collection-carousel-title">
-            <p className="text-uppercase text-font-bold font-size-xl">
+          <div className="collection-carousel-title d-flex flex-col items-center">
+            <p className="text-uppercase text-font-bold font-size-xl text-center">
               {runwayFeature?.name}
             </p>
-            <p className="text-font-regular font-size-base">
+            <p className="text-font-regular font-size-base text-center">
               {runwayFeature?.collection?.name}
             </p>
             <button

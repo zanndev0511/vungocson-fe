@@ -111,6 +111,7 @@ export const MadeToOrder: React.FC = () => {
             description="To begin crafting your exclusive VUNGOC&SON piece, please complete the form below. Our team will reach out promptly to guide you through the next steps."
             namebtn={loading ? "Loading..." : "BOOK AN APPOINTMENT"}
             isCancel
+            isButton
             onClick={handleSubmit}
             onClose={() => setShowModal(false)}
             children={
@@ -233,7 +234,7 @@ export const MadeToOrder: React.FC = () => {
       <Header backgroundColor="black" />
       <div className="madeToOrder d-flex flex-col justify-center items-center p-5">
         <p className="text-font-semibold font-size-xl">MADE TO ORDER</p>
-        <div className="text-font-light font-size-sm mt-4">
+        <div className="text-font-light font-size-sm text-center mt-4">
           <p>
             Discover a bespoke, made-to-order experience crafted to bring your
             unique vision to life. Our exclusive service allows you to turn your
@@ -254,7 +255,7 @@ export const MadeToOrder: React.FC = () => {
           <img src={IMAGES.madeToOrder} alt=" " height={1200} width={800} />
         </div>
         <button
-          className="madeToOrder-button text-font-light p-2 m-4"
+          className="madeToOrder-button text-font-light m-4"
           onClick={() => setShowModal(true)}
         >
           BOOK AN APPOINTMENT

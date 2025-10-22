@@ -50,7 +50,7 @@ export const News: React.FC = () => {
                 <img src={news.poster} alt="news" className="news-poster" />
               </div>
               <div className="news-item-content d-flex flex-col gap-1">
-                <p className="text-font-light font-size-sm">
+                <p className="text-font-light font-size-sm text-center">
                   {new Date(news.updatedAt!).toLocaleString("en-US", {
                     day: "2-digit",
                     month: "2-digit",
@@ -59,10 +59,10 @@ export const News: React.FC = () => {
                     minute: "2-digit",
                   })}
                 </p>
-                <p className="text-font-semibold font-size-sm text-uppercase">
+                <p className="text-font-semibold font-size-sm text-uppercase text-center">
                   {news.title}
                 </p>
-                <p className="news-description text-font-regular font-size-xs">
+                <p className="news-description text-font-regular font-size-xs text-center">
                   {news.description}
                 </p>
               </div>

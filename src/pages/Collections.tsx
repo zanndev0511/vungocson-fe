@@ -137,11 +137,11 @@ export const Collections: React.FC = () => {
         </div>
 
         <div className="collections-carousel-caption mt-4 mb-4">
-          <h2 className="text-font-semibold font-size-md text-uppercase">
+          <h2 className="text-font-semibold font-size-md text-uppercase text-center">
             {collection?.name?.trim()}
           </h2>
           <p
-            className="collections-carousel-image-wrapper-text text-font-regular font-size-sm mt-2"
+            className="collections-carousel-image-wrapper-text text-font-regular font-size-sm text-center mt-2"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(collection?.description ?? "", {
                 FORBID_ATTR: ["style"],

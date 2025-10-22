@@ -9,7 +9,7 @@ export const FAQ: React.FC = () => {
       <Header backgroundColor="black" />
       <div className="faq">
           <p className="text-font-bold font-size-2xl text-start">FAQ</p>
-        <div className="faq-container d-flex flex-col items-start width-fullsize mt-3">
+        <div className="faq-container items-start width-fullsize mt-3">
           <div className="faq-section d-flex flex-col items-start">
             <p className="text-font-semibold font-size-lg text-start">
               Shipping & Returns

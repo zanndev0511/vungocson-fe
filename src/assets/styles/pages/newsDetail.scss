@@ -7,5 +7,36 @@
   }
   &-content {
     width: 100%;
+    figure {
+      display: flex;
+      justify-content: center;
+      margin: 20px auto;
+      max-width: 100%;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+    }
+    .image-style-align-center {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .image-style-align-left {
+      float: left;
+      margin-right: 20px;
+    }
+
+    .image-style-align-right {
+      float: right;
+      margin-left: 20px;
+    }
+    figure[style] {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
   }
 }

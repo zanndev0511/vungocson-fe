@@ -15,7 +15,7 @@ const NewsCarousel: React.FC<NewsProps> = (props) => {
             <img src={item.poster} alt="" />
             <div className="news-carousel-item-poster-overlay" />
             <div className="news-carousel-item-title-wrap d-flex flex-col items-center justify-center gap-3">
-              <p className="news-carousel-item-title text-font-semibold font-size-base text-uppercase">
+              <p className="news-carousel-item-title text-font-semibold font-size-base text-uppercase text-center">
                 {item.title}
               </p>
               <div
