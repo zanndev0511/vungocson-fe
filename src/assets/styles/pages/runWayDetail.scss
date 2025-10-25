@@ -151,6 +151,26 @@
       cursor: pointer;
     }
   }
+  &-campaign {
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    @media (max-width: 1024px) {
+      padding: 0;
+    }
+   &-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+   &.landscape {
+      grid-column: span 2;
+    }
+    &.portrait {
+      grid-column: span 1;
+    }
+  }
+  }
   &-lightbox {
     width: 400px;
     position: relative;

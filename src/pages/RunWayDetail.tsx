@@ -86,6 +86,23 @@ export const RunWayDetail: React.FC = () => {
   const closeVideoModal = () => {
     setShowVideoModal(false);
   };
+
+ useEffect(() => {
+  const imgs = document.querySelectorAll(".runwayDetail-campaign-image");
+
+  imgs.forEach((img) => {
+    const imageElement = img as HTMLImageElement;
+    imageElement.onload = () => {
+      if (imageElement.naturalWidth > imageElement.naturalHeight) {
+        imageElement.classList.add("landscape");
+      } else {
+        imageElement.classList.add("portrait");
+      }
+    };
+  });
+}, []);
+
+
   useEffect(() => {
     fetchRunwayById();
   }, [id]);
@@ -244,13 +261,18 @@ export const RunWayDetail: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="runwayDetail-product p-2">
+        <div className="runwayDetail-campaign">
           {runway?.campaign.map((item) => (
             <img
               key={item.id}
               src={item.imageUrl || ""}
               alt=""
-              className="runwayDetail-product-image"
+              className="runwayDetail-campaign-image"
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                const isLandscape = img.naturalWidth > img.naturalHeight;
+                img.classList.add(isLandscape ? "landscape" : "portrait");
+              }}
             />
           ))}
         </div>
