@@ -39,6 +39,17 @@
       margin-left: auto !important;
       margin-right: auto !important;
     }
+    .font-size-3xl {
+      font-size: 34px;
+      @media (max-width: 1024px) {
+        font-size: 16px !important;
+      }
+    }
+    p {
+      @media (max-width: 1024px) {
+        font-size: 11px !important;
+      }
+    }
     &-wrap {
       overflow-x: hidden;
     }

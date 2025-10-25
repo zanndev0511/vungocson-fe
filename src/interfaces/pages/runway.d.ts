@@ -7,6 +7,7 @@ export interface Runway {
   slug: string;
   youtubeUrl: string;
   celebs: CelebRunway[];
+  campaign: CampaignRunway[];
   products: ProductRunway[];
   collectionId: string;
   collection?: CollectionRunway;
@@ -42,6 +43,15 @@ export interface CelebRunway {
   status: "active" | "inactive";
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface CampaignRunway {
+  id: string;
+  imageUrl: string;
+  runwayId: string;
+  status: "active" | "inactive";
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ProductRunway {

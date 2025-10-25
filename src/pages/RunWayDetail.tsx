@@ -7,6 +7,7 @@ import "@styles/pages/runWayDetail.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
+import { Button } from "@components/common/Button";
 
 export const RunWayDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export const RunWayDetail: React.FC = () => {
     useState<boolean>(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(50);
 
   const [runway, setRunway] = useState<Runway>();
 
@@ -25,7 +27,6 @@ export const RunWayDetail: React.FC = () => {
     try {
       if (!id) return;
       const fetchedRunway: Runway = await runwayApi.getById(id);
-
       if (Array.isArray(fetchedRunway.celebs)) {
         fetchedRunway.celebs.sort(
           (a, b) =>
@@ -85,7 +86,6 @@ export const RunWayDetail: React.FC = () => {
   const closeVideoModal = () => {
     setShowVideoModal(false);
   };
-
   useEffect(() => {
     fetchRunwayById();
   }, [id]);
@@ -168,7 +168,9 @@ export const RunWayDetail: React.FC = () => {
           </div>
         </div>
         <div className="runwayDetail-description d-flex flex-col items-center gap-3">
-          <p className="text-font-semibold font-size-md text-center">{runway?.name}</p>
+          <p className="text-font-semibold font-size-md text-center">
+            {runway?.name}
+          </p>
           <p
             className="text-font-regular font-size-sm text-center"
             dangerouslySetInnerHTML={{
@@ -179,7 +181,7 @@ export const RunWayDetail: React.FC = () => {
           ></p>
         </div>
         <div className="runwayDetail-product p-2 mt-5">
-          {runway?.galleries.map((item) => (
+          {runway?.galleries.slice(0, visibleCount).map((item) => (
             <img
               key={item.id}
               src={item.image! || ""}
@@ -193,6 +195,29 @@ export const RunWayDetail: React.FC = () => {
             />
           ))}
         </div>
+
+        {runway?.galleries && runway.galleries.length > 50 && (
+          <div className="d-flex justify-center m-3">
+            {visibleCount < runway.galleries.length ? (
+              <Button
+                className="text-font-semibold font-size-sm"
+                label="Show more"
+                onClick={() =>
+                  setVisibleCount((prev) =>
+                    Math.min(prev + 50, runway.galleries.length)
+                  )
+                }
+              />
+            ) : (
+              <Button
+                className="text-font-semibold font-size-sm"
+                label="Show less"
+                onClick={() => setVisibleCount(5)}
+              />
+            )}
+          </div>
+        )}
+
         <div className="runwayDetail-banner-container d-flex flex-col items-center">
           <img
             src={runway?.banners[1] ? runway?.banners[1] : runway?.banners[0]}
@@ -202,7 +227,7 @@ export const RunWayDetail: React.FC = () => {
           <div className="runwayDetail-banner-overlay" />
           <div className="runwayDetail-banner-content d-flex flex-col items-center justify-center gap-2">
             <p className="runwayDetail-banner-content-title text-font-semibold font-size-3xl text-uppercase">
-              campaign
+              Campaign
             </p>
             <button
               className="runwayDetail-banner-button d-flex flex-row justify-center items-center"
@@ -218,6 +243,16 @@ export const RunWayDetail: React.FC = () => {
               </p>
             </button>
           </div>
+        </div>
+        <div className="runwayDetail-product p-2">
+          {runway?.campaign.map((item) => (
+            <img
+              key={item.id}
+              src={item.imageUrl || ""}
+              alt=""
+              className="runwayDetail-product-image"
+            />
+          ))}
         </div>
       </div>
 
@@ -275,7 +310,6 @@ export const RunWayDetail: React.FC = () => {
           </div>
         </div>
       )}
-
       <div className="">
         <Footer />
       </div>
