@@ -87,21 +87,20 @@ export const RunWayDetail: React.FC = () => {
     setShowVideoModal(false);
   };
 
- useEffect(() => {
-  const imgs = document.querySelectorAll(".runwayDetail-campaign-image");
+  useEffect(() => {
+    const imgs = document.querySelectorAll(".runwayDetail-campaign-image");
 
-  imgs.forEach((img) => {
-    const imageElement = img as HTMLImageElement;
-    imageElement.onload = () => {
-      if (imageElement.naturalWidth > imageElement.naturalHeight) {
-        imageElement.classList.add("landscape");
-      } else {
-        imageElement.classList.add("portrait");
-      }
-    };
-  });
-}, []);
-
+    imgs.forEach((img) => {
+      const imageElement = img as HTMLImageElement;
+      imageElement.onload = () => {
+        if (imageElement.naturalWidth > imageElement.naturalHeight) {
+          imageElement.classList.add("landscape");
+        } else {
+          imageElement.classList.add("portrait");
+        }
+      };
+    });
+  }, []);
 
   useEffect(() => {
     fetchRunwayById();
@@ -152,14 +151,16 @@ export const RunWayDetail: React.FC = () => {
                   className="runwayDetail-carousel-track"
                   style={{ transform: `translateX(-${currentPage * 100}%)` }}
                 >
-                  {runway?.celebs.map((celeb, idx) => (
-                    <img
-                      key={idx}
-                      src={celeb.image}
-                      alt={`img-${idx}`}
-                      className="runwayDetail-carousel-image"
-                    />
-                  ))}
+                  {runway?.celebs
+                    ?.filter((celeb) => celeb.status === "active")
+                    .map((celeb, idx) => (
+                      <img
+                        key={idx}
+                        src={celeb.image}
+                        alt={`img-${idx}`}
+                        className="runwayDetail-carousel-image"
+                      />
+                    ))}
                 </div>
               </div>
 
@@ -198,19 +199,22 @@ export const RunWayDetail: React.FC = () => {
           ></p>
         </div>
         <div className="runwayDetail-product p-2 mt-5">
-          {runway?.galleries.slice(0, visibleCount).map((item) => (
-            <img
-              key={item.id}
-              src={item.image! || ""}
-              alt=" "
-              className="runwayDetail-product-image"
-              onClick={() =>
-                navigate(
-                  `/shop/product/${item.product?.id}/${item.product?.slug}`
-                )
-              }
-            />
-          ))}
+          {runway?.galleries
+            .slice(0, visibleCount)
+            .filter((item) => item.status === "active")
+            .map((item) => (
+              <img
+                key={item.id}
+                src={item.image! || ""}
+                alt=" "
+                className="runwayDetail-product-image"
+                onClick={() =>
+                  navigate(
+                    `/shop/product/${item.product?.id}/${item.product?.slug}`
+                  )
+                }
+              />
+            ))}
         </div>
 
         {runway?.galleries && runway.galleries.length > 50 && (
@@ -262,19 +266,21 @@ export const RunWayDetail: React.FC = () => {
           </div>
         </div>
         <div className="runwayDetail-campaign">
-          {runway?.campaign.map((item) => (
-            <img
-              key={item.id}
-              src={item.imageUrl || ""}
-              alt=""
-              className="runwayDetail-campaign-image"
-              onLoad={(e) => {
-                const img = e.currentTarget;
-                const isLandscape = img.naturalWidth > img.naturalHeight;
-                img.classList.add(isLandscape ? "landscape" : "portrait");
-              }}
-            />
-          ))}
+          {runway?.campaign
+            .filter((item) => item.status === "active")
+            .map((item) => (
+              <img
+                key={item.id}
+                src={item.imageUrl || ""}
+                alt=""
+                className="runwayDetail-campaign-image"
+                onLoad={(e) => {
+                  const img = e.currentTarget;
+                  const isLandscape = img.naturalWidth > img.naturalHeight;
+                  img.classList.add(isLandscape ? "landscape" : "portrait");
+                }}
+              />
+            ))}
         </div>
       </div>
 
